@@ -4,7 +4,7 @@
 <p align="center">Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
 </p>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.pngfind.com/pngs/m/685-6854994_react-logo-no-background-hd-png-download.png" width="300" alt="ReactJS Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.metaltoad.com/sites/default/files/styles/large_personal_photo_870x500_/public/reactlogo_4.png?itok=LXFHZrKJ" width="300" alt="ReactJS Logo" /></a>
 </p>
 <p align="center">React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
 </p>
