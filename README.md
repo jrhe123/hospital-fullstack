@@ -15,10 +15,10 @@
   <a href="https://github.com/jrhe123" target="blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" height="80" alt="Redis Logo" /></a>
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" height="80" alt="RabbitMQ Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" height="60" alt="RabbitMQ Logo" /></a>
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" height="80" alt="Minio Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" height="60" alt="Minio Logo" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/jrhe123" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
