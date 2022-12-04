@@ -17,7 +17,7 @@
 <br/><br/>
 
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://miro.medium.com/max/700/1*dLaDL-lSN0iprzmOpmM7zQ.png" height="120" alt="ReactJS Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg" height="120" alt="ReactJS Logo" /></a>
 </p>
 <p><b>React</b> (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
 </p>
