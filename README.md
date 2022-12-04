@@ -1,10 +1,10 @@
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://spring.io/images/spring-logo-2022-93b99aee11ba10c57283810ff6f7f500.svg" height="80" alt="Springboot Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://spring.io/images/spring-logo-2022-93b99aee11ba10c57283810ff6f7f500.svg" height="60" alt="Springboot Logo" /></a>
 </p>
 <p align="center"><b>Spring Boot</b> makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://miro.medium.com/max/700/1*dLaDL-lSN0iprzmOpmM7zQ.png" height="80" alt="ReactJS Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://miro.medium.com/max/700/1*dLaDL-lSN0iprzmOpmM7zQ.png" height="100" alt="ReactJS Logo" /></a>
 </p>
 <p align="center"><b>React</b> (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
 </p>
