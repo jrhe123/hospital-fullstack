@@ -1,4 +1,4 @@
-<br/><br/>
+<br/>
 <p align="center">
   <a href="https://github.com/jrhe123" target="blank"><img src="https://spring.io/images/spring-logo-2022-93b99aee11ba10c57283810ff6f7f500.svg" height="60" alt="Springboot Logo" /></a>
 </p>
