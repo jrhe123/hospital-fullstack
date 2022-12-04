@@ -1,24 +1,24 @@
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://spring.io/images/spring-logo-2022-93b99aee11ba10c57283810ff6f7f500.svg" width="300" alt="Springboot Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://spring.io/images/spring-logo-2022-93b99aee11ba10c57283810ff6f7f500.svg" height="80" alt="Springboot Logo" /></a>
 </p>
-<p align="center">Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
+<p align="center"><b>Spring Boot</b> makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
+</p><br/>
+<p align="center">
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://miro.medium.com/max/700/1*dLaDL-lSN0iprzmOpmM7zQ.png" height="80" alt="ReactJS Logo" /></a>
+</p>
+<p align="center"><b>React</b> (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
 </p>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.metaltoad.com/sites/default/files/styles/large_personal_photo_870x500_/public/reactlogo_4.png?itok=LXFHZrKJ" width="300" alt="ReactJS Logo" /></a>
-</p>
-<p align="center">React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
-</p>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://camo.githubusercontent.com/989a637f9e29eb989a3e8cef1d63921f24d4fe231e3d288e657f3187abec8a3f/68747470733a2f2f70686f656e69782e6170616368652e6f72672f696d616765732f70686f656e69782d6c6f676f2d736d616c6c2e706e67" height="80" alt="Phoenix Logo" /></a>
+</p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://camo.githubusercontent.com/989a637f9e29eb989a3e8cef1d63921f24d4fe231e3d288e657f3187abec8a3f/68747470733a2f2f70686f656e69782e6170616368652e6f72672f696d616765732f70686f656e69782d6c6f676f2d736d616c6c2e706e67" width="300" alt="Phoenix Logo" /></a>
-</p>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" height="80" alt="Redis Logo" /></a>
+</p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" width="300" alt="Redis Logo" /></a>
-</p>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" height="80" alt="RabbitMQ Logo" /></a>
+</p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" width="300" alt="RabbitMQ Logo" /></a>
-</p>
-<p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" width="300" alt="Minio Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" height="80" alt="Minio Logo" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/jrhe123" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
