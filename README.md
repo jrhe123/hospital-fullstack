@@ -9,16 +9,16 @@
 <p align="center"><b>React</b> (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on UI components.
 </p>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://camo.githubusercontent.com/989a637f9e29eb989a3e8cef1d63921f24d4fe231e3d288e657f3187abec8a3f/68747470733a2f2f70686f656e69782e6170616368652e6f72672f696d616765732f70686f656e69782d6c6f676f2d736d616c6c2e706e67" height="80" alt="Phoenix Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://camo.githubusercontent.com/989a637f9e29eb989a3e8cef1d63921f24d4fe231e3d288e657f3187abec8a3f/68747470733a2f2f70686f656e69782e6170616368652e6f72672f696d616765732f70686f656e69782d6c6f676f2d736d616c6c2e706e67" height="40" alt="Phoenix Logo" /></a>
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" height="80" alt="Redis Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" height="40" alt="Redis Logo" /></a>
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" height="50" alt="RabbitMQ Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://www.rabbitmq.com/img/logo-rabbitmq.svg" height="25" alt="RabbitMQ Logo" /></a>
 </p><br/>
 <p align="center">
-  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" height="50" alt="Minio Logo" /></a>
+  <a href="https://github.com/jrhe123" target="blank"><img src="https://raw.githubusercontent.com/minio/minio/master/.github/logo.svg?sanitize=true" height="25" alt="Minio Logo" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/jrhe123" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
