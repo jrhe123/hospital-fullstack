@@ -60,6 +60,11 @@ Cloud medical consultation platform, full stack support
 
 ## Running the app
 
+### hospital api
+http://localhost:8092/
+
+### patient wx api
+http://localhost:8091/
 
 ## License
 
