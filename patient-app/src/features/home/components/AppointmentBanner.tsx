@@ -6,7 +6,10 @@ import IconImage2 from 'assets/images/page/index/icon-2.png'
 import IconImage3 from 'assets/images/page/index/icon-3.png'
 
 export const AppointmentBanner = () => (
-  <Box component="div" sx={{ display: 'flex', flexDirection: 'row' }}>
+  <Box
+    component="div"
+    sx={{ display: 'flex', flexDirection: 'row', paddingTop: '12px', paddingBottom: '12px' }}
+  >
     {/* left */}
     <Box component="div" sx={{ flex: 1, padding: '12px' }}>
       <Box
