@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import Footer from 'components/Footer'
+import Header from 'components/Header'
 import Playfair from 'fonts/PlayfairDisplay-Regular.woff2'
 
 const Layout = () => {
@@ -73,14 +73,13 @@ const Layout = () => {
         component="div"
         sx={{
           position: 'fixed',
-          bottom: 0,
+          top: 0,
           left: 0,
           zIndex: 99,
           overflow: 'hidden',
-          boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
         }}
       >
-        <Footer />
+        <Header />
       </Box>
     </Box>
   )
