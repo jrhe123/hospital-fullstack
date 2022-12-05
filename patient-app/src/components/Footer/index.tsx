@@ -3,9 +3,9 @@ import GroupIcon from '@mui/icons-material/Group'
 import HomeIcon from '@mui/icons-material/Home'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import TextsmsIcon from '@mui/icons-material/Textsms'
-import { Box, Button, IconButton, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
-import React, { MouseEvent, useState } from 'react'
+import React from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 
 import useWindowSize from 'hooks/useWindowSize'
@@ -18,26 +18,22 @@ const Footer = () => {
   const { width } = useWindowSize()
 
   let isHome = true
-  let isAbout = false
-  let isBooking = false
-  let isClass = false
-  let isEvent = false
-  let isContact = false
-  if (pathname.includes('about')) {
+  let isRegister = false
+  let isMessage = false
+  let isHealth = false
+  let isMe = false
+  if (pathname.includes('registration')) {
     isHome = false
-    isAbout = true
-  } else if (pathname.includes('book-online')) {
+    isRegister = true
+  } else if (pathname.includes('message')) {
     isHome = false
-    isBooking = true
-  } else if (pathname.includes('class')) {
+    isMessage = true
+  } else if (pathname.includes('health')) {
     isHome = false
-    isClass = true
-  } else if (pathname.includes('event')) {
+    isHealth = true
+  } else if (pathname.includes('me')) {
     isHome = false
-    isEvent = true
-  } else if (pathname.includes('contact')) {
-    isHome = false
-    isContact = true
+    isMe = true
   }
 
   return (
@@ -90,7 +86,7 @@ const Footer = () => {
               >
                 <HomeIcon
                   sx={{
-                    color: 'black',
+                    color: isHome ? '#6198F8' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -100,7 +96,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: '#1e2025',
+                    color: isHome ? '#6198F8' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -138,7 +134,7 @@ const Footer = () => {
               >
                 <PendingActionsIcon
                   sx={{
-                    color: 'black',
+                    color: isRegister ? '#6198F8' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -148,7 +144,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: '#1e2025',
+                    color: isRegister ? '#6198F8' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                   }}
@@ -185,7 +181,7 @@ const Footer = () => {
               >
                 <TextsmsIcon
                   sx={{
-                    color: 'black',
+                    color: isMessage ? '#6198F8' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -195,7 +191,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: '#1e2025',
+                    color: isMessage ? '#6198F8' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -234,7 +230,7 @@ const Footer = () => {
               >
                 <EscalatorWarningIcon
                   sx={{
-                    color: 'black',
+                    color: isHealth ? '#6198F8' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -244,7 +240,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: '#1e2025',
+                    color: isHealth ? '#6198F8' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -282,7 +278,7 @@ const Footer = () => {
               >
                 <GroupIcon
                   sx={{
-                    color: 'black',
+                    color: isMe ? '#6198F8' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -292,7 +288,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: '#1e2025',
+                    color: isMe ? '#6198F8' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
