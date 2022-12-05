@@ -41,7 +41,7 @@ const Header = () => (
           flex: 1,
         }}
       >
-        Markham Stouffville Hospital
+        COVID Hospital
       </Typography>
     </Box>
     {/* right side btn */}
