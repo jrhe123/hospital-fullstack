@@ -11,3 +11,9 @@ export type Image = {
   image: string
   title: string
 }
+
+export type ImageNavigator = {
+  image: string
+  title: string
+  subtitle: string
+}
