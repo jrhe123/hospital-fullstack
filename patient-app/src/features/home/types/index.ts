@@ -6,3 +6,8 @@ export type Todo = {
 export type TodoFormInput = {
   title: string
 }
+
+export type Image = {
+  image: string
+  title: string
+}

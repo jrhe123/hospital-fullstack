@@ -308,7 +308,7 @@ const Footer = () => {
           position: 'relative',
           overflowY: 'auto',
           overflowX: 'hidden',
-          paddingBottom: `${FOOTER_HEIGHT}px`,
+          paddingTop: `${FOOTER_HEIGHT}px`,
         }}
       >
         <Outlet />

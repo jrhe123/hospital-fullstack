@@ -4,7 +4,7 @@ import { Box, IconButton, Typography } from '@mui/material'
 import React from 'react'
 
 const HEADER_HEIGHT = 42
-const MEDIA_ICON_SIZE = 27
+const MEDIA_ICON_SIZE = 24
 
 const Header = () => (
   <Box
@@ -13,8 +13,8 @@ const Header = () => (
       width: '100vw',
       height: `${HEADER_HEIGHT}px`,
       display: 'flex',
-      paddingLeft: '12px',
-      paddingRight: '12px',
+      paddingLeft: '6px',
+      paddingRight: '6px',
       alignItems: 'center',
       background: 'white',
       position: 'relative',
@@ -49,7 +49,7 @@ const Header = () => (
       component="div"
       sx={{
         position: 'absolute',
-        right: '12px',
+        right: '6px',
         top: 0,
         height: '100%',
       }}
