@@ -66,11 +66,17 @@ http://localhost:8092/
 ### hospital app
 http://localhost:3001/
 
+<img width="1024" alt="Screen Shot 2022-12-05 at 10 13 26 PM" src="https://user-images.githubusercontent.com/17329299/205804351-5d5fae95-0c4d-4966-bdb4-900c1a0dd984.png">
+
+
 ### patient api
 http://localhost:8091/
 
 ### patient app
 http://localhost:3000/
+
+<img width="320" alt="Screen Shot 2022-12-05 at 10 15 41 PM" src="https://user-images.githubusercontent.com/17329299/205804396-fc50e0f6-4a38-498b-9d5b-d3efaac7da6a.png">
+
 
 ## License
 
