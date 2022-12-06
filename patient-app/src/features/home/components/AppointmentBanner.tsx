@@ -1,7 +1,9 @@
+import OfflineBoltIcon from '@mui/icons-material/OfflineBolt'
+import QrCodeIcon from '@mui/icons-material/QrCode'
+import VaccinesIcon from '@mui/icons-material/Vaccines'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-import IconImage1 from 'assets/images/page/index/icon-1.png'
 import IconImage2 from 'assets/images/page/index/icon-2.png'
 import IconImage3 from 'assets/images/page/index/icon-3.png'
 
@@ -11,17 +13,16 @@ export const AppointmentBanner = () => (
     sx={{ display: 'flex', flexDirection: 'row', paddingTop: '12px', paddingBottom: '12px' }}
   >
     {/* left */}
-    <Box component="div" sx={{ flex: 1, padding: '12px' }}>
-      <Box
-        component="img"
+    <Box
+      component="div"
+      sx={{ flex: 1, padding: '12px', display: 'flex', justifyContent: 'center' }}
+    >
+      <VaccinesIcon
         sx={{
-          width: '100%',
-          cursor: 'pointer',
-          display: 'block',
-          objectFit: 'cover',
+          color: '#3073AC',
+          padding: 0,
         }}
-        alt={'booking an vaccine appointment'}
-        src={IconImage1}
+        fontSize={'large'}
       />
     </Box>
     {/* right */}
@@ -37,10 +38,10 @@ export const AppointmentBanner = () => (
               fontFamily: 'Playfair',
               fontWeight: 'bold',
               cursor: 'pointer',
-              marginRight: '12px',
+              marginRight: '18px',
             }}
           >
-            Appointment
+            Reservation
           </Typography>
           <Box
             component="div"
@@ -48,19 +49,16 @@ export const AppointmentBanner = () => (
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              marginRight: '12px',
+              marginRight: '18px',
             }}
           >
-            <Box
-              component="img"
+            <OfflineBoltIcon
               sx={{
-                width: '27px',
-                height: '27px',
-                cursor: 'pointer',
-                display: 'block',
+                color: '#3073AC',
+                padding: 0,
+                marginRight: '6px',
               }}
-              alt={'skip the line'}
-              src={IconImage2}
+              fontSize={'small'}
             />
             <Typography
               component="div"
@@ -76,16 +74,13 @@ export const AppointmentBanner = () => (
             </Typography>
           </Box>
           <Box component="div" sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Box
-              component="img"
+            <QrCodeIcon
               sx={{
-                width: '27px',
-                height: '27px',
-                cursor: 'pointer',
-                display: 'block',
+                color: '#3073AC',
+                padding: 0,
+                marginRight: '6px',
               }}
-              alt={'skip registration'}
-              src={IconImage3}
+              fontSize={'small'}
             />
             <Typography
               component="div"

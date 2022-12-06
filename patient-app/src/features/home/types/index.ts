@@ -13,7 +13,12 @@ export type Image = {
 }
 
 export type ImageNavigator = {
-  image: string
+  icon: React.ReactNode
   title: string
   subtitle: string
+}
+
+export type CategoryNavigator = {
+  image: string
+  title: string
 }

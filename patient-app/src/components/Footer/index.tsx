@@ -86,7 +86,7 @@ const Footer = () => {
               >
                 <HomeIcon
                   sx={{
-                    color: isHome ? '#6198F8' : '#1e2025',
+                    color: isHome ? '#3073AC' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -96,7 +96,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: isHome ? '#6198F8' : '#1e2025',
+                    color: isHome ? '#3073AC' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -134,7 +134,7 @@ const Footer = () => {
               >
                 <PendingActionsIcon
                   sx={{
-                    color: isRegister ? '#6198F8' : '#1e2025',
+                    color: isRegister ? '#3073AC' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -144,7 +144,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: isRegister ? '#6198F8' : '#1e2025',
+                    color: isRegister ? '#3073AC' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                   }}
@@ -181,7 +181,7 @@ const Footer = () => {
               >
                 <TextsmsIcon
                   sx={{
-                    color: isMessage ? '#6198F8' : '#1e2025',
+                    color: isMessage ? '#3073AC' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -191,7 +191,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: isMessage ? '#6198F8' : '#1e2025',
+                    color: isMessage ? '#3073AC' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -230,7 +230,7 @@ const Footer = () => {
               >
                 <EscalatorWarningIcon
                   sx={{
-                    color: isHealth ? '#6198F8' : '#1e2025',
+                    color: isHealth ? '#3073AC' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -240,7 +240,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: isHealth ? '#6198F8' : '#1e2025',
+                    color: isHealth ? '#3073AC' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',
@@ -278,7 +278,7 @@ const Footer = () => {
               >
                 <GroupIcon
                   sx={{
-                    color: isMe ? '#6198F8' : '#1e2025',
+                    color: isMe ? '#3073AC' : '#1e2025',
                     padding: 0,
                     marginBottom: '3px',
                   }}
@@ -288,7 +288,7 @@ const Footer = () => {
                   component="div"
                   sx={{
                     fontSize: '9px',
-                    color: isMe ? '#6198F8' : '#1e2025',
+                    color: isMe ? '#3073AC' : '#1e2025',
                     fontFamily: 'Playfair',
                     fontWeight: 200,
                     cursor: 'pointer',

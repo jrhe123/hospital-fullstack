@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { AppointmentBanner } from './AppointmentBanner'
 import { CarouselBanner } from './CarouselBanner'
+import { DepartmentBanner } from './DepartmentBanner'
 import { NavigatorBanner } from './NavigatorBanner'
 
 const MAX_WIDTH = 390
@@ -26,8 +27,17 @@ export const HomeContainer = () => {
         <CarouselBanner />
         {/* register */}
         <AppointmentBanner />
-        {/* navigator */}
-        <NavigatorBanner />
+        <Box
+          component="div"
+          sx={{
+            background: '#F8F8F8',
+          }}
+        >
+          {/* navigator */}
+          <NavigatorBanner />
+          {/* department */}
+          <DepartmentBanner />
+        </Box>
       </Box>
     </Box>
   )
