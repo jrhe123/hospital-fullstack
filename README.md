@@ -63,8 +63,14 @@ Cloud medical consultation platform, full stack support
 ### hospital api
 http://localhost:8092/
 
+### hospital app
+http://localhost:3001/
+
 ### patient api
 http://localhost:8091/
+
+### patient app
+http://localhost:3000/
 
 ## License
 
