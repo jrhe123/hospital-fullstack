@@ -13,7 +13,7 @@ function* onLogin({
   payload: LoginFormInput
 }): SagaIterator {
   const response = yield call(login, payload)
-  if (response.code === 0) {
+  if (response.result) {
     // action
     yield put(loginActions.loginSucceeded(response.data))
   } else {

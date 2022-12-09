@@ -55,6 +55,7 @@ WHERE u."id" = 0;
 
 
 mis_user
+"id","username","password","name","sex","tel","email","dept_id","job","status","create_time"
 +-----+-----------+-----------------------------------+--------+------+---+
 | id  | username  |             password              |  name  | sex  | t |
 +-----+-----------+-----------------------------------+--------+------+---+

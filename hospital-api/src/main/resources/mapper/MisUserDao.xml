@@ -19,4 +19,10 @@
         WHERE "username" = #{username}
         	AND "password" = #{password}
     </select>
+    
+    <select id="getUserById" parameterType="Integer" resultType="com.example.hospital.api.db.dto.MisUserDTO">
+        SELECT *
+        FROM HOSPITAL.MIS_USER
+        WHERE "id" = ${userId}
+    </select>
 </mapper>

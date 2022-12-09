@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.example.hospital.api.db.dao.MisUserDao;
+import com.example.hospital.api.db.dto.MisUserDTO;
 import com.example.hospital.api.service.MisUserService;
 
 import cn.hutool.core.map.MapUtil;
@@ -37,6 +38,12 @@ public class MisUserServiceImpl implements MisUserService {
 		// dao
 		Integer userId = misUserDao.login(param);
 		return userId;
+	}
+
+	@Override
+	public MisUserDTO getUserById(Integer userId) {
+		MisUserDTO user = misUserDao.getUserById(userId);
+		return user;
 	}
 
 }
