@@ -10,7 +10,7 @@ public class HospitalException extends RuntimeException {
 
     public HospitalException(Exception e) {
         super(e);
-        this.msg = "执行异常";
+        this.msg = "INTERNAL SERVER ERROR";
         this.code = 500;
     }
 

@@ -38,7 +38,7 @@ public class MisUserController {
 			List<String> permissions = StpUtil.getPermissionList();
 			return R.ok()
 					.put("result", true)
-					.put(token, token)
+					.put("token", token)
 					.put("permissions", permissions);
 		}
 		return R.ok().put("result", false);
