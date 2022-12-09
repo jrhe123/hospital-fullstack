@@ -4,6 +4,17 @@ export type LoginFormInput = {
 }
 
 export type User = {
-  id: number
   username: string
+  name: string | null
+  sex: string | null
+  tel: string | null
+  email: string | null
+  job: string | null
+  status: number
+  createTime: Date
+}
+
+export type UserInfo = {
+  user: User
+  permissions: string[]
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN || 'accessToken'
+const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN || 'token'
 export default function makeApi(baseURL: string) {
   const api = axios.create({
     baseURL,
@@ -17,7 +17,7 @@ export default function makeApi(baseURL: string) {
       if (token) {
         config.headers = {
           ...config.headers,
-          Authorization: `Bearer ${token}`,
+          token,
         }
       }
       return config
