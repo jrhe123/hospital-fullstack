@@ -78,6 +78,10 @@ http://localhost:3000/
 <img width="320" alt="Screen Shot 2022-12-05 at 10 15 41 PM" src="https://user-images.githubusercontent.com/17329299/205804396-fc50e0f6-4a38-498b-9d5b-d3efaac7da6a.png">
 
 
+### POSTMAN link - updating
+
+https://www.getpostman.com/collections/7615ba7ec50e844d55d0
+
 ## License
 
 Hospital is [MIT licensed](LICENSE).
