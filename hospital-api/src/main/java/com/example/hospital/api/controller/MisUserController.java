@@ -57,4 +57,18 @@ public class MisUserController {
 		StpUtil.logout();
 		return R.ok();
 	}
+	
+	@GetMapping("/validate")
+	@SaCheckLogin
+	public R validate() {
+		Integer userId = StpUtil.getLoginIdAsInt();
+		List<String> permissions = StpUtil.getPermissionList();
+		// user info
+		MisUserDTO user = misUserService.getUserById(userId);
+		
+		return R.ok()
+				.put("result", true)
+				.put("permissions", permissions)
+				.put("user", user);
+	}
 }

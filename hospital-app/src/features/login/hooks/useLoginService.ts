@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import {
   loginActions,
+  selectIsLoaded,
   selectIsLoading,
   selectIsAuth,
   selectUser,
@@ -11,11 +12,14 @@ import { User, LoginFormInput } from 'features/login/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
 export type LoginServiceOperators = {
+  isLoaded: boolean
   isLoading: boolean
   isAuth: boolean
   user: User | null
   permissions: string[]
   login: (form: LoginFormInput) => void
+  logout: () => void
+  validate: () => void
 }
 
 /**
@@ -25,6 +29,7 @@ export type LoginServiceOperators = {
 export const useLoginService = (): Readonly<LoginServiceOperators> => {
   const dispatch = useAppDispatch()
   return {
+    isLoaded: useAppSelector(selectIsLoaded),
     isLoading: useAppSelector(selectIsLoading),
     isAuth: useAppSelector(selectIsAuth),
     user: useAppSelector(selectUser),
@@ -35,6 +40,12 @@ export const useLoginService = (): Readonly<LoginServiceOperators> => {
       },
       [dispatch],
     ),
+    logout: useCallback(() => {
+      dispatch(loginActions.logoutRequest())
+    }, [dispatch]),
+    validate: useCallback(() => {
+      dispatch(loginActions.validateRequest())
+    }, [dispatch]),
   }
 }
 

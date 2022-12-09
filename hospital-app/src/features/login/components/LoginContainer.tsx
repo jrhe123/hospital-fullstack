@@ -2,9 +2,12 @@ import QrCodeIcon from '@mui/icons-material/QrCode'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import BgImage from 'assets/images/login/bg.jpg'
 import LogoImage from 'assets/images/login/logo.png'
+
+import { useLoginService } from '../hooks'
 
 const BackgroundImage = () => (
   <Box
@@ -29,8 +32,25 @@ const BackgroundImage = () => (
 )
 
 export const LoginContainer = () => {
-  const [username, setUsername] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [username, setUsername] = useState<string>('admin')
+  const [password, setPassword] = useState<string>('abc123456')
+  const { isLoading, login } = useLoginService()
+
+  const handleLogin = () => {
+    if (isLoading) return
+    if (!username) {
+      toast.warn('Please enter your username..')
+      return
+    }
+    if (!password) {
+      toast.warn('Please enter your password..')
+      return
+    }
+    login({
+      username: username.trim(),
+      password,
+    })
+  }
 
   return (
     <Box
@@ -62,6 +82,7 @@ export const LoginContainer = () => {
             flexDirection: 'row',
             maxWidth: '480px',
             width: '80%',
+            boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
           }}
         >
           {/* left logo */}
@@ -122,10 +143,14 @@ export const LoginContainer = () => {
               />
             </Box>
             <Box component="div" sx={{ marginBottom: '6px' }}>
-              <Button sx={{ width: '100%', padding: 0, borderRadius: '3px', overflow: 'hidden' }}>
+              <Button
+                sx={{ width: '100%', padding: 0, borderRadius: '3px', overflow: 'hidden' }}
+                onClick={handleLogin}
+                disabled={isLoading || !username || !password}
+              >
                 <Box
                   sx={{
-                    background: '#81B3AA',
+                    background: !username || !password ? '#bebebf' : '#81B3AA',
                     width: '100%',
                     height: '36px',
                     display: 'flex',
