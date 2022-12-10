@@ -77,12 +77,20 @@ const navbars: Narbar[] = [
     activeTab: TAB.STAFF,
     subNavbar: [
       {
-        name: 'Staff sub 1',
-        link: '/staff/sub123',
+        name: 'Doctor',
+        link: '/staff/doctor',
       },
       {
-        name: 'Staff sub 2',
-        link: '/staff/sub321',
+        name: 'Nurse',
+        link: '/staff/nurse',
+      },
+      {
+        name: 'Worker',
+        link: '/staff/worker',
+      },
+      {
+        name: 'Fee',
+        link: '/staff/fee',
       },
     ],
   },

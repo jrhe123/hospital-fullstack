@@ -177,3 +177,52 @@ mis_action
 
 select * from hospital.doctor;
 
+
+CREATE TABLE hospital.doctor
+(
+    "id"          INTEGER NOT NULL PRIMARY KEY,
+    "name"        VARCHAR(20),
+    "pid"         CHAR(18),
+    "uuid"        CHAR(32),
+    "sex"         VARCHAR(1),
+    "photo"       VARCHAR,
+    "birthday"    DATE,
+    "school"      VARCHAR(50),
+    "degree"      VARCHAR(20),
+    "tel"         CHAR(11),
+    "address"     VARCHAR(200),
+    "email"       VARCHAR(200),
+    "job"         VARCHAR(20),
+    "remark"      VARCHAR(50),
+    "description" VARCHAR,
+    "hiredate"    DATE,
+    "tag"         VARCHAR,
+    "recommended" BOOLEAN,
+    -- 1在职，2离职，3退休，4隐藏（逻辑删除）
+    "status" TINYINT,
+    "create_time" DATE
+);
+
+CREATE TABLE hospital.medical_dept
+(
+    "id"          INTEGER NOT NULL PRIMARY KEY,
+    "name"        VARCHAR(50),
+    "outpatient"  BOOLEAN,
+    "description" VARCHAR(500),
+    --     推荐在首页科室列表中展示的
+    "recommended" BOOLEAN
+);
+
+CREATE TABLE hospital.medical_dept_sub(
+  "id" INTEGER NOT NULL PRIMARY KEY ,
+  "name" VARCHAR(50),
+  "dept_id" INTEGER,
+  "location" VARCHAR(50)
+);
+
+CREATE TABLE hospital.medical_dept_sub_and_doctor
+(
+    "id"        INTEGER PRIMARY KEY,
+    "dept_sub_id"   INTEGER,
+    "doctor_id" INTEGER
+);

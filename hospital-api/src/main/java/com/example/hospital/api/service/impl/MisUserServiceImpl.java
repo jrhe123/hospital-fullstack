@@ -13,8 +13,10 @@ import com.example.hospital.api.service.MisUserService;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class MisUserServiceImpl implements MisUserService {
 	
 	@Resource
