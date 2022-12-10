@@ -202,18 +202,20 @@ const Sidebar = () => {
           }}
         >
           <GroupsIcon sx={{ color: 'white' }} fontSize={'medium'} />
-          <Typography
-            component="div"
-            sx={{
-              color: 'white',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginLeft: '6px',
-              fontSize: '12px',
-            }}
-          >
-            COVID
-          </Typography>
+          {toggle && (
+            <Typography
+              component="div"
+              sx={{
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                marginLeft: '6px',
+                fontSize: '12px',
+              }}
+            >
+              COVID
+            </Typography>
+          )}
         </Box>
         {/* nav bar */}
         <Box
@@ -251,7 +253,7 @@ const Sidebar = () => {
                   }}
                 >
                   {/* arrow icon  */}
-                  {nav.subNavbar?.length ? (
+                  {nav.subNavbar?.length && toggle ? (
                     <Box
                       component="div"
                       sx={{
@@ -322,12 +324,12 @@ const Sidebar = () => {
                           sx={{
                             fontWeight: pathname === subnav.link ? 'bold' : 400,
                             fontSize: '12px',
-                            paddingLeft: '32px',
+                            paddingLeft: toggle ? '32px' : '4px',
                             color: pathname === subnav.link ? 'white' : '#bebebf',
                           }}
                           className="fade-in"
                         >
-                          {subnav.name}
+                          {toggle ? subnav.name : subnav.name.substring(0, 2)}
                         </Typography>
                       </Button>
                     ))}
@@ -355,7 +357,11 @@ const Sidebar = () => {
         >
           {/* left icon */}
           <Box component="div">
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                setToggle(!toggle)
+              }}
+            >
               <MenuIcon
                 fontSize={'small'}
                 sx={{
