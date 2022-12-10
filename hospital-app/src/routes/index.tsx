@@ -4,6 +4,7 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 // theme layout
 // import Footer from 'components/Footer'
 import Layout from 'components/Layout'
+import Sidebar from 'components/Sidebar'
 import { useLoginService } from 'features/login'
 
 // pages
@@ -58,10 +59,84 @@ const AppRoutes = () => {
           <Route element={<Layout />}>
             <Route>
               {/* main tab */}
-              <Route
-                path="/"
-                element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<HomePage />} />}
-              />
+              <Route element={<Sidebar />}>
+                <Route
+                  path="/"
+                  element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<HomePage />} />}
+                />
+                <Route
+                  path="/management"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>management page</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/management/sub123"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>management page sub123</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/staff"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>staff page</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/staff/sub123"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>staff page sub123</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/diagose"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>diagose page</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/diagose/sub123"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>diagose page sub123</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/system"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>system page</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/system/sub123"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>system page sub123</div>}
+                    />
+                  }
+                />
+              </Route>
               <Route
                 path="/login"
                 element={
