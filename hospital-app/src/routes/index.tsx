@@ -65,15 +65,6 @@ const AppRoutes = () => {
                   element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<HomePage />} />}
                 />
                 <Route
-                  path="/management"
-                  element={
-                    <ProtectedRoute
-                      {...defaultProtectedRouteProps}
-                      outlet={<div>management page</div>}
-                    />
-                  }
-                />
-                <Route
                   path="/management/sub123"
                   element={
                     <ProtectedRoute
@@ -83,11 +74,11 @@ const AppRoutes = () => {
                   }
                 />
                 <Route
-                  path="/staff"
+                  path="/management/sub321"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>staff page</div>}
+                      outlet={<div>management page sub321</div>}
                     />
                   }
                 />
@@ -101,11 +92,11 @@ const AppRoutes = () => {
                   }
                 />
                 <Route
-                  path="/diagose"
+                  path="/staff/sub321"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>diagose page</div>}
+                      outlet={<div>staff page sub321</div>}
                     />
                   }
                 />
@@ -119,11 +110,11 @@ const AppRoutes = () => {
                   }
                 />
                 <Route
-                  path="/system"
+                  path="/diagose/sub321"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>system page</div>}
+                      outlet={<div>diagose page sub321</div>}
                     />
                   }
                 />
@@ -133,6 +124,15 @@ const AppRoutes = () => {
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
                       outlet={<div>system page sub123</div>}
+                    />
+                  }
+                />
+                <Route
+                  path="/system/sub321"
+                  element={
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>system page sub321</div>}
                     />
                   }
                 />

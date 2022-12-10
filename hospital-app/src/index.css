@@ -57,6 +57,34 @@ table {
   transition: width 0.5s
 }
 
-.side-bar-tab {
-  transition: font-weight 0.5s
+.rotate-div {
+  transition: transform 0.3s;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.side-bar-sub-nav {
+  transition: height 0.3s;
+}
+
+
+.fade-in {
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.3s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
