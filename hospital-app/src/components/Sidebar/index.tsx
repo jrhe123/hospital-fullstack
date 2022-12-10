@@ -201,33 +201,45 @@ const Sidebar = () => {
         }}
       >
         {/* logo */}
-        <Box
-          component="div"
-          sx={{
-            background: '#81B3AA',
-            height: `${TOP_BAR_HEIGHT}px`,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
+        <Button
+          sx={{ padding: 0, width: '100%' }}
+          onClick={() => {
+            setActiveSubbar(null)
+            navigate('/')
           }}
         >
-          <GroupsIcon sx={{ color: 'white' }} fontSize={'medium'} />
-          {toggle && (
-            <Typography
-              component="div"
-              sx={{
-                color: 'white',
-                textAlign: 'center',
-                fontWeight: 'bold',
-                marginLeft: '6px',
-                fontSize: '12px',
-              }}
-            >
-              COVID
-            </Typography>
-          )}
-        </Box>
+          <Box
+            component="div"
+            sx={{
+              width: '100%',
+              background: '#81B3AA',
+              height: `${TOP_BAR_HEIGHT}px`,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <GroupsIcon
+              sx={{ color: 'white', marginRight: toggle ? '6px' : '15px' }}
+              fontSize={'medium'}
+            />
+            {toggle && (
+              <Typography
+                component="div"
+                sx={{
+                  color: 'white',
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  fontSize: '12px',
+                }}
+                className="fade-in"
+              >
+                COVID
+              </Typography>
+            )}
+          </Box>
+        </Button>
         {/* nav bar */}
         <Box
           component="div"
@@ -363,7 +375,6 @@ const Sidebar = () => {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
           }}
         >
           {/* left icon */}
@@ -457,7 +468,8 @@ const Sidebar = () => {
                       fontSize: '12px',
                     }}
                   >
-                    {user?.name}
+                    {/* {user?.name} */}
+                    Administator
                   </Typography>
                 </Box>
               </Button>
@@ -496,7 +508,12 @@ const Sidebar = () => {
         </Box>
         <Box
           component="div"
-          sx={{ background: '#F2F2FB', height: `calc(100vh - ${TOP_BAR_HEIGHT}px)` }}
+          sx={{
+            background: '#F2F2FB',
+            height: `calc(100vh - ${TOP_BAR_HEIGHT}px)`,
+            padding: '12px',
+            overflow: 'hidden',
+          }}
         >
           <Outlet />
         </Box>

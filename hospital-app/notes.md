@@ -7,3 +7,6 @@ docker space:
 https://stackoverflow.com/questions/37645879/how-can-i-fix-docker-mac-no-space-left-on-device-error
 
 docker system prune -a
+
+iconify:
+https://icon-sets.iconify.design/simple-icons/meetup/
