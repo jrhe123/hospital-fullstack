@@ -13,36 +13,46 @@ function* onLogin({
   type: typeof loginActions.loginRequest
   payload: LoginFormInput
 }): SagaIterator {
-  const response = yield call(login, payload)
-  if (response.result) {
-    // store token
-    localStorage.setItem('token', response.token)
-    toast.success(`Success, welcome back`)
-    // action
-    const userInfo: UserInfo = {
-      user: response.user,
-      permissions: response.permissions,
+  try {
+    const response = yield call(login, payload)
+    if (response.result) {
+      // store token
+      localStorage.setItem('token', response.token)
+      toast.success(`Welcome back ${response.user.username}`)
+      // action
+      const userInfo: UserInfo = {
+        user: response.user,
+        permissions: response.permissions,
+      }
+      yield put(loginActions.loginSucceeded(userInfo))
+    } else {
+      toast.error('Oops, incorrect username OR password')
+      const errors = [new Error(response.message)]
+      yield put(loginActions.loginFailed(errors))
     }
-    yield put(loginActions.loginSucceeded(userInfo))
-  } else {
-    toast.error('Oops, incorrect username OR password')
-    const errors = [new Error(response.message)]
+  } catch (error) {
+    const errors = [new Error('Api error')]
     yield put(loginActions.loginFailed(errors))
   }
 }
 
 function* onLogout(): SagaIterator {
-  const response = yield call(logout)
-  if (response.result) {
-    // store token
-    localStorage.removeItem('token')
-    toast.success(`Success, logged out`)
-    // action
-    yield put(loginActions.logoutSucceeded())
-  } else {
-    toast.error('Oops, something goes wrong')
-    const errors = [new Error(response.message)]
+  try {
+    const response = yield call(logout)
+    if (response.result) {
+      // action
+      yield put(loginActions.logoutSucceeded())
+    } else {
+      const errors = [new Error(response.message)]
+      yield put(loginActions.logoutFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Unauthorized')]
     yield put(loginActions.logoutFailed(errors))
+  } finally {
+    toast.success(`Logged out`)
+    // remove token
+    localStorage.removeItem('token')
   }
 }
 
@@ -57,10 +67,14 @@ function* onValidate(): SagaIterator {
       }
       yield put(loginActions.validateSucceeded(userInfo))
     } else {
+      // remove token
+      localStorage.removeItem('token')
       const errors = [new Error(response.message)]
       yield put(loginActions.validateFailed(errors))
     }
   } catch (error) {
+    // remove token
+    localStorage.removeItem('token')
     const errors = [new Error('Unauthorized')]
     yield put(loginActions.validateFailed(errors))
   }

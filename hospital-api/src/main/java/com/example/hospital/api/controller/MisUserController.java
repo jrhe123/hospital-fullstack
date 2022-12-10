@@ -55,7 +55,7 @@ public class MisUserController {
 	@SaCheckLogin
 	public R logout() {
 		StpUtil.logout();
-		return R.ok();
+		return R.ok().put("result", true);
 	}
 	
 	@GetMapping("/validate")

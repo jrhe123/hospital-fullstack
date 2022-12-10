@@ -6,7 +6,6 @@ export default function makeApi(baseURL: string) {
     baseURL,
   })
 
-  const token = localStorage.getItem(ACCESS_TOKEN)
   // set content-type
   api.defaults.headers.post['Content-Type'] = 'application/json'
   api.defaults.headers.put['Content-Type'] = 'application/json'
@@ -14,6 +13,7 @@ export default function makeApi(baseURL: string) {
 
   api.interceptors.request.use(
     config => {
+      const token = localStorage.getItem(ACCESS_TOKEN)
       if (token) {
         config.headers = {
           ...config.headers,

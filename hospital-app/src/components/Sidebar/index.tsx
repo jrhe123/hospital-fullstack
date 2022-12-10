@@ -138,7 +138,7 @@ const Sidebar = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  const { user, logout } = useLoginService()
+  const { isLoading, user, logout } = useLoginService()
 
   // collapse side bar
   const [toggle, setToggle] = useState<boolean>(true)
@@ -162,6 +162,7 @@ const Sidebar = () => {
     }
   }, [pathname])
 
+  // HOVER DROPDOWN
   const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (anchorEl !== event.currentTarget) {
       setAnchorEl(event.currentTarget)
@@ -171,10 +172,12 @@ const Sidebar = () => {
     setAnchorEl(null)
   }
 
-  console.log('tab: ', tab)
-  console.log('activeSubbar: ', activeSubbar)
+  const handleLogout = () => {
+    if (isLoading) return
+    logout()
+  }
 
-  const width: number = toggle ? 210 : 42
+  const width: number = toggle ? 210 : 48
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       {/* wrapper */}
@@ -468,7 +471,7 @@ const Sidebar = () => {
                     Profile
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleLogout}>
                   <Typography
                     component="div"
                     sx={{
