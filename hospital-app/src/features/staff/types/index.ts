@@ -1,20 +1,46 @@
-export type LoginFormInput = {
-  username: string
-  password: string
-}
-
-export type User = {
-  username: string
-  name: string | null
-  sex: string | null
-  tel: string | null
-  email: string | null
-  job: string | null
+export type SearchDoctorFormInput = {
+  page: number
+  length: number
   status: number
-  createTime: Date
+  // search fields
+  name?: string
+  deptId?: number
+  degree?: string
+  job?: string
+  recommended?: boolean
+  // sort fields
+  order?: string
 }
 
-export type UserInfo = {
-  user: User
-  permissions: string[]
+export type Doctor = {
+  deptName: string
+  school: string
+  subName: string
+  sex: string
+  name: string
+  degree: string
+  tel: string
+  id: number
+  job: string
+  recommended: boolean
+  status: number
+}
+
+export type Department = {
+  id: number
+  name: string
+}
+
+export type DepartmentPageUtil = {
+  result: boolean
+  list: Department[]
+}
+
+export type DoctorPageUtil = {
+  result: boolean
+  totalCount: number
+  pageSize: number
+  totalPage: number
+  pageIndex: number
+  list: Doctor[]
 }

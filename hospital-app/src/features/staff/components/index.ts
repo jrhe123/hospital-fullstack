@@ -1,1 +1,1 @@
-export * from 'features/login/components/LoginContainer'
+export * from 'features/staff/components/DoctorContainer'

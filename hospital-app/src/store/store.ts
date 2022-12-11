@@ -8,6 +8,7 @@ import { Env } from 'config/Env'
 // list of reducers
 import homeReducer from 'features/home/store/home.slice'
 import loginReducer from 'features/login/store/login.slice'
+import staffReducer from 'features/staff/store/staff.slice'
 // saga
 import { rootSaga } from 'store/rootSaga'
 
@@ -27,6 +28,7 @@ const makeStore = () => {
     reducer: {
       home: homeReducer,
       login: loginReducer,
+      staff: staffReducer,
       router: routerReducer,
     },
     devTools: Env.isDev(),

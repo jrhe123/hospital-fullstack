@@ -1,2 +1,2 @@
-export * from 'features/login/store/login.sagas'
-export * from 'features/login/store/login.slice'
+export * from 'features/staff/store/staff.sagas'
+export * from 'features/staff/store/staff.slice'

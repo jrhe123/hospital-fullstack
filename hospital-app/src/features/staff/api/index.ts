@@ -2,14 +2,14 @@
 import { Env } from 'config/Env'
 import makeApi from 'libs/core/configureAxios'
 
-import { LoginFormInput, User } from '../types'
+import { SearchDoctorFormInput, DepartmentPageUtil, DoctorPageUtil } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
-const USER_BASE_URL = `/mis_user`
+const DOCTOR_BASE_URL = `/doctor`
+const DEPARTMENT_BASE_URL = `/medical/dep`
 
-export const login = (form: LoginFormInput): Promise<User> =>
-  api.post(`${USER_BASE_URL}/login`, form)
+export const searchDepartments = (): Promise<DepartmentPageUtil> =>
+  api.post(`${DEPARTMENT_BASE_URL}/searchAll`)
 
-export const logout = (): Promise<any> => api.get(`${USER_BASE_URL}/logout`)
-
-export const validate = (): Promise<any> => api.get(`${USER_BASE_URL}/validate`)
+export const searchDoctors = (form: SearchDoctorFormInput): Promise<DoctorPageUtil> =>
+  api.post(`${DOCTOR_BASE_URL}/searchByPage`, form)
