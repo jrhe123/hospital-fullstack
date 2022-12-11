@@ -3,13 +3,13 @@ export type SearchDoctorFormInput = {
   length: number
   status: number
   // search fields
-  name?: string
-  deptId?: number
-  degree?: string
-  job?: string
-  recommended?: boolean
+  name?: string | null
+  deptId?: number | null
+  degree?: string | null
+  job?: string | null
+  recommended?: boolean | null
   // sort fields
-  order?: string
+  order?: string | null
 }
 
 export type Doctor = {

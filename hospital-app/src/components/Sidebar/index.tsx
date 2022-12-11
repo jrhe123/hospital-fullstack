@@ -554,6 +554,7 @@ const Sidebar = () => {
                 borderBottom: pathname === qs.link ? '2px solid #81B3AA' : '2px solid #bebebf',
                 height: '100%',
               }}
+              title={qs.name}
             >
               <Box
                 component="div"

@@ -6,7 +6,7 @@ import { SearchDoctorFormInput, DepartmentPageUtil, DoctorPageUtil } from '../ty
 
 const api = makeApi(`${Env.API_BASE_URL}`)
 const DOCTOR_BASE_URL = `/doctor`
-const DEPARTMENT_BASE_URL = `/medical/dep`
+const DEPARTMENT_BASE_URL = `/medical/dept`
 
 export const searchDepartments = (): Promise<DepartmentPageUtil> =>
   api.post(`${DEPARTMENT_BASE_URL}/searchAll`)

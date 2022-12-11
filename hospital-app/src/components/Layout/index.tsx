@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-// import Header from 'components/Header'
 import Playfair from 'fonts/PlayfairDisplay-Regular.woff2'
 
 const Layout = () => {
@@ -69,18 +68,6 @@ const Layout = () => {
         </main>
       </ThemeProvider>
       <ToastContainer draggable pauseOnHover />
-      {/* <Box
-        component="div"
-        sx={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 99,
-          overflow: 'hidden',
-        }}
-      >
-        <Header />
-      </Box> */}
     </Box>
   )
 }
