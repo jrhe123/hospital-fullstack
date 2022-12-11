@@ -3,13 +3,29 @@ export type SearchDoctorFormInput = {
   length: number
   status: number
   // search fields
-  name?: string | null
-  deptId?: number | null
-  degree?: string | null
-  job?: string | null
-  recommended?: boolean | null
+  name?: string
+  deptId?: number | string
+  degreeId?: number | string
+  degree?: Degree | string
+  jobId?: number | string
+  job?: Occupation | string
+  recommendedId?: number | string
+  recommended?: boolean | string
   // sort fields
-  order?: string | null
+  order?: string
+}
+
+export enum Degree {
+  BACHELOR = 'bachelor',
+  MASTER = 'master',
+  PHD = 'phd',
+}
+
+export enum Occupation {
+  SPECIALIST = 'specialist',
+  VICE_SPECIALIST = 'vice-specialist',
+  DIRECTOR = 'director',
+  VICE_DIRECTOR = 'vice-director',
 }
 
 export type Doctor = {

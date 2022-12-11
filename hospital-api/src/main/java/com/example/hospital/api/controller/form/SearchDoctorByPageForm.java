@@ -17,7 +17,7 @@ public class SearchDoctorByPageForm {
 	@Min(value = 1, message = "deptId must be greater than 1")
 	private Integer deptId;
 	
-	@Pattern(regexp = "^degree$|^master$|^doctor$", message = "invalid degree format")
+	@Pattern(regexp = "^bachelor$|^master$|^phd$", message = "invalid degree format")
 	private String degree;
 	
 	@Pattern(regexp = "^specialist$|^vice-specialist$|^director$|^vice-director$", message = "invalid job format")
