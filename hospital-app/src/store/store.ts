@@ -9,6 +9,8 @@ import { Env } from 'config/Env'
 import homeReducer from 'features/home/store/home.slice'
 import loginReducer from 'features/login/store/login.slice'
 import staffReducer from 'features/staff/store/staff.slice'
+// global
+import mainReducer from 'mainSaga/main.slice'
 // saga
 import { rootSaga } from 'store/rootSaga'
 
@@ -19,16 +21,18 @@ const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHisto
 })
 
 const makeStore = () => {
-  //
   const sagaMiddleware = createSagaMiddleware()
   const middlewares = [sagaMiddleware, routerMiddleware]
   if (!Env.isProd()) middlewares.push(logger)
-  //
   const store = configureStore({
     reducer: {
+      // global
+      main: mainReducer,
+      // features
       home: homeReducer,
       login: loginReducer,
       staff: staffReducer,
+      // router
       router: routerReducer,
     },
     devTools: Env.isDev(),
