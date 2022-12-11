@@ -3,13 +3,14 @@ import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
 import { selectIsLoading, selectQuickSections, mainActions } from './main.slice'
+import { QuickSection } from './types'
 
 export type StaffServiceOperators = {
   isLoading: boolean
-  quickSections: string[]
+  quickSections: QuickSection[]
   fetchQuickSection: () => void
-  openQuickSectionRequest: (val: string) => void
-  closeQuickSectionRequest: (val: string) => void
+  openQuickSectionRequest: (val: QuickSection) => void
+  closeQuickSectionRequest: (val: QuickSection) => void
 }
 
 /**
@@ -25,14 +26,14 @@ export const useMainService = (): Readonly<StaffServiceOperators> => {
       dispatch(mainActions.fetchQuickSectionRequest())
     }, [dispatch]),
     openQuickSectionRequest: useCallback(
-      (val: string) => {
-        dispatch(mainActions.openQuickSectionRequest(val))
+      (qs: QuickSection) => {
+        dispatch(mainActions.openQuickSectionRequest(qs))
       },
       [dispatch],
     ),
     closeQuickSectionRequest: useCallback(
-      (val: string) => {
-        dispatch(mainActions.closeQuickSectionRequest(val))
+      (qs: QuickSection) => {
+        dispatch(mainActions.closeQuickSectionRequest(qs))
       },
       [dispatch],
     ),

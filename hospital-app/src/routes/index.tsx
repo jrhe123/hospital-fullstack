@@ -2,10 +2,10 @@ import React, { Suspense, useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 
 // theme layout
-// import Footer from 'components/Footer'
 import Layout from 'components/Layout'
 import Sidebar from 'components/Sidebar'
 import { useLoginService } from 'features/login'
+import { useMainService } from 'mainSaga'
 
 // pages
 const HomePage = React.lazy(() => import('pages/HomePage'))
@@ -37,10 +37,12 @@ const ProtectedRedirect = ({
 
 const AppRoutes = () => {
   const { isLoaded, isAuth, validate } = useLoginService()
+  const { fetchQuickSection } = useMainService()
 
   useEffect(() => {
+    fetchQuickSection()
     validate()
-  }, [validate])
+  }, [fetchQuickSection, validate])
 
   const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
     isAuthenticated: isLoaded && isAuth,

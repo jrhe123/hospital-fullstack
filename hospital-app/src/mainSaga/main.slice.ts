@@ -3,9 +3,11 @@ import { createAction, createSlice, nanoid, PayloadAction } from '@reduxjs/toolk
 
 import type { RootState } from 'store/store'
 
+import { QuickSection } from './types'
+
 export interface MainState {
   isLoading: boolean
-  quickSections: string[]
+  quickSections: QuickSection[]
   errors?: Error[]
 }
 
@@ -25,7 +27,7 @@ export const mainSlice = createSlice({
       state.isLoading = true
       state.errors = []
     },
-    fetchQuickSectionSucceeded(state, action: PayloadAction<string[]>) {
+    fetchQuickSectionSucceeded(state, action: PayloadAction<QuickSection[]>) {
       state.isLoading = false
       state.quickSections = action.payload
     },
@@ -34,13 +36,14 @@ export const mainSlice = createSlice({
       state.errors = action.payload
     },
     // open quick bar
-    openQuickSectionRequest(state, action: PayloadAction<string>) {
+    openQuickSectionRequest(state, action: PayloadAction<QuickSection>) {
       state.isLoading = true
       state.errors = []
     },
-    openQuickSectionSucceeded(state, action: PayloadAction<string>) {
+    openQuickSectionSucceeded(state, action: PayloadAction<QuickSection>) {
       state.isLoading = false
-      if (state.quickSections.indexOf(action.payload) === -1) {
+      const index = state.quickSections.findIndex(item => item.name === action.payload.name)
+      if (index === -1) {
         state.quickSections.unshift(action.payload)
       }
     },
@@ -49,13 +52,13 @@ export const mainSlice = createSlice({
       state.errors = action.payload
     },
     // close quick bar
-    closeQuickSectionRequest(state, action: PayloadAction<string>) {
+    closeQuickSectionRequest(state, action: PayloadAction<QuickSection>) {
       state.isLoading = true
       state.errors = []
     },
-    closeQuickSectionSucceeded(state, action: PayloadAction<string>) {
+    closeQuickSectionSucceeded(state, action: PayloadAction<QuickSection>) {
       state.isLoading = false
-      const index = state.quickSections.indexOf(action.payload)
+      const index = state.quickSections.findIndex(item => item.name === action.payload.name)
       if (index !== -1) {
         state.quickSections.splice(index, 1)
       }

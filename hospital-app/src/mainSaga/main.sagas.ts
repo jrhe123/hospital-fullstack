@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import { mainActions } from './main.slice'
+import { QuickSection } from './types'
 
 const QS_KEY = 'QS'
 enum ACTION {
@@ -15,9 +16,9 @@ const fetchLocalStorge = () =>
     try {
       // FETCH FROM LOCAL STORAGE
       const qsListStr: string | null = localStorage.getItem(QS_KEY)
-      let qsList: string[] = []
+      let qsList: QuickSection[] = []
       if (qsListStr) {
-        qsList = JSON.parse(qsListStr) as string[]
+        qsList = JSON.parse(qsListStr) as QuickSection[]
       }
       resolve(qsList)
     } catch (error) {
@@ -25,20 +26,20 @@ const fetchLocalStorge = () =>
     }
   })
 
-const updateLocalStorage = (value: string, action: ACTION) =>
+const updateLocalStorage = (qs: QuickSection, action: ACTION) =>
   new Promise((resolve, reject) => {
     try {
       // FETCH FROM LOCAL STORAGE
       const qsListStr: string | null = localStorage.getItem(QS_KEY)
-      let qsList: string[] = []
+      let qsList: QuickSection[] = []
       if (qsListStr) {
-        qsList = JSON.parse(qsListStr) as string[]
+        qsList = JSON.parse(qsListStr) as QuickSection[]
       }
       // ADD / REMOVE
-      if (action === ACTION.ADD && qsList.indexOf(value) === -1) {
-        qsList.unshift(value)
-      } else if (action === ACTION.REMOVE && qsList.indexOf(value) !== -1) {
-        const index = qsList.indexOf(value)
+      const index = qsList.findIndex(item => item.name === qs.name)
+      if (action === ACTION.ADD && index === -1) {
+        qsList.unshift(qs)
+      } else if (action === ACTION.REMOVE && index !== -1) {
         qsList.splice(index, 1)
       }
       // SAVE BACK TO LOCAL STORAGE
@@ -69,7 +70,7 @@ function* onOpenQS({
   payload,
 }: {
   type: typeof mainActions.openQuickSectionRequest
-  payload: string
+  payload: QuickSection
 }): SagaIterator {
   try {
     const response = yield call(updateLocalStorage, payload, ACTION.ADD)
@@ -89,7 +90,7 @@ function* onCloseQS({
   payload,
 }: {
   type: typeof mainActions.closeQuickSectionRequest
-  payload: string
+  payload: QuickSection
 }): SagaIterator {
   try {
     const response = yield call(updateLocalStorage, payload, ACTION.REMOVE)

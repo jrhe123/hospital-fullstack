@@ -1,4 +1,5 @@
 import BallotIcon from '@mui/icons-material/Ballot'
+import CloseIcon from '@mui/icons-material/Close'
 import DnsIcon from '@mui/icons-material/Dns'
 import EmailIcon from '@mui/icons-material/Email'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -12,6 +13,7 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { useLoginService } from 'features/login'
+import { useMainService } from 'mainSaga'
 
 enum TAB {
   HOME = 'HOME',
@@ -148,6 +150,7 @@ const Sidebar = () => {
   const navigate = useNavigate()
 
   const { isLoading, user, logout } = useLoginService()
+  const { openQuickSectionRequest, closeQuickSectionRequest, quickSections } = useMainService()
 
   // collapse side bar
   const [toggle, setToggle] = useState<boolean>(true)
@@ -235,7 +238,7 @@ const Sidebar = () => {
               }}
               className="fade-in"
             >
-              COVID
+              COVID-OM
             </Typography>
           )}
         </Box>
@@ -332,6 +335,11 @@ const Sidebar = () => {
                       onClick={() => {
                         if (!subnav.link) return
                         navigate(subnav.link)
+                        // save it into quick bar
+                        openQuickSectionRequest({
+                          name: subnav.name,
+                          link: subnav.link,
+                        })
                       }}
                       sx={{
                         padding: 0,
@@ -507,21 +515,90 @@ const Sidebar = () => {
     </Box>
   )
 
-  const renderQuickBar = () => (
-    <Box
-      component="div"
-      sx={{
-        height: `${QUICK_BAR_HEIGHT}px`,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        boxSizing: 'border-box',
-        borderTop: '3px solid #F2F2FB',
-      }}
-    >
-      quick bar here
-    </Box>
-  )
+  const renderQuickBar = () => {
+    if (!quickSections.length) return null
+
+    return (
+      <Box
+        component="div"
+        sx={{
+          height: `${QUICK_BAR_HEIGHT}px`,
+          display: 'flex',
+          flexDirection: 'row',
+          boxSizing: 'border-box',
+          borderTop: '3px solid #F2F2FB',
+          paddingLeft: '9px',
+          paddingRight: '9px',
+        }}
+      >
+        {quickSections.map((qs, index) => (
+          <Button
+            key={index}
+            sx={{ padding: 0, marginRight: '12px' }}
+            onClick={() => {
+              navigate(qs.link)
+            }}
+          >
+            <Box
+              component="div"
+              sx={{
+                flex: 1,
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingLeft: '6px',
+                paddingRight: '6px',
+                borderBottom: pathname === qs.link ? '2px solid #81B3AA' : '2px solid #bebebf',
+                height: '100%',
+              }}
+            >
+              <Box
+                component="div"
+                sx={{
+                  position: 'absolute',
+                  zIndex: 1,
+                  right: '-3px',
+                  top: '10px',
+                  height: '12px',
+                  width: '12px',
+                }}
+              >
+                <CloseIcon
+                  sx={{
+                    padding: 0,
+                    fontSize: '12px',
+                    float: 'left',
+                    color: pathname === qs.link ? '#81B3AA' : '#bebebf',
+                  }}
+                  onClick={e => {
+                    e.stopPropagation()
+                    closeQuickSectionRequest(qs)
+                  }}
+                />
+              </Box>
+              <Typography
+                component="div"
+                sx={{
+                  color: pathname === qs.link ? '#81B3AA' : '#bebebf',
+                  textAlign: 'center',
+                  fontWeight: pathname === qs.link ? 'bold' : 400,
+                  fontSize: '10px',
+                  width: '36px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+                className="fade-in"
+              >
+                {qs.name}
+              </Typography>
+            </Box>
+          </Button>
+        ))}
+      </Box>
+    )
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -541,7 +618,9 @@ const Sidebar = () => {
           component="div"
           sx={{
             background: '#F2F2FB',
-            height: `calc(100vh - ${TOP_BAR_HEIGHT}px - ${QUICK_BAR_HEIGHT}px)`,
+            height: quickSections.length
+              ? `calc(100vh - ${TOP_BAR_HEIGHT}px - ${QUICK_BAR_HEIGHT}px)`
+              : `calc(100vh - ${TOP_BAR_HEIGHT}px)`,
             padding: '12px',
             overflow: 'hidden',
           }}
