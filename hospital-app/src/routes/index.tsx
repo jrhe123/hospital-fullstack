@@ -10,6 +10,7 @@ import { useLoginService } from 'features/login'
 // pages
 const HomePage = React.lazy(() => import('pages/HomePage'))
 const LoginPage = React.lazy(() => import('pages/LoginPage'))
+const DoctorPage = React.lazy(() => import('pages/DoctorPage'))
 
 type ProtectedRouteProps = {
   isAuthenticated: boolean
@@ -85,10 +86,7 @@ const AppRoutes = () => {
                 <Route
                   path="/staff/doctor"
                   element={
-                    <ProtectedRoute
-                      {...defaultProtectedRouteProps}
-                      outlet={<div>doctor page</div>}
-                    />
+                    <ProtectedRoute {...defaultProtectedRouteProps} outlet={<DoctorPage />} />
                   }
                 />
                 <Route
@@ -110,9 +108,12 @@ const AppRoutes = () => {
                   }
                 />
                 <Route
-                  path="/staff/fee"
+                  path="/staff/transaction"
                   element={
-                    <ProtectedRoute {...defaultProtectedRouteProps} outlet={<div>fee page</div>} />
+                    <ProtectedRoute
+                      {...defaultProtectedRouteProps}
+                      outlet={<div>transaction page</div>}
+                    />
                   }
                 />
                 <Route

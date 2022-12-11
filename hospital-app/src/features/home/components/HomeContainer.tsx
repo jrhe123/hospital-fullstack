@@ -56,7 +56,7 @@ export const HomeContainer = () => (
   <Box
     component="div"
     sx={{ height: '100%', overflowY: 'auto', overflowX: 'hidden' }}
-    className="hide-scoll"
+    className="hide-scroll"
   >
     {/* first row */}
     <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>

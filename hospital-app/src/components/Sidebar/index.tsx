@@ -89,8 +89,8 @@ const navbars: Narbar[] = [
         link: '/staff/worker',
       },
       {
-        name: 'Fee',
-        link: '/staff/fee',
+        name: 'Transaction',
+        link: '/staff/transaction',
       },
     ],
   },
@@ -349,6 +349,7 @@ const Sidebar = () => {
                             fontSize: '12px',
                             paddingLeft: toggle ? '32px' : '4px',
                             color: pathname === subnav.link ? 'white' : '#bebebf',
+                            textDecoration: 'underline',
                           }}
                           className="fade-in"
                         >

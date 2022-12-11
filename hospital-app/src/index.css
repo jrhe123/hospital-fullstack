@@ -89,12 +89,12 @@ table {
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
-.hide-scoll::-webkit-scrollbar {
+.hide-scroll::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.hide-scoll {
+.hide-scroll {
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
