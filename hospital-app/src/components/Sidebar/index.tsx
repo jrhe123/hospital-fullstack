@@ -529,7 +529,9 @@ const Sidebar = () => {
           borderTop: '3px solid #F2F2FB',
           paddingLeft: '9px',
           paddingRight: '9px',
+          overflowX: 'auto',
         }}
+        className="hide-scroll"
       >
         {quickSections.map((qs, index) => (
           <Button
