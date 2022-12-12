@@ -824,7 +824,11 @@ export const DoctorContainer = () => {
           {renderRightSideBtns()}
         </Box>
         {/* table */}
-        <Box component="div" sx={{ marginTop: '12px', height: '100%', overflowY: 'auto' }}>
+        <Box
+          component="div"
+          className="hide-scroll"
+          sx={{ marginTop: '24px', height: '100%', overflowY: 'auto' }}
+        >
           <TableContainer>
             <Table aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead
