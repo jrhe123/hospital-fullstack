@@ -280,10 +280,6 @@ export const DoctorContainer = () => {
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  // dynamic ui fetch fields
-  // const watchFields = watch(['page', 'length', 'status'])
-  // useEffect(() => {}, [watchFields])
-
   const fetchDoctorList = useCallback(() => {
     const values = getValues()
     const form = {
@@ -299,7 +295,6 @@ export const DoctorContainer = () => {
       // sort
       order: values.order,
     }
-    console.log('call api: ', form)
     fetchDoctors(form)
   }, [fetchDoctors, getValues])
 
