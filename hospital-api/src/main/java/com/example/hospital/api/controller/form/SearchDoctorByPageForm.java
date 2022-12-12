@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class SearchDoctorByPageForm {
 
-	@Pattern(regexp = "^[a-zA-Z0-9]{5,50}$", message = "invalid name format")
+	@Pattern(regexp = "^[a-zA-Z0-9]{1,50}$", message = "invalid name format")
 	private String name;
 	
 	@Min(value = 1, message = "deptId must be greater than 1")

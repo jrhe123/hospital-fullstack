@@ -14,7 +14,7 @@ import {
   TablePagination,
   Typography,
 } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
@@ -22,6 +22,7 @@ import * as Yup from 'yup'
 import { BoxWrapper } from 'components/BoxWrapper'
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
+import { phoneFormat } from 'utils/common'
 
 import { useStaffService } from '../hooks'
 import { SearchDoctorFormInput, Degree, Occupation, Doctor } from '../types'
@@ -167,12 +168,12 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: 'subName',
-    label: 'Location',
+    label: 'Clinic',
     isSort: false,
   },
   {
     id: 'school',
-    label: 'Graduate',
+    label: 'Graduated',
     isSort: false,
   },
   {
@@ -243,7 +244,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
 
 export const DoctorContainer = () => {
   const [defaultValues, setDefauleValues] = useState<SearchDoctorFormInput>({
-    page: 1,
+    page: 0,
     length: 10,
     status: 1,
     // search
@@ -261,20 +262,9 @@ export const DoctorContainer = () => {
   const [selected, setSelected] = useState<readonly number[]>([])
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof Doctor>('deptName')
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  const { isLoading } = useStaffService()
-  const { fetchDepartments, fetchDoctors, departmentList, doctorList } = useStaffService()
-
-  useEffect(() => {
-    fetchDepartments()
-    fetchDoctors({
-      page: defaultValues.page,
-      length: defaultValues.length,
-      status: defaultValues.status,
-    })
-  }, [fetchDepartments, fetchDoctors])
+  const { fetchDepartments, fetchDoctors, isLoading, departmentList, doctorList, totalCount } =
+    useStaffService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
@@ -288,9 +278,38 @@ export const DoctorContainer = () => {
     defaultValues,
     resolver: yupResolver(formValidationSchema),
   })
-  const { control, handleSubmit } = methods
+  const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  const onSubmitClick = (data: SearchDoctorFormInput) => {
+  // dynamic ui fetch fields
+  // const watchFields = watch(['page', 'length', 'status'])
+  // useEffect(() => {}, [watchFields])
+
+  const fetchDoctorList = useCallback(() => {
+    const values = getValues()
+    const form = {
+      page: values.page + 1,
+      length: values.length,
+      status: values.status,
+      // search
+      name: values.name,
+      deptId: values.deptId,
+      degree: values.degree,
+      job: values.job,
+      recommended: values.recommended,
+      // sort
+      order: values.order,
+    }
+    console.log('call api: ', form)
+    fetchDoctors(form)
+  }, [fetchDoctors, getValues])
+
+  // initial fetch
+  useEffect(() => {
+    fetchDepartments()
+    fetchDoctorList()
+  }, [fetchDepartments, fetchDoctorList])
+
+  const onSearchClick = (data: SearchDoctorFormInput) => {
     const degree = degreeList.find(i => i.id === Number(data.degreeId))
     const job = occupationList.find(i => i.id === Number(data.jobId))
     const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
@@ -302,25 +321,31 @@ export const DoctorContainer = () => {
         formattedRecommend = false
       }
     }
-    const mergedForm = {
-      page: data.page,
-      length: data.length,
-      status: defaultValues.status,
+    setValue('degree', degree?.name)
+    setValue('job', job?.name)
+    setValue('recommended', formattedRecommend)
+    setValue('page', 0)
+    fetchDoctorList()
+  }
+
+  const handleResetFields = () => {
+    reset({
+      page: 0,
+      length: 10,
+      status: 1,
       // search
-      name: data.name ? data.name : undefined,
-      deptId: data.deptId ? Number(data.deptId) : undefined,
-      degree: degree?.name,
-      job: job?.name,
-      recommended: formattedRecommend,
+      name: '',
+      deptId: '',
+      degreeId: '',
+      degree: '',
+      jobId: '',
+      job: '',
+      recommendedId: '',
+      recommended: '',
       // sort
-      order: data.order ? data.order : undefined,
-    }
-    console.log('!!!!!!!!!')
-    console.log('!!!!!!!!!')
-    console.log('!!!!!!!!!')
-    console.log('!!!!!!!!!')
-    console.log('!!!!!!!!!')
-    console.log('mergedForm: ', mergedForm)
+      order: '',
+    })
+    fetchDoctorList()
   }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -337,8 +362,6 @@ export const DoctorContainer = () => {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
-
-  const isSelected = (id: number) => selected.indexOf(id) !== -1
 
   const handleClickDoctor = (event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id)
@@ -359,12 +382,34 @@ export const DoctorContainer = () => {
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+    setDefauleValues({
+      ...defaultValues,
+      page: newPage,
+    })
+    setValue('page', newPage)
+    fetchDoctorList()
   }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
+    setDefauleValues({
+      ...defaultValues,
+      page: 0,
+      length: parseInt(event.target.value, 10),
+    })
+    setValue('page', 0)
+    setValue('length', parseInt(event.target.value, 10))
+    fetchDoctorList()
+  }
+
+  const handleChangeStatus = (index: number) => {
+    setValue('page', 0)
+    setValue('status', index)
+    setDefauleValues({
+      ...defaultValues,
+      page: 0,
+      status: index,
+    })
+    fetchDoctorList()
   }
 
   const renderLeftSideFields = () => (
@@ -457,15 +502,7 @@ export const DoctorContainer = () => {
   const renderRightSideFields = () => (
     <Box component="div" sx={{ display: 'flex', flexDirection: 'row' }}>
       <Box component="div">
-        <Button
-          onClick={() => {
-            setDefauleValues({
-              ...defaultValues,
-              status: 1,
-            })
-          }}
-          sx={{ padding: 0 }}
-        >
+        <Button onClick={() => handleChangeStatus(1)} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -495,15 +532,7 @@ export const DoctorContainer = () => {
         </Button>
       </Box>
       <Box component="div">
-        <Button
-          onClick={() => {
-            setDefauleValues({
-              ...defaultValues,
-              status: 2,
-            })
-          }}
-          sx={{ padding: 0 }}
-        >
+        <Button onClick={() => handleChangeStatus(2)} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -533,15 +562,7 @@ export const DoctorContainer = () => {
         </Button>
       </Box>
       <Box component="div">
-        <Button
-          onClick={() => {
-            setDefauleValues({
-              ...defaultValues,
-              status: 3,
-            })
-          }}
-          sx={{ padding: 0 }}
-        >
+        <Button onClick={() => handleChangeStatus(3)} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -577,7 +598,7 @@ export const DoctorContainer = () => {
     <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       {/* search */}
       <Box component="div" sx={{ marginRight: '6px' }}>
-        <Button onClick={handleSubmit(onSubmitClick)} sx={{ padding: 0 }}>
+        <Button onClick={handleSubmit(onSearchClick)} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -601,7 +622,7 @@ export const DoctorContainer = () => {
       </Box>
       {/* reset */}
       <Box component="div">
-        <Button onClick={() => {}} sx={{ padding: 0 }}>
+        <Button onClick={handleResetFields} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -630,7 +651,7 @@ export const DoctorContainer = () => {
     <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
       {/* new */}
       <Box component="div" sx={{ marginRight: '6px' }}>
-        <Button onClick={handleSubmit(onSubmitClick)} sx={{ padding: 0 }}>
+        <Button onClick={() => {}} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -679,6 +700,7 @@ export const DoctorContainer = () => {
     </Box>
   )
 
+  const isSelected = (id: number) => selected.indexOf(id) !== -1
   const renderTable = () => {
     if (!doctorList.length) return null
     return doctorList.map((doc, index) => {
@@ -724,8 +746,8 @@ export const DoctorContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             {doc.sex}
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {doc.tel}
+          <TableCell align="center" sx={{ fontSize: '10px' }} title={doc.tel}>
+            {phoneFormat(String(doc.tel))}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             {doc.job}
@@ -842,12 +864,34 @@ export const DoctorContainer = () => {
               <TableBody>{renderTable()}</TableBody>
             </Table>
           </TableContainer>
+          {doctorList.length === 0 ? (
+            <Box
+              component="div"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '24px',
+                marginBottom: '12px',
+              }}
+            >
+              <Typography
+                component="div"
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                }}
+              >
+                No records..
+              </Typography>
+            </Box>
+          ) : null}
           <TablePagination
             rowsPerPageOptions={[10, 20, 30, 40, 50]}
             component="div"
-            count={doctorList.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            count={totalCount}
+            rowsPerPage={defaultValues.length}
+            page={defaultValues.page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             sx={{
