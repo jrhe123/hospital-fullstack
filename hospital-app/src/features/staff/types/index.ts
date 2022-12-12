@@ -40,6 +40,7 @@ export type Doctor = {
   job: string
   recommended: boolean
   status: number
+  action?: string
 }
 
 export type Department = {
@@ -54,9 +55,11 @@ export type DepartmentPageUtil = {
 
 export type DoctorPageUtil = {
   result: boolean
-  totalCount: number
-  pageSize: number
-  totalPage: number
-  pageIndex: number
-  list: Doctor[]
+  pageUtil: {
+    totalCount: number
+    pageSize: number
+    totalPage: number
+    pageIndex: number
+    list: Doctor[]
+  }
 }

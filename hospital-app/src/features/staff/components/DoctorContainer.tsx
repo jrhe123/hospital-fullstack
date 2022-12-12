@@ -1,5 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
-import { Box, Button, MenuItem, SelectChangeEvent, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  MenuItem,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+  TableContainer,
+  TablePagination,
+  Typography,
+} from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +24,7 @@ import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
 
 import { useStaffService } from '../hooks'
-import { SearchDoctorFormInput, Degree, Occupation } from '../types'
+import { SearchDoctorFormInput, Degree, Occupation, Doctor } from '../types'
 
 const textFieldStyle = {
   '& div': {
@@ -106,6 +120,127 @@ const degreeList: DegreeType[] = [
   },
 ]
 
+type Order = 'asc' | 'desc'
+interface EnhancedTableProps {
+  numSelected: number
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Doctor) => void
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
+  order: Order
+  orderBy: string
+  rowCount: number
+}
+interface HeadCell {
+  id: keyof Doctor
+  label: string
+  isSort: boolean
+}
+const headCells: readonly HeadCell[] = [
+  {
+    id: 'id',
+    label: '#',
+    isSort: false,
+  },
+  {
+    id: 'name',
+    label: 'Name',
+    isSort: false,
+  },
+  {
+    id: 'sex',
+    label: 'Gender',
+    isSort: false,
+  },
+  {
+    id: 'tel',
+    label: 'Contact',
+    isSort: false,
+  },
+  {
+    id: 'job',
+    label: 'Occupation',
+    isSort: false,
+  },
+  {
+    id: 'deptName',
+    label: 'Department',
+    isSort: true,
+  },
+  {
+    id: 'subName',
+    label: 'Location',
+    isSort: false,
+  },
+  {
+    id: 'school',
+    label: 'Graduate',
+    isSort: false,
+  },
+  {
+    id: 'degree',
+    label: 'Academy',
+    isSort: false,
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    isSort: false,
+  },
+  {
+    id: 'action',
+    label: 'Actions',
+    isSort: false,
+  },
+]
+
+const EnhancedTableHead = (props: EnhancedTableProps) => {
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+  const createSortHandler = (property: keyof Doctor) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property)
+  }
+
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              'aria-label': 'select all',
+            }}
+          />
+        </TableCell>
+        {headCells.map(headCell => (
+          <TableCell
+            key={headCell.id}
+            align={'center'}
+            padding={'none'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            sx={{
+              fontSize: '10px',
+            }}
+          >
+            {headCell.isSort ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+                sx={{ marginLeft: '10px' }}
+              >
+                {headCell.label}
+              </TableSortLabel>
+            ) : (
+              headCell.label
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  )
+}
+
 export const DoctorContainer = () => {
   const [defaultValues, setDefauleValues] = useState<SearchDoctorFormInput>({
     page: 1,
@@ -123,13 +258,23 @@ export const DoctorContainer = () => {
     // sort
     order: '',
   })
+  const [selected, setSelected] = useState<readonly number[]>([])
+  const [order, setOrder] = useState<Order>('asc')
+  const [orderBy, setOrderBy] = useState<keyof Doctor>('deptName')
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
   const { isLoading } = useStaffService()
-  const { fetchDepartments, departmentList } = useStaffService()
+  const { fetchDepartments, fetchDoctors, departmentList, doctorList } = useStaffService()
 
   useEffect(() => {
     fetchDepartments()
-  }, [fetchDepartments])
+    fetchDoctors({
+      page: defaultValues.page,
+      length: defaultValues.length,
+      status: defaultValues.status,
+    })
+  }, [fetchDepartments, fetchDoctors])
 
   // form check
   const formValidationSchema = Yup.object().shape({
@@ -158,11 +303,17 @@ export const DoctorContainer = () => {
       }
     }
     const mergedForm = {
-      ...data,
+      page: data.page,
+      length: data.length,
       status: defaultValues.status,
+      // search
+      name: data.name ? data.name : undefined,
+      deptId: data.deptId ? Number(data.deptId) : undefined,
       degree: degree?.name,
       job: job?.name,
-      recommend: formattedRecommend,
+      recommended: formattedRecommend,
+      // sort
+      order: data.order ? data.order : undefined,
     }
     console.log('!!!!!!!!!')
     console.log('!!!!!!!!!')
@@ -170,6 +321,50 @@ export const DoctorContainer = () => {
     console.log('!!!!!!!!!')
     console.log('!!!!!!!!!')
     console.log('mergedForm: ', mergedForm)
+  }
+
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelected = doctorList.map(doc => doc.id)
+      setSelected(newSelected)
+      return
+    }
+    setSelected([])
+  }
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Doctor) => {
+    const isAsc = orderBy === property && order === 'asc'
+    setOrder(isAsc ? 'desc' : 'asc')
+    setOrderBy(property)
+  }
+
+  const isSelected = (id: number) => selected.indexOf(id) !== -1
+
+  const handleClickDoctor = (event: React.MouseEvent<unknown>, id: number) => {
+    const selectedIndex = selected.indexOf(id)
+    let newSelected: readonly number[] = []
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id)
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1))
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1))
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      )
+    }
+    setSelected(newSelected)
+  }
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
   }
 
   const renderLeftSideFields = () => (
@@ -181,7 +376,7 @@ export const DoctorContainer = () => {
       <Box component="div" sx={{ width: '90px', marginRight: '6px' }}>
         <FormTextField
           name="name"
-          label="Search name.."
+          label="Search.."
           control={control}
           sx={textFieldStyle}
           type={'text'}
@@ -484,6 +679,115 @@ export const DoctorContainer = () => {
     </Box>
   )
 
+  const renderTable = () => {
+    if (!doctorList.length) return null
+    return doctorList.map((doc, index) => {
+      const isItemSelected = isSelected(doc.id)
+      const labelId = `enhanced-table-checkbox-${index}`
+      let formattedStatus = 'active'
+      if (doc.status === 2) {
+        formattedStatus = 'inactive'
+      } else if (doc.status === 3) {
+        formattedStatus = 'retried'
+      }
+      return (
+        <TableRow
+          hover
+          onClick={event => handleClickDoctor(event, doc.id)}
+          role="checkbox"
+          aria-checked={isItemSelected}
+          tabIndex={-1}
+          key={doc.id}
+          selected={isItemSelected}
+        >
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              checked={isItemSelected}
+              inputProps={{
+                'aria-labelledby': labelId,
+              }}
+            />
+          </TableCell>
+          <TableCell
+            component="th"
+            id={labelId}
+            scope="row"
+            padding="none"
+            sx={{ fontSize: '10px' }}
+          >
+            {doc.id}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.name}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.sex}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.tel}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.job}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.deptName}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.subName}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.school}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {doc.degree}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {formattedStatus}
+          </TableCell>
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            <Box component="div" sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Button
+                sx={{ padding: 0, minWidth: 0, marginRight: '6px' }}
+                onClick={e => {
+                  e.stopPropagation()
+                }}
+              >
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '9px',
+                    color: '#81B3AA',
+                    minWidth: 0,
+                  }}
+                >
+                  Edit
+                </Typography>
+              </Button>
+              <Button
+                sx={{ padding: 0, minWidth: 0 }}
+                onClick={e => {
+                  e.stopPropagation()
+                }}
+              >
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '9px',
+                    color: '#E37470',
+                    minWidth: 0,
+                  }}
+                >
+                  Delete
+                </Typography>
+              </Button>
+            </Box>
+          </TableCell>
+        </TableRow>
+      )
+    })
+  }
+
   return (
     <BoxWrapper>
       <Box
@@ -493,6 +797,9 @@ export const DoctorContainer = () => {
           paddingBottom: '18px',
           paddingLeft: '12px',
           paddingRight: '12px',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {/* top input fields */}
@@ -517,7 +824,35 @@ export const DoctorContainer = () => {
           {renderRightSideBtns()}
         </Box>
         {/* table */}
-        <Box component="div" sx={{ marginTop: '12px', border: '1px solid red' }}></Box>
+        <Box component="div" sx={{ marginTop: '12px', height: '100%', overflowY: 'auto' }}>
+          <TableContainer>
+            <Table aria-labelledby="tableTitle" size={'small'}>
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={doctorList.length}
+              />
+              <TableBody>{renderTable()}</TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30, 40, 50]}
+            component="div"
+            count={doctorList.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              '.MuiTablePagination-toolbar p': {
+                fontSize: '12px',
+              },
+            }}
+          />
+        </Box>
       </Box>
     </BoxWrapper>
   )

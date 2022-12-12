@@ -55,9 +55,9 @@ export const staffSlice = createSlice({
     },
     fetchDoctorSucceeded(state, action: PayloadAction<DoctorPageUtil>) {
       state.isLoading = false
-      state.doctorList = action.payload.list
-      state.totalCount = action.payload.totalCount
-      state.totalPage = action.payload.totalPage
+      state.doctorList = action.payload.pageUtil.list
+      state.totalCount = action.payload.pageUtil.totalCount
+      state.totalPage = action.payload.pageUtil.totalPage
     },
     fetchDoctorFailed(state, action: PayloadAction<Error[]>) {
       state.isLoading = false

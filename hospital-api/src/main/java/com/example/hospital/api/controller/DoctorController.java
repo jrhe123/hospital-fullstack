@@ -41,6 +41,6 @@ public class DoctorController {
 		PageUtils pageUtils = doctorService.searchByPage(param);
 		return R.ok()
 				.put("result", true)
-				.put("list", pageUtils);
+				.put("pageUtil", pageUtils);
 	}
 }
