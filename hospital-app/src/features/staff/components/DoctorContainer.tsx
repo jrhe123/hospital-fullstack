@@ -586,7 +586,10 @@ export const DoctorContainer = () => {
   )
 
   const renderLeftSideBtns = () => (
-    <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    <Box
+      component="div"
+      sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
+    >
       {/* search */}
       <Box component="div" sx={{ marginRight: '6px' }}>
         <Button onClick={handleSubmit(onSearchClick)} sx={{ padding: 0 }}>
@@ -639,7 +642,10 @@ export const DoctorContainer = () => {
   )
 
   const renderRightSideBtns = () => (
-    <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    <Box
+      component="div"
+      sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
+    >
       {/* new */}
       <Box component="div" sx={{ marginRight: '6px' }}>
         <Button onClick={() => {}} sx={{ padding: 0 }}>

@@ -31,9 +31,12 @@ export const DoctorDetailContainer = () => {
   if (!doctor) return null
 
   const renderLeftSideBtns = () => (
-    <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    <Box
+      component="div"
+      sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
+    >
       {/* left */}
-      <Box component="div" sx={{ marginRight: '6px' }}>
+      <Box component="div">
         <Button
           onClick={() => {
             navigate(-1)
@@ -64,7 +67,10 @@ export const DoctorDetailContainer = () => {
   )
 
   const renderRightSideBtns = () => (
-    <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    <Box
+      component="div"
+      sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
+    >
       {/* new */}
       <Box component="div" sx={{ marginRight: '6px' }}>
         <Button onClick={() => {}} sx={{ padding: 0 }}>
@@ -137,7 +143,7 @@ export const DoctorDetailContainer = () => {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginBottom: '36px',
+            marginBottom: '24px',
           }}
         >
           {/* left side */}
