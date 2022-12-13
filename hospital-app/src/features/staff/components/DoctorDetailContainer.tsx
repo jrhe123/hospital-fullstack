@@ -3,6 +3,7 @@ import { Box, Button, Typography, Divider } from '@mui/material'
 import dayjs from 'dayjs'
 import React, { useCallback, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import AvatarImage from 'assets/images/doctor/avatar.png'
 import { BoxWrapper } from 'components/BoxWrapper'
@@ -17,7 +18,7 @@ type DoctorDetailParams = {
 export const DoctorDetailContainer = () => {
   const { id } = useParams<DoctorDetailParams>()
   const navigate = useNavigate()
-  const { isLoading, doctor, fetchDoctorDetail } = useStaffService()
+  const { isLoading, doctor, fetchDoctorDetail, uploadDoctorPhoto } = useStaffService()
 
   if (!id) {
     navigate('/staff/doctor')
@@ -30,6 +31,20 @@ export const DoctorDetailContainer = () => {
   }, [fetchDoctorDetail, id])
 
   if (!doctor) return null
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.currentTarget
+    if (!id || !files || !files?.length) return
+    if (files.length !== 1) {
+      toast.warn('Please select your image')
+      return
+    }
+    const file = files[0]
+    uploadDoctorPhoto({
+      doctorId: id,
+      file,
+    })
+  }
 
   const renderLeftSideBtns = () => (
     <Box
@@ -162,7 +177,13 @@ export const DoctorDetailContainer = () => {
           }}
         >
           <Box component="div" sx={{ padding: '12px', width: '150px' }}>
-            <Button sx={{ padding: 0 }}>
+            <Button sx={{ padding: 0 }} component="label">
+              <input
+                type="file"
+                accept="image/png, image/jpeg"
+                hidden
+                onChange={handleImageChange}
+              />
               <Box
                 component="img"
                 sx={{

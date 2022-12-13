@@ -2,9 +2,18 @@ import { SagaIterator } from '@redux-saga/core'
 import { toast } from 'react-toastify'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { searchDepartments, searchDoctors, fetchDoctorDetail } from 'features/staff/api'
+import {
+  searchDepartments,
+  searchDoctors,
+  fetchDoctorDetail,
+  uploadDoctorPhoto,
+} from 'features/staff/api'
 import { staffActions } from 'features/staff/store/staff.slice'
-import { FetchDoctorDetailFormInput, SearchDoctorFormInput } from 'features/staff/types'
+import {
+  FetchDoctorDetailFormInput,
+  SearchDoctorFormInput,
+  UploadDoctorPhotoFormInput,
+} from 'features/staff/types'
 
 // Worker Sagas
 function* onFetchDepartmentList(): SagaIterator {
@@ -62,11 +71,38 @@ function* onFetchDoctorDetail({
   }
 }
 
+function* onUploadDoctorPhoto({
+  payload,
+}: {
+  type: typeof staffActions.uploadDoctorPhotoRequest
+  payload: UploadDoctorPhotoFormInput
+}): SagaIterator {
+  try {
+    const formData = new FormData()
+    formData.append('doctorId', payload.doctorId)
+    formData.append('file', payload.file)
+    const response = yield call(uploadDoctorPhoto, formData)
+    if (response.result) {
+      toast.success('Success, image uploaded')
+      yield put(staffActions.uploadDoctorPhotoSucceeded(response.photo))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(staffActions.uploadDoctorPhotoFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(staffActions.uploadDoctorPhotoFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* staffWatcherSaga(): SagaIterator {
   yield takeLatest(staffActions.fetchDepartmentRequest.type, onFetchDepartmentList)
   yield takeLatest(staffActions.fetchDoctorRequest.type, onFetchDoctorList)
-  yield takeLatest(staffActions.fetchDoctorDetailRequest.type, onFetchDoctorDetail)
+  yield takeEvery(staffActions.fetchDoctorDetailRequest.type, onFetchDoctorDetail)
+  yield takeEvery(staffActions.uploadDoctorPhotoRequest.type, onUploadDoctorPhoto)
 }
 
 export default staffWatcherSaga

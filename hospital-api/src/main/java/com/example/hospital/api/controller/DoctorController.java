@@ -67,7 +67,9 @@ public class DoctorController {
 			@Param("doctorId") Integer doctorId
 			) {
 		
-		doctorService.updatePhoto(file, doctorId);
-		return R.ok().put("result", true);
+		String photo = doctorService.updatePhoto(file, doctorId);
+		return R.ok()
+				.put("result", true)
+				.put("photo", photo);
 	}
 }

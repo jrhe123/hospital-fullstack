@@ -19,6 +19,11 @@ export type FetchDoctorDetailFormInput = {
   id: number
 }
 
+export type UploadDoctorPhotoFormInput = {
+  doctorId: string
+  file: File
+}
+
 type Order = 'asc' | 'desc'
 
 export enum Degree {

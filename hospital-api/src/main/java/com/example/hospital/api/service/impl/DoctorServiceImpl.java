@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.db.dao.DoctorDao;
+import com.example.hospital.api.exception.HospitalException;
 import com.example.hospital.api.service.DoctorService;
 
 import cn.hutool.core.lang.UUID;
@@ -78,7 +79,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	@Transactional
-	public void updatePhoto(MultipartFile file, Integer doctorId) {
+	public String updatePhoto(MultipartFile file, Integer doctorId) {
 		try {
 			// 1. upload image to minio
 			UUID uuid = UUID. randomUUID();
@@ -101,8 +102,11 @@ public class DoctorServiceImpl implements DoctorService {
 				put("photo", "/doctor/" + filename);
 			}});
 			
+			return "/doctor/" + filename;
+			
 		} catch (Exception e) {
 			log.error(e.getMessage());
+			throw new HospitalException(e);
 		}
 	}
 

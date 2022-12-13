@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Env } from 'config/Env'
-import makeApi from 'libs/core/configureAxios'
+import { makeApi, makeApiForm } from 'libs/core/configureAxios'
 
 import {
   SearchDoctorFormInput,
@@ -11,6 +11,7 @@ import {
 } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
+const apiForm = makeApiForm(`${Env.API_BASE_URL}`)
 const DOCTOR_BASE_URL = `/doctor`
 const DEPARTMENT_BASE_URL = `/medical/dept`
 
@@ -22,3 +23,6 @@ export const searchDoctors = (form: SearchDoctorFormInput): Promise<DoctorPageUt
 
 export const fetchDoctorDetail = (form: FetchDoctorDetailFormInput): Promise<DoctorDetail> =>
   api.post(`${DOCTOR_BASE_URL}/searchContent`, form)
+
+export const uploadDoctorPhoto = (form: FormData): Promise<string> =>
+  apiForm.post(`${DOCTOR_BASE_URL}/updatePhoto`, form)

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Env } from 'config/Env'
-import makeApi from 'libs/core/configureAxios'
+import { makeApi } from 'libs/core/configureAxios'
 
 import { LoginFormInput, User } from '../types'
 

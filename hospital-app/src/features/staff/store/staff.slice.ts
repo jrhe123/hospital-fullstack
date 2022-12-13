@@ -9,6 +9,7 @@ import {
   DepartmentPageUtil,
   DoctorDetail,
   FetchDoctorDetailFormInput,
+  UploadDoctorPhotoFormInput,
 } from 'features/staff/types'
 import type { RootState } from 'store/store'
 
@@ -80,6 +81,21 @@ export const staffSlice = createSlice({
       state.isLoading = false
       state.errors = action.payload
     },
+    // upload doctor photo
+    uploadDoctorPhotoRequest(state, action: PayloadAction<UploadDoctorPhotoFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    uploadDoctorPhotoSucceeded(state, action: PayloadAction<string>) {
+      state.isLoading = false
+      if (state.doctor) {
+        state.doctor.photo = action.payload
+      }
+    },
+    uploadDoctorPhotoFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
   },
 })
 
@@ -97,6 +113,10 @@ export const staffActions = {
   fetchDoctorDetailRequest: staffSlice.actions.fetchDoctorDetailRequest,
   fetchDoctorDetailSucceeded: staffSlice.actions.fetchDoctorDetailSucceeded,
   fetchDoctorDetailFailed: staffSlice.actions.fetchDoctorDetailFailed,
+  // upload doctor photo
+  uploadDoctorPhotoRequest: staffSlice.actions.uploadDoctorPhotoRequest,
+  uploadDoctorPhotoSucceeded: staffSlice.actions.uploadDoctorPhotoSucceeded,
+  uploadDoctorPhotoFailed: staffSlice.actions.uploadDoctorPhotoFailed,
 }
 
 // Selectors
