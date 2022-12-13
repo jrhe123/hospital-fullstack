@@ -1,5 +1,6 @@
 package com.example.hospital.api.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.common.R;
 import com.example.hospital.api.controller.form.SearchDoctorByPageForm;
+import com.example.hospital.api.controller.form.SearchDoctorContentForm;
 import com.example.hospital.api.service.DoctorService;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
@@ -42,5 +44,16 @@ public class DoctorController {
 		return R.ok()
 				.put("result", true)
 				.put("pageUtil", pageUtils);
+	}
+	
+	
+	@PostMapping("/searchContent")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:SELECT"}, mode = SaMode.OR)
+	public R searchContent(@RequestBody @Valid SearchDoctorContentForm form) {
+		HashMap map = doctorService.searchContent(form.getId());
+		return R.ok()
+				.put("result", true)
+				.put("data", map);
 	}
 }

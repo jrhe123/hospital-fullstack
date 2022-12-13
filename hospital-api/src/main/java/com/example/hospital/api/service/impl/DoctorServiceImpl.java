@@ -13,6 +13,8 @@ import com.example.hospital.api.db.dao.DoctorDao;
 import com.example.hospital.api.service.DoctorService;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -44,6 +46,19 @@ public class DoctorServiceImpl implements DoctorService {
 				length
 				);
 		return pageUtils;
+	}
+
+	@Override
+	public HashMap searchContent(int id) {
+		
+		HashMap map = doctorDao.searchContent(id);
+		
+		// convert tag str -> array json
+		String tag = MapUtil.getStr(map, "tag");
+		JSONArray tagArr = JSONUtil.parseArray(tag);
+		map.replace("tag", tagArr);
+		
+		return map;
 	}
 
 }

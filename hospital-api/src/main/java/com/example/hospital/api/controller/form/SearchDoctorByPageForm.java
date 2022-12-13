@@ -29,7 +29,7 @@ public class SearchDoctorByPageForm {
 	@Range(min = 1, max = 3, message = "status must be in range of 1-3")
 	private Byte status;
 	
-	@Pattern(regexp = "^ASC$|^DESC$", message = "invalid order format")
+	@Pattern(regexp = "^asc$|^desc$", message = "invalid order format")
 	private String order;
 	
 	@NotNull(message = "page is required")

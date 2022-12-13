@@ -7,7 +7,10 @@ import java.util.Map;
 public interface DoctorDao {
    
 	public ArrayList<HashMap> searchByPage(Map param);
+	
 	public long searchCount(Map param);
+	
+	public HashMap searchContent(int id);
 }
 
 
