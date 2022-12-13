@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import AvatarImage from 'assets/images/doctor/avatar.png'
 import { BoxWrapper } from 'components/BoxWrapper'
+import { Env } from 'config/Env'
 
 import { useStaffService } from '../hooks'
 
@@ -171,7 +172,7 @@ export const DoctorDetailContainer = () => {
                   objectFit: 'cover',
                 }}
                 alt={'doctor image'}
-                src={AvatarImage}
+                src={doctor.photo ? `${Env.MINIO_BASE_URL}${doctor.photo}` : AvatarImage}
               />
             </Button>
           </Box>
