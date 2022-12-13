@@ -16,7 +16,7 @@ import {
 } from '@mui/material'
 import React, { useCallback, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { BoxWrapper } from 'components/BoxWrapper'
@@ -135,11 +135,6 @@ interface HeadCell {
   isSort: boolean
 }
 const headCells: readonly HeadCell[] = [
-  {
-    id: 'id',
-    label: '#',
-    isSort: false,
-  },
   {
     id: 'name',
     label: 'Name',
@@ -727,17 +722,13 @@ export const DoctorContainer = () => {
               }}
             />
           </TableCell>
-          <TableCell
-            component="th"
-            id={labelId}
-            scope="row"
-            padding="none"
-            sx={{ fontSize: '10px' }}
-          >
-            {doc.id}
-          </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {doc.name}
+          <TableCell align="center" sx={{ fontSize: '10px', minWidth: '90px' }}>
+            <Link
+              to={`/staff/doctor/${doc.id}`}
+              style={{ color: '#81B3AA', textDecoration: 'underline' }}
+            >
+              {doc.name}
+            </Link>
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             {doc.sex}

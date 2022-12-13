@@ -11,6 +11,7 @@ import { useMainService } from 'mainSaga'
 const HomePage = React.lazy(() => import('pages/HomePage'))
 const LoginPage = React.lazy(() => import('pages/LoginPage'))
 const DoctorPage = React.lazy(() => import('pages/DoctorPage'))
+const DoctorDetailPage = React.lazy(() => import('pages/DoctorDetailPage'))
 
 type ProtectedRouteProps = {
   isAuthenticated: boolean
@@ -89,6 +90,12 @@ const AppRoutes = () => {
                   path="/staff/doctor"
                   element={
                     <ProtectedRoute {...defaultProtectedRouteProps} outlet={<DoctorPage />} />
+                  }
+                />
+                <Route
+                  path="/staff/doctor/:id"
+                  element={
+                    <ProtectedRoute {...defaultProtectedRouteProps} outlet={<DoctorDetailPage />} />
                   }
                 />
                 <Route
