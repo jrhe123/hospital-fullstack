@@ -7,8 +7,15 @@ import {
   selectDoctorList,
   selectTotalCount,
   selectTotalPage,
+  selectDoctor,
 } from 'features/staff/store'
-import { SearchDoctorFormInput, Doctor, Department } from 'features/staff/types'
+import {
+  SearchDoctorFormInput,
+  Doctor,
+  Department,
+  DoctorDetail,
+  FetchDoctorDetailFormInput,
+} from 'features/staff/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
 export type StaffServiceOperators = {
@@ -17,8 +24,10 @@ export type StaffServiceOperators = {
   doctorList: Doctor[]
   totalCount: number
   totalPage: number
+  doctor: DoctorDetail | null
   fetchDepartments: () => void
   fetchDoctors: (form: SearchDoctorFormInput) => void
+  fetchDoctorDetail: (form: FetchDoctorDetailFormInput) => void
 }
 
 /**
@@ -33,12 +42,19 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     doctorList: useAppSelector(selectDoctorList),
     totalCount: useAppSelector(selectTotalCount),
     totalPage: useAppSelector(selectTotalPage),
+    doctor: useAppSelector(selectDoctor),
     fetchDepartments: useCallback(() => {
       dispatch(staffActions.fetchDepartmentRequest())
     }, [dispatch]),
     fetchDoctors: useCallback(
       (form: SearchDoctorFormInput) => {
         dispatch(staffActions.fetchDoctorRequest(form))
+      },
+      [dispatch],
+    ),
+    fetchDoctorDetail: useCallback(
+      (form: FetchDoctorDetailFormInput) => {
+        dispatch(staffActions.fetchDoctorDetailRequest(form))
       },
       [dispatch],
     ),

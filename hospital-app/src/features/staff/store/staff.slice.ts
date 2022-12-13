@@ -7,6 +7,8 @@ import {
   Department,
   DoctorPageUtil,
   DepartmentPageUtil,
+  DoctorDetail,
+  FetchDoctorDetailFormInput,
 } from 'features/staff/types'
 import type { RootState } from 'store/store'
 
@@ -16,6 +18,7 @@ export interface StaffState {
   totalCount: number
   totalPage: number
   doctorList: Doctor[]
+  doctor: DoctorDetail | null
   errors?: Error[]
 }
 
@@ -27,6 +30,7 @@ const initialState: StaffState = {
   totalCount: 0,
   totalPage: 0,
   doctorList: [],
+  doctor: null,
   errors: [],
 }
 
@@ -35,7 +39,7 @@ export const staffSlice = createSlice({
   name: 'staff',
   initialState,
   reducers: {
-    // fetch department
+    // fetch department list
     fetchDepartmentRequest(state) {
       state.isLoading = true
       state.errors = []
@@ -48,7 +52,7 @@ export const staffSlice = createSlice({
       state.isLoading = false
       state.errors = action.payload
     },
-    // fetch doctor
+    // fetch doctor list
     fetchDoctorRequest(state, action: PayloadAction<SearchDoctorFormInput>) {
       state.isLoading = true
       state.errors = []
@@ -60,6 +64,19 @@ export const staffSlice = createSlice({
       state.totalPage = action.payload.pageUtil.totalPage
     },
     fetchDoctorFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
+    // fetch doctor detail
+    fetchDoctorDetailRequest(state, action: PayloadAction<FetchDoctorDetailFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    fetchDoctorDetailSucceeded(state, action: PayloadAction<DoctorDetail>) {
+      state.isLoading = false
+      state.doctor = action.payload
+    },
+    fetchDoctorDetailFailed(state, action: PayloadAction<Error[]>) {
       state.isLoading = false
       state.errors = action.payload
     },
@@ -76,6 +93,10 @@ export const staffActions = {
   fetchDoctorRequest: staffSlice.actions.fetchDoctorRequest,
   fetchDoctorSucceeded: staffSlice.actions.fetchDoctorSucceeded,
   fetchDoctorFailed: staffSlice.actions.fetchDoctorFailed,
+  // fetch doctor detail
+  fetchDoctorDetailRequest: staffSlice.actions.fetchDoctorDetailRequest,
+  fetchDoctorDetailSucceeded: staffSlice.actions.fetchDoctorDetailSucceeded,
+  fetchDoctorDetailFailed: staffSlice.actions.fetchDoctorDetailFailed,
 }
 
 // Selectors
@@ -84,6 +105,7 @@ export const selectDepartmentList = (state: RootState) => state.staff.department
 export const selectTotalCount = (state: RootState) => state.staff.totalCount
 export const selectTotalPage = (state: RootState) => state.staff.totalPage
 export const selectDoctorList = (state: RootState) => state.staff.doctorList
+export const selectDoctor = (state: RootState) => state.staff.doctor
 
 // Reducer
 export default staffSlice.reducer

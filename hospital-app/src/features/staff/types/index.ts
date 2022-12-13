@@ -15,6 +15,10 @@ export type SearchDoctorFormInput = {
   order?: Order
 }
 
+export type FetchDoctorDetailFormInput = {
+  id: number
+}
+
 type Order = 'asc' | 'desc'
 
 export enum Degree {
@@ -64,4 +68,17 @@ export type DoctorPageUtil = {
     pageIndex: number
     list: Doctor[]
   }
+}
+
+export type DoctorDetail = {
+  birthday: Date
+  address: string
+  photo: string
+  description: string
+  pid: string
+  remark: string
+  tag: string[]
+  uuid: string
+  hiredate: Date
+  email: string
 }

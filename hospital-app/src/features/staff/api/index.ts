@@ -2,7 +2,13 @@
 import { Env } from 'config/Env'
 import makeApi from 'libs/core/configureAxios'
 
-import { SearchDoctorFormInput, DepartmentPageUtil, DoctorPageUtil } from '../types'
+import {
+  SearchDoctorFormInput,
+  FetchDoctorDetailFormInput,
+  DepartmentPageUtil,
+  DoctorPageUtil,
+  DoctorDetail,
+} from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
 const DOCTOR_BASE_URL = `/doctor`
@@ -13,3 +19,6 @@ export const searchDepartments = (): Promise<DepartmentPageUtil> =>
 
 export const searchDoctors = (form: SearchDoctorFormInput): Promise<DoctorPageUtil> =>
   api.post(`${DOCTOR_BASE_URL}/searchByPage`, form)
+
+export const fetchDoctorDetail = (form: FetchDoctorDetailFormInput): Promise<DoctorDetail> =>
+  api.post(`${DOCTOR_BASE_URL}/searchContent`, form)
