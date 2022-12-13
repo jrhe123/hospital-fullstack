@@ -12,8 +12,10 @@ export type SearchDoctorFormInput = {
   recommendedId?: number | string
   recommended?: boolean | string
   // sort fields
-  order?: string
+  order?: Order
 }
+
+type Order = 'asc' | 'desc'
 
 export enum Degree {
   BACHELOR = 'bachelor',

@@ -126,8 +126,7 @@ interface EnhancedTableProps {
   numSelected: number
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Doctor) => void
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
-  order: Order
-  orderBy: string
+  order?: Order
   rowCount: number
 }
 interface HeadCell {
@@ -194,7 +193,7 @@ const headCells: readonly HeadCell[] = [
 ]
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props
+  const { onSelectAllClick, order, numSelected, rowCount, onRequestSort } = props
   const createSortHandler = (property: keyof Doctor) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property)
   }
@@ -218,15 +217,15 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             key={headCell.id}
             align={'center'}
             padding={'none'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={order || 'asc'}
             sx={{
               fontSize: '10px',
             }}
           >
             {headCell.isSort ? (
               <TableSortLabel
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
+                active={true}
+                direction={order || 'asc'}
                 onClick={createSortHandler(headCell.id)}
                 sx={{ marginLeft: '10px' }}
               >
@@ -257,11 +256,9 @@ export const DoctorContainer = () => {
     recommendedId: '',
     recommended: '',
     // sort
-    order: '',
+    order: undefined,
   })
   const [selected, setSelected] = useState<readonly number[]>([])
-  const [order, setOrder] = useState<Order>('asc')
-  const [orderBy, setOrderBy] = useState<keyof Doctor>('deptName')
 
   const { fetchDepartments, fetchDoctors, isLoading, departmentList, doctorList, totalCount } =
     useStaffService()
@@ -338,7 +335,7 @@ export const DoctorContainer = () => {
       recommendedId: '',
       recommended: '',
       // sort
-      order: '',
+      order: undefined,
     })
     fetchDoctorList()
   }
@@ -353,9 +350,13 @@ export const DoctorContainer = () => {
   }
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Doctor) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
+    const updated = defaultValues.order === 'asc' ? 'desc' : 'asc'
+    setDefauleValues({
+      ...defaultValues,
+      order: updated,
+    })
+    setValue('order', updated)
+    fetchDoctorList()
   }
 
   const handleClickDoctor = (event: React.MouseEvent<unknown>, id: number) => {
@@ -850,8 +851,7 @@ export const DoctorContainer = () => {
             <Table aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead
                 numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
+                order={defaultValues.order}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
                 rowCount={doctorList.length}
