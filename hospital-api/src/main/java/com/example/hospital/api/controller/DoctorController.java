@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.common.R;
@@ -21,6 +22,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
+import io.lettuce.core.dynamic.annotation.Param;
 
 @RestController
 @RequestMapping("/doctor")
@@ -55,5 +57,17 @@ public class DoctorController {
 		return R.ok()
 				.put("result", true)
 				.put("data", map);
+	}
+	
+	@PostMapping("/updatePhoto")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:UPDATE"}, mode = SaMode.OR)
+	public R updatePhoto(
+			@Param("file") MultipartFile file,
+			@Param("doctorId") Integer doctorId
+			) {
+		
+		doctorService.updatePhoto(file, doctorId);
+		return R.ok().put("result", true);
 	}
 }

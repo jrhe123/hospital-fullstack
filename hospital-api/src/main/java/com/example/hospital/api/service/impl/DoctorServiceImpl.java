@@ -6,20 +6,35 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.db.dao.DoctorDao;
 import com.example.hospital.api.service.DoctorService;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class DoctorServiceImpl implements DoctorService {
+	
+	@Value("${minio.endpoint}")
+	private String endpoint;
+	
+	@Value("${minio.access-key}")
+	private String accessKey;
+	
+	@Value("${minio.secret-key}")
+	private String secretKey;
 	
 	@Resource
 	private DoctorDao doctorDao;
@@ -59,6 +74,36 @@ public class DoctorServiceImpl implements DoctorService {
 		map.replace("tag", tagArr);
 		
 		return map;
+	}
+
+	@Override
+	@Transactional
+	public void updatePhoto(MultipartFile file, Integer doctorId) {
+		try {
+			// 1. upload image to minio
+			UUID uuid = UUID. randomUUID();
+			String uuidAsString = uuid. toString();
+			String filename = "doctor-" + uuidAsString + ".jpg";			
+			MinioClient client = new MinioClient.Builder()
+									.endpoint(endpoint)
+									.credentials(accessKey, secretKey)
+									.build();
+			PutObjectArgs args = PutObjectArgs.builder().bucket("hospital")
+									.object("doctor/" + filename)
+									.stream(file.getInputStream(), -1, 5 * 1024 * 1024)
+									.contentType("image/jpeg")
+									.build();
+			client.putObject(args);
+			
+			// 2. update db
+			doctorDao.updatePhoto(new HashMap() {{
+				put("id", doctorId);
+				put("photo", "/doctor/" + filename);
+			}});
+			
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
 }
