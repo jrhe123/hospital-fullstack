@@ -118,7 +118,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void insert(Map param) {
+	public HashMap insert(Map param) {
 		// 1. insert doctor
 		DoctorEntity doctorEntity = BeanUtil.toBean(param, DoctorEntity.class);
 		doctorDao.insert(doctorEntity);
@@ -133,6 +133,10 @@ public class DoctorServiceImpl implements DoctorService {
 		medicalDeptSubAndDoctorEntity.setDoctorId(doctorId);
 		medicalDeptSubAndDoctorEntity.setDeptSubId(subId);
 		medicalDeptSubAndDoctorDao.insert(medicalDeptSubAndDoctorEntity);
+		
+		// 3. response
+		HashMap doctor = doctorDao.getDoctorDetailById(doctorId);
+		return doctor;
 	}
 
 }

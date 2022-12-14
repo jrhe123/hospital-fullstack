@@ -7,12 +7,14 @@ import {
   searchDoctors,
   fetchDoctorDetail,
   uploadDoctorPhoto,
+  createDoctor,
 } from 'features/staff/api'
 import { staffActions } from 'features/staff/store/staff.slice'
 import {
   FetchDoctorDetailFormInput,
   SearchDoctorFormInput,
   UploadDoctorPhotoFormInput,
+  CreateDoctorFormInput,
 } from 'features/staff/types'
 
 // Worker Sagas
@@ -97,12 +99,36 @@ function* onUploadDoctorPhoto({
   }
 }
 
+function* onCreateDoctor({
+  payload,
+}: {
+  type: typeof staffActions.createDoctorRequest
+  payload: CreateDoctorFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(createDoctor, payload)
+    if (response.result) {
+      toast.success('Success, doctor added')
+      yield put(staffActions.createDoctorSucceeded(response))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(staffActions.createDoctorFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(staffActions.createDoctorFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* staffWatcherSaga(): SagaIterator {
   yield takeLatest(staffActions.fetchDepartmentRequest.type, onFetchDepartmentList)
   yield takeLatest(staffActions.fetchDoctorRequest.type, onFetchDoctorList)
   yield takeEvery(staffActions.fetchDoctorDetailRequest.type, onFetchDoctorDetail)
   yield takeEvery(staffActions.uploadDoctorPhotoRequest.type, onUploadDoctorPhoto)
+  yield takeEvery(staffActions.createDoctorRequest.type, onCreateDoctor)
 }
 
 export default staffWatcherSaga

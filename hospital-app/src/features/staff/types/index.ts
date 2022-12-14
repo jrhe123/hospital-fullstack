@@ -1,3 +1,26 @@
+export enum Sex {
+  MALE = 'male',
+  FEMALE = 'femal',
+  UNISEX = 'unisex',
+}
+
+export enum Degree {
+  BACHELOR = 'bachelor',
+  MASTER = 'master',
+  PHD = 'phd',
+}
+
+export enum Occupation {
+  SPECIALIST = 'specialist',
+  VICE_SPECIALIST = 'vice-specialist',
+  DIRECTOR = 'director',
+  VICE_DIRECTOR = 'vice-director',
+}
+
+type Order = 'asc' | 'desc'
+
+// ========ENUM========
+
 export type SearchDoctorFormInput = {
   page: number
   length: number
@@ -24,19 +47,24 @@ export type UploadDoctorPhotoFormInput = {
   file: File
 }
 
-type Order = 'asc' | 'desc'
-
-export enum Degree {
-  BACHELOR = 'bachelor',
-  MASTER = 'master',
-  PHD = 'phd',
-}
-
-export enum Occupation {
-  SPECIALIST = 'specialist',
-  VICE_SPECIALIST = 'vice-specialist',
-  DIRECTOR = 'director',
-  VICE_DIRECTOR = 'vice-director',
+export type CreateDoctorFormInput = {
+  name: string
+  pid: string
+  sex: Sex
+  birthday: Date
+  school: string
+  degree: Degree
+  tel: string
+  address: string
+  email: string
+  job: Occupation
+  remark: string
+  description: string
+  hiredate: Date
+  tag: string[]
+  recommended: boolean
+  status: number
+  subId: number
 }
 
 export type Doctor = {
@@ -86,4 +114,9 @@ export type DoctorDetail = {
   uuid: string
   hiredate: Date
   email: string
+}
+
+export type CreateDoctorResponse = {
+  result: boolean
+  data: Doctor
 }

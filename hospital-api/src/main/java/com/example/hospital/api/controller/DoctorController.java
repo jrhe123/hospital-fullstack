@@ -89,10 +89,11 @@ public class DoctorController {
 		// add uuid
 		param.put("uuid", IdUtil.simpleUUID().toUpperCase());
 		
-		doctorService.insert(param);
+		HashMap doctor = doctorService.insert(param);
 		
 		return R.ok()
-				.put("result", true);
+				.put("result", true)
+				.put("data", doctor);
 		
 	}
 }

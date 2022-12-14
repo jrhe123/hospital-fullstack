@@ -140,4 +140,25 @@
     	WHERE "uuid" = #{uuid}
     </select>
     
+    <select id="getDoctorDetailById" parameterType="Integer" resultType="HashMap">
+    	SELECT d."id" AS "id",
+    			d."name" AS "name",
+    			d."sex" AS "sex",
+    			d."tel" AS "tel",
+    			d."school" AS "school",
+    			d."degree" AS "degree",
+    			d."job" AS "job",
+    			d."recommended" AS "recommended",
+    			d."status" AS "status",
+    			md."name" AS "deptName",
+    			mds."name" AS "subName"
+    	FROM HOSPITAL.DOCTOR d
+    	JOIN HOSPITAL.MEDICAL_DEPT_SUB_AND_DOCTOR mdsd ON mdsd."doctor_id" = d."id"
+    	JOIN HOSPITAL.MEDICAL_DEPT_SUB mds ON mdsd."dept_sub_id" = mds."id"
+    	JOIN HOSPITAL.MEDICAL_DEPT md ON mds."dept_id" = md."id"
+    	
+    	WHERE d."id"=${id}
+    	LIMIT 1
+    </select>
+    
 </mapper>

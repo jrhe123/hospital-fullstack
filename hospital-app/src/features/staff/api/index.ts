@@ -5,9 +5,11 @@ import { makeApi, makeApiForm } from 'libs/core/configureAxios'
 import {
   SearchDoctorFormInput,
   FetchDoctorDetailFormInput,
+  CreateDoctorFormInput,
   DepartmentPageUtil,
   DoctorPageUtil,
   DoctorDetail,
+  CreateDoctorResponse,
 } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
@@ -26,3 +28,6 @@ export const fetchDoctorDetail = (form: FetchDoctorDetailFormInput): Promise<Doc
 
 export const uploadDoctorPhoto = (form: FormData): Promise<string> =>
   apiForm.post(`${DOCTOR_BASE_URL}/updatePhoto`, form)
+
+export const createDoctor = (form: CreateDoctorFormInput): Promise<CreateDoctorResponse> =>
+  apiForm.post(`${DOCTOR_BASE_URL}/insert`, form)

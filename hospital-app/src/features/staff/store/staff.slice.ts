@@ -10,6 +10,8 @@ import {
   DoctorDetail,
   FetchDoctorDetailFormInput,
   UploadDoctorPhotoFormInput,
+  CreateDoctorFormInput,
+  CreateDoctorResponse,
 } from 'features/staff/types'
 import type { RootState } from 'store/store'
 
@@ -96,6 +98,20 @@ export const staffSlice = createSlice({
       state.isLoading = false
       state.errors = action.payload
     },
+    // create doctor
+    createDoctorRequest(state, action: PayloadAction<CreateDoctorFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    createDoctorSucceeded(state, action: PayloadAction<CreateDoctorResponse>) {
+      state.isLoading = false
+      state.doctorList.push(action.payload.data)
+      state.totalCount += 1
+    },
+    createDoctorFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
   },
 })
 
@@ -117,6 +133,10 @@ export const staffActions = {
   uploadDoctorPhotoRequest: staffSlice.actions.uploadDoctorPhotoRequest,
   uploadDoctorPhotoSucceeded: staffSlice.actions.uploadDoctorPhotoSucceeded,
   uploadDoctorPhotoFailed: staffSlice.actions.uploadDoctorPhotoFailed,
+  // create doctor
+  createDoctorRequest: staffSlice.actions.createDoctorRequest,
+  createDoctorSucceeded: staffSlice.actions.createDoctorSucceeded,
+  createDoctorFailed: staffSlice.actions.createDoctorFailed,
 }
 
 // Selectors

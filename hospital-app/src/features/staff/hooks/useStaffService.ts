@@ -16,6 +16,7 @@ import {
   DoctorDetail,
   FetchDoctorDetailFormInput,
   UploadDoctorPhotoFormInput,
+  CreateDoctorFormInput,
 } from 'features/staff/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
@@ -30,6 +31,7 @@ export type StaffServiceOperators = {
   fetchDoctors: (form: SearchDoctorFormInput) => void
   fetchDoctorDetail: (form: FetchDoctorDetailFormInput) => void
   uploadDoctorPhoto: (form: UploadDoctorPhotoFormInput) => void
+  createDoctor: (form: CreateDoctorFormInput) => void
 }
 
 /**
@@ -63,6 +65,12 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     uploadDoctorPhoto: useCallback(
       (form: UploadDoctorPhotoFormInput) => {
         dispatch(staffActions.uploadDoctorPhotoRequest(form))
+      },
+      [dispatch],
+    ),
+    createDoctor: useCallback(
+      (form: CreateDoctorFormInput) => {
+        dispatch(staffActions.createDoctorRequest(form))
       },
       [dispatch],
     ),
