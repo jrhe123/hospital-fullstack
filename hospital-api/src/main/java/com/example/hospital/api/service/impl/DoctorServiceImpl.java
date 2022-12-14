@@ -13,9 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.db.dao.DoctorDao;
+import com.example.hospital.api.db.dao.MedicalDeptSubAndDoctorDao;
+import com.example.hospital.api.db.pojo.DoctorEntity;
+import com.example.hospital.api.db.pojo.MedicalDeptSubAndDoctorEntity;
 import com.example.hospital.api.exception.HospitalException;
 import com.example.hospital.api.service.DoctorService;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONArray;
@@ -39,6 +43,9 @@ public class DoctorServiceImpl implements DoctorService {
 	
 	@Resource
 	private DoctorDao doctorDao;
+	
+	@Resource
+	private MedicalDeptSubAndDoctorDao medicalDeptSubAndDoctorDao;
 	
 	@Override
 	public PageUtils searchByPage(Map param) {
@@ -108,6 +115,24 @@ public class DoctorServiceImpl implements DoctorService {
 			log.error(e.getMessage());
 			throw new HospitalException(e);
 		}
+	}
+
+	@Override
+	public void insert(Map param) {
+		// 1. insert doctor
+		DoctorEntity doctorEntity = BeanUtil.toBean(param, DoctorEntity.class);
+		doctorDao.insert(doctorEntity);
+		
+		String uuid = doctorEntity.getUuid();
+		Integer doctorId = doctorDao.searchIdByUuid(uuid);
+		
+		// 2. insert medicalDeptSubAndDoctor
+		int subId = MapUtil.getInt(param, "subId");
+		MedicalDeptSubAndDoctorEntity medicalDeptSubAndDoctorEntity =
+				new MedicalDeptSubAndDoctorEntity();
+		medicalDeptSubAndDoctorEntity.setDoctorId(doctorId);
+		medicalDeptSubAndDoctorEntity.setDeptSubId(subId);
+		medicalDeptSubAndDoctorDao.insert(medicalDeptSubAndDoctorEntity);
 	}
 
 }

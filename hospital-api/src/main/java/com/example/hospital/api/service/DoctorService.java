@@ -14,4 +14,6 @@ public interface DoctorService {
 	public HashMap searchContent(int id);
 	
 	public String updatePhoto(MultipartFile file, Integer doctorId);
+	
+	public void insert(Map param);
 }

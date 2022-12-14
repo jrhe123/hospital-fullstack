@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.common.R;
+import com.example.hospital.api.controller.form.InsertDoctorForm;
 import com.example.hospital.api.controller.form.SearchDoctorByPageForm;
 import com.example.hospital.api.controller.form.SearchDoctorContentForm;
 import com.example.hospital.api.service.DoctorService;
@@ -22,6 +23,8 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import io.lettuce.core.dynamic.annotation.Param;
 
 @RestController
@@ -71,5 +74,25 @@ public class DoctorController {
 		return R.ok()
 				.put("result", true)
 				.put("photo", photo);
+	}
+	
+	@PostMapping("/insert")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:INSERT"}, mode = SaMode.OR)
+	public R insert(@RequestBody @Valid InsertDoctorForm form) {
+		Map param = BeanUtil.beanToMap(form);
+		
+		// convert string[] to string
+		String json = JSONUtil.parseArray(form.getTag()).toString();
+		param.replace("tag", json);
+		
+		// add uuid
+		param.put("uuid", IdUtil.simpleUUID().toUpperCase());
+		
+		doctorService.insert(param);
+		
+		return R.ok()
+				.put("result", true);
+		
 	}
 }
