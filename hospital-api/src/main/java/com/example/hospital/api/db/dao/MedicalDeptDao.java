@@ -7,6 +7,7 @@ public interface MedicalDeptDao {
     
 	public ArrayList<HashMap> searchAll();
 
+	public ArrayList<HashMap> searchDeptAndSub();
 }
 
 

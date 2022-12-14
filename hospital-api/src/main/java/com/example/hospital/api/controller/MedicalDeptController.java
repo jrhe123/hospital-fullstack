@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +29,14 @@ public class MedicalDeptController {
 		return R.ok()
 				.put("result", true)
 				.put("list", list);
+	}
+	
+	@GetMapping("/searchDeptAndSub")
+	@SaCheckLogin
+	public R searchDeptAndSub() {
+		HashMap map = medicalDeptService.searchDeptAndSub();
+		return R.ok()
+				.put("result", true)
+				.put("data", map);
 	}
 }

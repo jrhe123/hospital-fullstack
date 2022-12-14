@@ -10,4 +10,14 @@
     	FROM HOSPITAL.MEDICAL_DEPT
     </select>
     
+    <select id="searchDeptAndSub" resultType="HashMap">
+    	SELECT md."id" AS "deptId",
+    			md."name" AS "deptName",
+    			mds."id" AS "subId",
+    			mds."name" AS "subName"
+    	FROM HOSPITAL.MEDICAL_DEPT md
+    	JOIN HOSPITAL.MEDICAL_DEPT_SUB mds ON mds."dept_id" = md."id"
+    </select>
+
+    
 </mapper>

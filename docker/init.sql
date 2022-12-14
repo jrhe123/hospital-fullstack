@@ -8,9 +8,9 @@ CREATE TABLE hospital.patient_user
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
     "open_id"     VARCHAR,
-    "nickname"    VARCHAR(50),
+    "nickname"    VARCHAR(255),
     "photo"       VARCHAR,
-    "sex"         VARCHAR(1),
+    "sex"         VARCHAR(10),
 --   状态：1代表正常，2代表禁用
     "status"      TINYINT,
     "create_time" DATE
@@ -28,8 +28,8 @@ CREATE TABLE hospital.patient_user_info_card
     "id"              INTEGER NOT NULL PRIMARY KEY,
     "user_id"         INTEGER,
     "uuid"            CHAR(32),
-    "name"            VARCHAR(20),
-    "sex"             VARCHAR(1),
+    "name"            VARCHAR(255),
+    "sex"             VARCHAR(10),
     "pid"             CHAR(18),
     "tel"             CHAR(11),
     "birthday"        DATE,
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS hospital.medical_dept;
 CREATE TABLE hospital.medical_dept
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
-    "name"        VARCHAR(50),
+    "name"        VARCHAR(255),
     "outpatient"  BOOLEAN,
     "description" VARCHAR(500),
 --     推荐在首页科室列表中展示的
@@ -145,9 +145,9 @@ VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'血液科',true,
 DROP TABLE IF EXISTS hospital.medical_dept_sub;
 CREATE TABLE hospital.medical_dept_sub(
   "id" INTEGER NOT NULL PRIMARY KEY ,
-  "name" VARCHAR(50),
+  "name" VARCHAR(255),
   "dept_id" INTEGER,
-  "location" VARCHAR(50)
+  "location" VARCHAR(255)
 );
 
 DROP SEQUENCE IF EXISTS hospital.medical_dept_sub_sequence;
@@ -246,19 +246,19 @@ DROP TABLE IF EXISTS hospital.doctor;
 CREATE TABLE hospital.doctor
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
-    "name"        VARCHAR(20),
+    "name"        VARCHAR(255),
     "pid"         CHAR(18),
     "uuid"        CHAR(32),
-    "sex"         VARCHAR(1),
+    "sex"         VARCHAR(10),
     "photo"       VARCHAR,
     "birthday"    DATE,
-    "school"      VARCHAR(50),
-    "degree"      VARCHAR(20),
+    "school"      VARCHAR(255),
+    "degree"      VARCHAR(255),
     "tel"         CHAR(11),
-    "address"     VARCHAR(200),
-    "email"       VARCHAR(200),
-    "job"         VARCHAR(20),
-    "remark"      VARCHAR(50),
+    "address"     VARCHAR(255),
+    "email"       VARCHAR(255),
+    "job"         VARCHAR(255),
+    "remark"      VARCHAR(255),
     "description" VARCHAR,
     "hiredate"    DATE,
     "tag"         VARCHAR,
@@ -1109,8 +1109,8 @@ DROP TABLE IF EXISTS hospital.mis_role;
 CREATE TABLE hospital.mis_role
 (
     "id"            INTEGER NOT NULL PRIMARY KEY,
-    "role_name"     VARCHAR(50),
-    "remark"          VARCHAR(50)
+    "role_name"     VARCHAR(255),
+    "remark"          VARCHAR(255)
 );
 
 DROP SEQUENCE IF EXISTS hospital.mis_role_sequence;
@@ -1240,14 +1240,14 @@ DROP TABLE IF EXISTS hospital.mis_user;
 CREATE TABLE hospital.mis_user
 (
     "id"        INTEGER NOT NULL PRIMARY KEY,
-    "username"  VARCHAR(50),
+    "username"  VARCHAR(255),
     "password"  VARCHAR,
-    "name"      VARCHAR(20),
-    "sex"       VARCHAR(1),
+    "name"      VARCHAR(255),
+    "sex"       VARCHAR(10),
     "tel"       VARCHAR(11),
-    "email"     VARCHAR(100),
+    "email"     VARCHAR(255),
     "dept_id"   INTEGER,
-    "job"       VARCHAR(20),
+    "job"       VARCHAR(255),
     "ref_id"    INTEGER,
 --     1有效，2离职，3禁用
     "status"    TINYINT,
