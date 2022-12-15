@@ -4,6 +4,8 @@ import {
   staffActions,
   selectIsLoading,
   selectDepartmentList,
+  selectDeptAndSubMap,
+  //
   selectDoctorList,
   selectTotalCount,
   selectTotalPage,
@@ -13,6 +15,7 @@ import {
   SearchDoctorFormInput,
   Doctor,
   Department,
+  SearchDeptAndSubResponse,
   DoctorDetail,
   FetchDoctorDetailFormInput,
   UploadDoctorPhotoFormInput,
@@ -23,11 +26,14 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 export type StaffServiceOperators = {
   isLoading: boolean
   departmentList: Department[]
+  deptAndSubMap: SearchDeptAndSubResponse
+  //
   doctorList: Doctor[]
   totalCount: number
   totalPage: number
   doctor: DoctorDetail | null
   fetchDepartments: () => void
+  fetchDeptAndSub: () => void
   fetchDoctors: (form: SearchDoctorFormInput) => void
   fetchDoctorDetail: (form: FetchDoctorDetailFormInput) => void
   uploadDoctorPhoto: (form: UploadDoctorPhotoFormInput) => void
@@ -43,6 +49,8 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
   return {
     isLoading: useAppSelector(selectIsLoading),
     departmentList: useAppSelector(selectDepartmentList),
+    deptAndSubMap: useAppSelector(selectDeptAndSubMap),
+    //
     doctorList: useAppSelector(selectDoctorList),
     totalCount: useAppSelector(selectTotalCount),
     totalPage: useAppSelector(selectTotalPage),
@@ -50,6 +58,10 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     fetchDepartments: useCallback(() => {
       dispatch(staffActions.fetchDepartmentRequest())
     }, [dispatch]),
+    fetchDeptAndSub: useCallback(() => {
+      dispatch(staffActions.fetchDeptAndSubRequest())
+    }, [dispatch]),
+    //
     fetchDoctors: useCallback(
       (form: SearchDoctorFormInput) => {
         dispatch(staffActions.fetchDoctorRequest(form))

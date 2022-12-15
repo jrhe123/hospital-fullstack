@@ -20,12 +20,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import { BoxWrapper } from 'components/BoxWrapper'
+import { CustomModal } from 'components/Modal'
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
 import { phoneFormat } from 'utils/common'
 
 import { useStaffService } from '../hooks'
 import { SearchDoctorFormInput, Degree, Occupation, Doctor } from '../types'
+
+import { DoctorForm } from './DoctorForm'
 
 const textFieldStyle = {
   '& div': {
@@ -254,6 +257,7 @@ export const DoctorContainer = () => {
     order: undefined,
   })
   const [selected, setSelected] = useState<readonly number[]>([])
+  const [open, setOpen] = useState<boolean>(false)
 
   const { fetchDepartments, fetchDoctors, isLoading, departmentList, doctorList, totalCount } =
     useStaffService()
@@ -648,7 +652,7 @@ export const DoctorContainer = () => {
     >
       {/* new */}
       <Box component="div" sx={{ marginRight: '6px' }}>
-        <Button onClick={() => {}} sx={{ padding: 0 }}>
+        <Button onClick={() => setOpen(true)} sx={{ padding: 0 }}>
           <Box
             component="div"
             sx={{
@@ -805,6 +809,31 @@ export const DoctorContainer = () => {
 
   return (
     <BoxWrapper>
+      <CustomModal
+        open={open}
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '80vw',
+          maxWidth: '600px',
+          bgcolor: 'background.paper',
+          padding: '18px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+        }}
+        disableBackdropClick={true}
+        handleCloseModal={() => {
+          setOpen(false)
+        }}
+      >
+        <DoctorForm
+          handleCloseModal={() => {
+            setOpen(false)
+          }}
+        />
+      </CustomModal>
       <Box
         component="div"
         sx={{

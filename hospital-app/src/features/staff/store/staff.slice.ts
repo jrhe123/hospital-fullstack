@@ -12,12 +12,14 @@ import {
   UploadDoctorPhotoFormInput,
   CreateDoctorFormInput,
   CreateDoctorResponse,
+  SearchDeptAndSubResponse,
 } from 'features/staff/types'
 import type { RootState } from 'store/store'
 
 export interface StaffState {
   isLoading: boolean
   departmentList: Department[]
+  deptAndSubMap: SearchDeptAndSubResponse
   totalCount: number
   totalPage: number
   doctorList: Doctor[]
@@ -29,6 +31,7 @@ const initialState: StaffState = {
   isLoading: false,
   // department
   departmentList: [],
+  deptAndSubMap: {},
   // doctor
   totalCount: 0,
   totalPage: 0,
@@ -52,6 +55,19 @@ export const staffSlice = createSlice({
       state.departmentList = action.payload.list
     },
     fetchDepartmentFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
+    // fetch dept & sub
+    fetchDeptAndSubRequest(state) {
+      state.isLoading = true
+      state.errors = []
+    },
+    fetchDeptAndSubSucceeded(state, action: PayloadAction<SearchDeptAndSubResponse>) {
+      state.isLoading = false
+      state.deptAndSubMap = action.payload
+    },
+    fetchDeptAndSubFailed(state, action: PayloadAction<Error[]>) {
       state.isLoading = false
       state.errors = action.payload
     },
@@ -121,6 +137,10 @@ export const staffActions = {
   fetchDepartmentRequest: staffSlice.actions.fetchDepartmentRequest,
   fetchDepartmentSucceeded: staffSlice.actions.fetchDepartmentSucceeded,
   fetchDepartmentFailed: staffSlice.actions.fetchDepartmentFailed,
+  // fetch dept & sub
+  fetchDeptAndSubRequest: staffSlice.actions.fetchDeptAndSubRequest,
+  fetchDeptAndSubSucceeded: staffSlice.actions.fetchDeptAndSubSucceeded,
+  fetchDeptAndSubFailed: staffSlice.actions.fetchDeptAndSubFailed,
   // fetch doctor
   fetchDoctorRequest: staffSlice.actions.fetchDoctorRequest,
   fetchDoctorSucceeded: staffSlice.actions.fetchDoctorSucceeded,
@@ -142,6 +162,7 @@ export const staffActions = {
 // Selectors
 export const selectIsLoading = (state: RootState) => state.staff.isLoading
 export const selectDepartmentList = (state: RootState) => state.staff.departmentList
+export const selectDeptAndSubMap = (state: RootState) => state.staff.deptAndSubMap
 export const selectTotalCount = (state: RootState) => state.staff.totalCount
 export const selectTotalPage = (state: RootState) => state.staff.totalPage
 export const selectDoctorList = (state: RootState) => state.staff.doctorList

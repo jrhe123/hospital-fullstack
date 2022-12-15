@@ -10,6 +10,7 @@ import {
   DoctorPageUtil,
   DoctorDetail,
   CreateDoctorResponse,
+  SearchDeptAndSubResponse,
 } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
@@ -19,6 +20,9 @@ const DEPARTMENT_BASE_URL = `/medical/dept`
 
 export const searchDepartments = (): Promise<DepartmentPageUtil> =>
   api.post(`${DEPARTMENT_BASE_URL}/searchAll`)
+
+export const searchDepAndSub = (): Promise<SearchDeptAndSubResponse> =>
+  api.get(`${DEPARTMENT_BASE_URL}/searchDeptAndSub`)
 
 export const searchDoctors = (form: SearchDoctorFormInput): Promise<DoctorPageUtil> =>
   api.post(`${DOCTOR_BASE_URL}/searchByPage`, form)

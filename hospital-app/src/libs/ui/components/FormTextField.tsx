@@ -15,6 +15,7 @@ export interface FormInputProps {
   multiline?: boolean
   disabled?: boolean
   variant?: 'outlined' | 'filled' | 'standard'
+  onEnterPress?: () => void
 }
 
 export const FormTextField = ({
@@ -28,6 +29,7 @@ export const FormTextField = ({
   multiline,
   disabled,
   variant,
+  onEnterPress,
 }: FormInputProps) => (
   <Controller
     name={name}
@@ -38,6 +40,13 @@ export const FormTextField = ({
         size={size || 'small'}
         error={!!error}
         onChange={onChange}
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            if (onEnterPress) {
+              onEnterPress()
+            }
+          }
+        }}
         value={value}
         fullWidth
         label={label}

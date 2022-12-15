@@ -4,6 +4,8 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import {
   searchDepartments,
+  searchDepAndSub,
+  //
   searchDoctors,
   fetchDoctorDetail,
   uploadDoctorPhoto,
@@ -32,6 +34,23 @@ function* onFetchDepartmentList(): SagaIterator {
     yield put(staffActions.fetchDepartmentFailed(errors))
   }
 }
+
+function* onFetchDeptAndSub(): SagaIterator {
+  try {
+    const response = yield call(searchDepAndSub)
+    if (response.result) {
+      yield put(staffActions.fetchDeptAndSubSucceeded(response.data))
+    } else {
+      const errors = [new Error(response.message)]
+      yield put(staffActions.fetchDeptAndSubFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Api error')]
+    yield put(staffActions.fetchDeptAndSubFailed(errors))
+  }
+}
+
+// ===========================
 
 function* onFetchDoctorList({
   payload,
@@ -125,6 +144,8 @@ function* onCreateDoctor({
 // Watcher Saga
 export function* staffWatcherSaga(): SagaIterator {
   yield takeLatest(staffActions.fetchDepartmentRequest.type, onFetchDepartmentList)
+  yield takeLatest(staffActions.fetchDeptAndSubRequest.type, onFetchDeptAndSub)
+  //
   yield takeLatest(staffActions.fetchDoctorRequest.type, onFetchDoctorList)
   yield takeEvery(staffActions.fetchDoctorDetailRequest.type, onFetchDoctorDetail)
   yield takeEvery(staffActions.uploadDoctorPhotoRequest.type, onUploadDoctorPhoto)

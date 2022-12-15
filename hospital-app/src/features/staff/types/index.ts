@@ -51,20 +51,25 @@ export type CreateDoctorFormInput = {
   name: string
   pid: string
   sex: Sex
+  sexId?: number | string
   birthday: Date
   school: string
   degree: Degree
+  degreeId?: number | string
   tel: string
   address: string
   email: string
   job: Occupation
+  jobId?: number | string
   remark: string
   description: string
   hiredate: Date
   tag: string[]
+  tagStr?: string
   recommended: boolean
+  recommendedId?: number | string
   status: number
-  subId: number
+  subId: number | string
 }
 
 export type Doctor = {
@@ -120,3 +125,9 @@ export type CreateDoctorResponse = {
   result: boolean
   data: Doctor
 }
+
+type DeptAndSub = {
+  subId: number
+  subName: string
+}
+export type SearchDeptAndSubResponse = Record<string, DeptAndSub[]>
