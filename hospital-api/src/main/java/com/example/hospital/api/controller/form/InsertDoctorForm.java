@@ -15,7 +15,7 @@ import lombok.Data;
 public class InsertDoctorForm {
 
 	@NotBlank(message = "name is required")
-	@Pattern(regexp = "^[a-zA-Z0-9]{1,50}$", message = "invalid name format")
+	@Pattern(regexp = "^[a-zA-Z0-9\\s]{1,50}$", message = "invalid name format")
 	private String name;
 	
 	@NotBlank(message = "pid is required")

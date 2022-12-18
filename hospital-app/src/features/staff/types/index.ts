@@ -1,6 +1,6 @@
 export enum Sex {
   MALE = 'male',
-  FEMALE = 'femal',
+  FEMALE = 'female',
   UNISEX = 'unisex',
 }
 
@@ -50,20 +50,20 @@ export type UploadDoctorPhotoFormInput = {
 export type CreateDoctorFormInput = {
   name: string
   pid: string
-  sex: Sex
+  sex: Sex | string
   sexId?: number | string
-  birthday: Date
+  birthday: Date | string
   school: string
-  degree: Degree
+  degree: Degree | string
   degreeId?: number | string
   tel: string
   address: string
   email: string
-  job: Occupation
+  job: Occupation | string
   jobId?: number | string
   remark: string
   description: string
-  hiredate: Date
+  hiredate: Date | string
   tag: string[]
   tagStr?: string
   recommended: boolean

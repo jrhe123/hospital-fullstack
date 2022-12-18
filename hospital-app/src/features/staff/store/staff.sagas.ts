@@ -1,4 +1,5 @@
 import { SagaIterator } from '@redux-saga/core'
+import dayjs from 'dayjs'
 import { toast } from 'react-toastify'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
@@ -125,6 +126,13 @@ function* onCreateDoctor({
   payload: CreateDoctorFormInput
 }): SagaIterator {
   try {
+    payload.birthday = dayjs(payload.birthday).format('YYYY-MM-DD')
+    payload.hiredate = dayjs(payload.hiredate).format('YYYY-MM-DD')
+    delete payload.sexId
+    delete payload.degreeId
+    delete payload.jobId
+    delete payload.recommendedId
+    delete payload.tagStr
     const response = yield call(createDoctor, payload)
     if (response.result) {
       toast.success('Success, doctor added')

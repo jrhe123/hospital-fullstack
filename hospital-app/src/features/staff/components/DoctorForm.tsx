@@ -164,6 +164,8 @@ const recommendList: RecommendType[] = [
   },
 ]
 
+type DeptAndSubType = { id: string; name: string; value: number | null; isSection: boolean }
+
 interface DoctorFormProps {
   handleCloseModal: () => void
 }
@@ -173,26 +175,27 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
     name: '',
     pid: '',
     sex: Sex.MALE,
-    sexId: '',
+    sexId: '1',
     birthday: new Date(),
     school: '',
     degree: Degree.BACHELOR,
-    degreeId: '',
+    degreeId: '1',
     tel: '',
     address: '',
     email: '',
     job: Occupation.SPECIALIST,
-    jobId: '',
+    jobId: '1',
     remark: '',
     description: '',
     hiredate: new Date(),
     tag: [],
     tagStr: '',
     recommended: true,
-    recommendedId: '',
+    recommendedId: '2',
     status: 1,
     subId: '',
   })
+  const [formattedList, setFormattedList] = useState<DeptAndSubType[]>([])
 
   const { createDoctor, fetchDeptAndSub, isLoading, deptAndSubMap } = useStaffService()
 
@@ -200,10 +203,33 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
     fetchDeptAndSub()
   }, [fetchDeptAndSub])
 
+  useEffect(() => {
+    // we need to transfer to map into list for formselect
+    const tempList: DeptAndSubType[] = []
+    Object.keys(deptAndSubMap).forEach((key, index) => {
+      const arr = deptAndSubMap[key]
+      tempList.push({
+        id: String(index),
+        name: key,
+        value: null,
+        isSection: true,
+      })
+      arr.forEach((item, indexx) => {
+        tempList.push({
+          id: `${index}-${indexx}`,
+          name: item.subName,
+          value: item.subId,
+          isSection: false,
+        })
+      })
+    })
+    setFormattedList(tempList)
+  }, [deptAndSubMap])
+
   // form check
   const formValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    pid: Yup.string().required('Pid is required'),
+    pid: Yup.string().required('PID is required'),
     sex: Yup.mixed<Sex>().oneOf(Object.values(Sex)),
     birthday: Yup.date().max(new Date()),
     school: Yup.string().required('School is required'),
@@ -257,24 +283,54 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
   }
 
   const onSubmitClick = (data: CreateDoctorFormInput) => {
-    console.log('data: ', data)
-    // const degree = degreeList.find(i => i.id === Number(data.degreeId))
-    // const job = occupationList.find(i => i.id === Number(data.jobId))
-    // const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
-    // let formattedRecommend
-    // if (recommend) {
-    //   if (recommend.id === 1) {
-    //     formattedRecommend = true
-    //   } else {
-    //     formattedRecommend = false
-    //   }
-    // }
-    // setValue('degree', degree?.name)
-    // setValue('job', job?.name)
-    // setValue('recommended', formattedRecommend)
-    // setValue('page', 0)
-    // fetchDoctorList()
+    const sex = sexList.find(i => i.id === Number(data.sexId))
+    const degree = degreeList.find(i => i.id === Number(data.degreeId))
+    const job = occupationList.find(i => i.id === Number(data.jobId))
+    const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
+    let formattedRecommend
+    if (!recommend || recommend.id === 1) {
+      formattedRecommend = true
+    } else {
+      formattedRecommend = false
+    }
+    setValue('sex', sex?.name as Sex)
+    setValue('degree', degree?.name as Degree)
+    setValue('job', job?.name as Occupation)
+    setValue('recommended', formattedRecommend)
+
+    const values = getValues()
+    createDoctor(values)
+    handleCloseModal()
   }
+
+  const renderDeptAndSubMap: () => React.ReactNode = () =>
+    formattedList.map(item => (
+      <MenuItem
+        key={item.id}
+        value={item.value || ''}
+        sx={{
+          pointerEvents: item.isSection ? 'none' : 'auto',
+          fontSize: '11px',
+        }}
+      >
+        {item.isSection ? (
+          <Box component="div" sx={{}}>
+            <Typography
+              component="div"
+              sx={{
+                fontSize: '9px',
+                fontWeight: 'bold',
+                marginLeft: '-6px',
+              }}
+            >
+              {item.name}
+            </Typography>
+          </Box>
+        ) : (
+          item.name
+        )}
+      </MenuItem>
+    ))
 
   return (
     <Box
@@ -608,29 +664,7 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
           lsx={inputLabelStyle}
           errorMessage={'Invalid department'}
         >
-          {Object.keys(deptAndSubMap).map(key => {
-            const arr = deptAndSubMap[key]
-            return (
-              <Box key={key} sx={{ marginBottom: '12px' }}>
-                <Box component="div" sx={{ marginLeft: '9px', marginBottom: '6px' }}>
-                  <Typography
-                    component="div"
-                    sx={{
-                      fontSize: '10px',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {key}
-                  </Typography>
-                </Box>
-                {arr.map((item, indexx) => (
-                  <MenuItem key={key + indexx} value={item.subId} sx={{ fontSize: '11px' }}>
-                    {item.subName}
-                  </MenuItem>
-                ))}
-              </Box>
-            )
-          })}
+          {renderDeptAndSubMap()}
         </FormSelect>
       </Box>
       {/* remark */}

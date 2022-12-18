@@ -121,7 +121,7 @@ export const staffSlice = createSlice({
     },
     createDoctorSucceeded(state, action: PayloadAction<CreateDoctorResponse>) {
       state.isLoading = false
-      state.doctorList.push(action.payload.data)
+      state.doctorList.unshift(action.payload.data)
       state.totalCount += 1
     },
     createDoctorFailed(state, action: PayloadAction<Error[]>) {
