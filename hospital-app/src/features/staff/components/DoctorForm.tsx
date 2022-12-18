@@ -164,6 +164,25 @@ const recommendList: RecommendType[] = [
   },
 ]
 
+type StatusType = {
+  id: number
+  name: string
+}
+const statusList: StatusType[] = [
+  {
+    id: 1,
+    name: 'Active',
+  },
+  {
+    id: 2,
+    name: 'Inactive',
+  },
+  {
+    id: 3,
+    name: 'Retried',
+  },
+]
+
 type DeptAndSubType = { id: string; name: string; value: number | null; isSection: boolean }
 
 interface DoctorFormProps {
@@ -833,6 +852,37 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
           {recommendList.map((recomm, index) => (
             <MenuItem key={index} value={recomm.id} sx={{ fontSize: '11px' }}>
               {recomm.name}
+            </MenuItem>
+          ))}
+        </FormSelect>
+      </Box>
+      {/* status */}
+      <Box
+        component="div"
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontSize: '10px',
+            fontWeight: 'bold',
+            marginRight: '12px',
+            width: '60px',
+          }}
+        >
+          Status
+        </Typography>
+        <FormSelect
+          name="status"
+          label={''}
+          control={control}
+          sx={selectFieldStyle}
+          lsx={inputLabelStyle}
+          errorMessage={'Invalid status'}
+        >
+          {statusList.map((s, index) => (
+            <MenuItem key={index} value={s.id} sx={{ fontSize: '11px' }}>
+              {s.name}
             </MenuItem>
           ))}
         </FormSelect>
