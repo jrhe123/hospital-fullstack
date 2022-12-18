@@ -442,7 +442,7 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
             width: '60px',
           }}
         >
-          PID
+          SIN
         </Typography>
         <FormTextField
           name="pid"
