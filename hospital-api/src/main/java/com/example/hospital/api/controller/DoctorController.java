@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.common.R;
+import com.example.hospital.api.controller.form.GetDoctorDetailForm;
 import com.example.hospital.api.controller.form.InsertDoctorForm;
 import com.example.hospital.api.controller.form.SearchDoctorByPageForm;
 import com.example.hospital.api.controller.form.SearchDoctorContentForm;
+import com.example.hospital.api.controller.form.UpdateDoctorForm;
 import com.example.hospital.api.service.DoctorService;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
@@ -95,5 +98,30 @@ public class DoctorController {
 				.put("result", true)
 				.put("data", doctor);
 		
+	}
+	
+	
+	@PostMapping("/searchById")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:SELECT"}, mode = SaMode.OR)
+	public R getDoctorDetailById(@RequestBody @Valid GetDoctorDetailForm form) {
+		HashMap map = doctorService.getDetailById(form.getId());
+		return R.ok()	
+				.put("result", true)
+				.put("data", map);
+	}
+	
+	@PatchMapping("/update")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:UPDATE"}, mode = SaMode.OR)
+	public R update(@RequestBody @Valid UpdateDoctorForm form) {
+		Map param = BeanUtil.beanToMap(form);
+		
+		String json = JSONUtil.parseArray(form.getTag()).toString();
+		param.replace("tag", json);
+		
+		doctorService.update(param);
+		return R.ok()	
+				.put("result", true);
 	}
 }

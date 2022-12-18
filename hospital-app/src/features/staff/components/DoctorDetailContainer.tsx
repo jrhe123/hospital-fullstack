@@ -106,7 +106,7 @@ export const DoctorDetailContainer = () => {
               component="div"
               sx={{ fontSize: '11px', color: '#6b9bb9', fontWeight: 'bold' }}
             >
-              Update
+              Edit
             </Typography>
           </Box>
         </Button>

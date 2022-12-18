@@ -136,7 +136,31 @@ public class DoctorServiceImpl implements DoctorService {
 		
 		// 3. response
 		HashMap doctor = doctorDao.getDoctorDetailById(doctorId);
+		// convert tag str -> array json
+		String tag = MapUtil.getStr(doctor, "tag");
+		JSONArray tagArr = JSONUtil.parseArray(tag);
+		doctor.replace("tag", tagArr);
+				
 		return doctor;
+	}
+
+	@Override
+	public HashMap getDetailById(Integer id) {
+		HashMap doctor = doctorDao.getDoctorDetailById(id);
+		// convert tag str -> array json
+		String tag = MapUtil.getStr(doctor, "tag");
+		JSONArray tagArr = JSONUtil.parseArray(tag);
+		doctor.replace("tag", tagArr);
+				
+		return doctor;
+	}
+
+	@Override
+	@Transactional
+	public void update(Map param) {
+		doctorDao.update(param);
+		param = MapUtil.renameKey(param, "id", "doctorId");
+		medicalDeptSubAndDoctorDao.updateDoctorSubDept(param);
 	}
 
 }

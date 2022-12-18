@@ -24,6 +24,8 @@ public interface DoctorDao {
 	public Integer searchIdByUuid(String uuid);
 	
 	public HashMap getDoctorDetailById(int id);
+	
+	public void update(Map param);
 }
 
 
