@@ -136,6 +136,7 @@ export const staffSlice = createSlice({
     // fetch doctor full detail
     fetchDoctorFullDetailRequest(state, action: PayloadAction<FetchDoctorFullDetailFormInput>) {
       state.isLoading = true
+      state.doctorDetail = null
       state.errors = []
     },
     fetchDoctorFullDetailSucceeded(state, action: PayloadAction<DoctorFullDetail>) {
