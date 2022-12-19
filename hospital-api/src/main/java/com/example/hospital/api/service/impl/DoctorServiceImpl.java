@@ -163,4 +163,10 @@ public class DoctorServiceImpl implements DoctorService {
 		medicalDeptSubAndDoctorDao.updateDoctorSubDept(param);
 	}
 
+	@Override
+	@Transactional
+	public void deleteByIds(Integer[] ids) {
+		doctorDao.deleteByIds(ids);
+	}
+
 }

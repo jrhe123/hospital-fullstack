@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.common.R;
+import com.example.hospital.api.controller.form.DeleteDoctorByIdsForm;
 import com.example.hospital.api.controller.form.GetDoctorDetailForm;
 import com.example.hospital.api.controller.form.InsertDoctorForm;
 import com.example.hospital.api.controller.form.SearchDoctorByPageForm;
@@ -121,6 +123,15 @@ public class DoctorController {
 		param.replace("tag", json);
 		
 		doctorService.update(param);
+		return R.ok()	
+				.put("result", true);
+	}
+	
+	@DeleteMapping("/deleteByIds")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:DELETE"}, mode = SaMode.OR)
+	public R deleteByIds(@RequestBody @Valid DeleteDoctorByIdsForm form) {
+		doctorService.deleteByIds(form.getIds());
 		return R.ok()	
 				.put("result", true);
 	}

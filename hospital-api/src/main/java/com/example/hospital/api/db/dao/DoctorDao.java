@@ -26,6 +26,8 @@ public interface DoctorDao {
 	public HashMap getDoctorDetailById(int id);
 	
 	public void update(Map param);
+	
+	public void deleteByIds(Integer[] ids);
 }
 
 
