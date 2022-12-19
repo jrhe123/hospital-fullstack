@@ -24,6 +24,7 @@ import {
   CreateDoctorFormInput,
   FetchDoctorFullDetailFormInput,
   UpdateDoctorFormInput,
+  DeleteDoctorFormInput,
 } from 'features/staff/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
@@ -45,6 +46,7 @@ export type StaffServiceOperators = {
   createDoctor: (form: CreateDoctorFormInput) => void
   fetchDoctorFullDetail: (form: FetchDoctorFullDetailFormInput) => void
   updateDoctor: (form: UpdateDoctorFormInput) => void
+  deleteDoctor: (form: DeleteDoctorFormInput) => void
 }
 
 /**
@@ -103,6 +105,12 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     updateDoctor: useCallback(
       (form: UpdateDoctorFormInput) => {
         dispatch(staffActions.updateDoctorRequest(form))
+      },
+      [dispatch],
+    ),
+    deleteDoctor: useCallback(
+      (form: DeleteDoctorFormInput) => {
+        dispatch(staffActions.deleteDoctorRequest(form))
       },
       [dispatch],
     ),

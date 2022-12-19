@@ -21,9 +21,11 @@ type DoctorDetailParams = {
 export const DoctorDetailContainer = () => {
   const { id } = useParams<DoctorDetailParams>()
   const [open, setOpen] = useState<boolean>(false)
+  const [dOpen, setDOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const { isLoading, doctor, fetchDoctorDetail, uploadDoctorPhoto } = useStaffService()
+  const { isLoading, doctor, fetchDoctorDetail, uploadDoctorPhoto, deleteDoctor } =
+    useStaffService()
 
   if (!id) {
     navigate('/staff/doctor')
@@ -123,7 +125,12 @@ export const DoctorDetailContainer = () => {
       </Box>
       {/* delete */}
       <Box component="div">
-        <Button onClick={() => {}} sx={{ padding: 0 }}>
+        <Button
+          onClick={() => {
+            setDOpen(true)
+          }}
+          sx={{ padding: 0 }}
+        >
           <Box
             component="div"
             sx={{
@@ -175,6 +182,130 @@ export const DoctorDetailContainer = () => {
             setOpen(false)
           }}
         />
+      </CustomModal>
+      <CustomModal
+        open={dOpen}
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '50vw',
+          maxWidth: '360px',
+          height: '50vh',
+          maxHeight: '150px',
+          bgcolor: 'background.paper',
+          padding: '18px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+        }}
+        disableBackdropClick={false}
+        handleCloseModal={() => {
+          setDOpen(false)
+        }}
+      >
+        <Box
+          component="div"
+          sx={{
+            position: 'relative',
+          }}
+          className="hide-scroll"
+        >
+          <Typography
+            component="div"
+            sx={{
+              fontSize: '15px',
+              fontWeight: 'bold',
+              marginBottom: '12px',
+            }}
+          >
+            Are you sure delete current doctor?
+          </Typography>
+          <Typography
+            component="div"
+            sx={{
+              fontSize: '10px',
+            }}
+          >
+            Please confirm your deletion
+          </Typography>
+          {/* btns */}
+          <Box
+            component="div"
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: '30px',
+              marginBottom: '12px',
+            }}
+          >
+            {/* confirm */}
+            <Box component="div" sx={{ marginRight: '6px' }}>
+              <Button
+                onClick={() => {
+                  if (!id) return
+                  setDOpen(false)
+                  deleteDoctor({
+                    ids: [Number(id)],
+                  })
+                  navigate(-1)
+                }}
+                sx={{ padding: 0 }}
+              >
+                <Box
+                  component="div"
+                  sx={{
+                    height: '24px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '3px',
+                    border: '1px solid #81B3AA',
+                  }}
+                >
+                  <Typography
+                    component="div"
+                    sx={{ fontSize: '11px', color: '#81B3AA', fontWeight: 'bold' }}
+                  >
+                    Confirm
+                  </Typography>
+                </Box>
+              </Button>
+            </Box>
+            {/* cancel */}
+            <Box component="div">
+              <Button
+                onClick={() => {
+                  setDOpen(false)
+                }}
+                sx={{ padding: 0 }}
+              >
+                <Box
+                  component="div"
+                  sx={{
+                    height: '24px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '3px',
+                    border: '1px solid #E37470',
+                  }}
+                >
+                  <Typography
+                    component="div"
+                    sx={{ fontSize: '11px', color: '#E37470', fontWeight: 'bold' }}
+                  >
+                    Cancel
+                  </Typography>
+                </Box>
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </CustomModal>
       <Box
         component="div"

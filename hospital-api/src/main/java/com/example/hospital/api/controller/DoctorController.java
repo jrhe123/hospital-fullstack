@@ -127,7 +127,7 @@ public class DoctorController {
 				.put("result", true);
 	}
 	
-	@DeleteMapping("/deleteByIds")
+	@PatchMapping("/deleteByIds")
 	@SaCheckLogin
 	@SaCheckPermission(value = {"ROOT", "DOCTOR:DELETE"}, mode = SaMode.OR)
 	public R deleteByIds(@RequestBody @Valid DeleteDoctorByIdsForm form) {

@@ -13,6 +13,7 @@ import {
   createDoctor,
   fetchDoctorFullDetail,
   updateDoctor,
+  deleteDoctor,
 } from 'features/staff/api'
 import { staffActions } from 'features/staff/store/staff.slice'
 import {
@@ -21,6 +22,7 @@ import {
   UploadDoctorPhotoFormInput,
   CreateDoctorFormInput,
   UpdateDoctorFormInput,
+  DeleteDoctorFormInput,
 } from 'features/staff/types'
 
 // Worker Sagas
@@ -206,6 +208,29 @@ function* onUpdateDoctor({
   }
 }
 
+function* onDeleteDoctor({
+  payload,
+}: {
+  type: typeof staffActions.deleteDoctorRequest
+  payload: DeleteDoctorFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(deleteDoctor, payload)
+    if (response.result) {
+      toast.success('Success, doctor deleted')
+      yield put(staffActions.deleteDoctorSucceeded(payload.ids))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(staffActions.deleteDoctorFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(staffActions.deleteDoctorFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* staffWatcherSaga(): SagaIterator {
   yield takeLatest(staffActions.fetchDepartmentRequest.type, onFetchDepartmentList)
@@ -217,6 +242,7 @@ export function* staffWatcherSaga(): SagaIterator {
   yield takeEvery(staffActions.createDoctorRequest.type, onCreateDoctor)
   yield takeEvery(staffActions.fetchDoctorFullDetailRequest.type, onFetchDoctorFullDetail)
   yield takeEvery(staffActions.updateDoctorRequest.type, onUpdateDoctor)
+  yield takeEvery(staffActions.deleteDoctorRequest.type, onDeleteDoctor)
 }
 
 export default staffWatcherSaga

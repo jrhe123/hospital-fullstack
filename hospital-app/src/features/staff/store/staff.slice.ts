@@ -14,6 +14,7 @@ import {
   UploadDoctorPhotoFormInput,
   CreateDoctorFormInput,
   UpdateDoctorFormInput,
+  DeleteDoctorFormInput,
   CreateDoctorResponse,
   SearchDeptAndSubResponse,
 } from 'features/staff/types'
@@ -160,6 +161,24 @@ export const staffSlice = createSlice({
       state.isLoading = false
       state.errors = action.payload
     },
+    // delete doctor
+    deleteDoctorRequest(state, action: PayloadAction<DeleteDoctorFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    deleteDoctorSucceeded(state, action: PayloadAction<number[]>) {
+      state.isLoading = false
+      const filterDoctorList = state.doctorList.filter(
+        item => action.payload.indexOf(item.id) === -1,
+      )
+      const reducedCount = state.doctorList.length - filterDoctorList.length
+      state.doctorList = filterDoctorList
+      state.totalCount -= Math.max(reducedCount, 0)
+    },
+    deleteDoctorFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
   },
 })
 
@@ -193,10 +212,14 @@ export const staffActions = {
   fetchDoctorFullDetailRequest: staffSlice.actions.fetchDoctorFullDetailRequest,
   fetchDoctorFullDetailSucceeded: staffSlice.actions.fetchDoctorFullDetailSucceeded,
   fetchDoctorFullDetailFailed: staffSlice.actions.fetchDoctorFullDetailFailed,
-  // updadte doctor
+  // update doctor
   updateDoctorRequest: staffSlice.actions.updateDoctorRequest,
   updateDoctorSucceeded: staffSlice.actions.updateDoctorSucceeded,
   updateDoctorFailed: staffSlice.actions.updateDoctorFailed,
+  // delete doctor
+  deleteDoctorRequest: staffSlice.actions.deleteDoctorRequest,
+  deleteDoctorSucceeded: staffSlice.actions.deleteDoctorSucceeded,
+  deleteDoctorFailed: staffSlice.actions.deleteDoctorFailed,
 }
 
 // Selectors

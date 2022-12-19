@@ -8,6 +8,7 @@ import {
   FetchDoctorFullDetailFormInput,
   CreateDoctorFormInput,
   UpdateDoctorFormInput,
+  DeleteDoctorFormInput,
   DepartmentPageUtil,
   DoctorPageUtil,
   DoctorDetail,
@@ -37,11 +38,14 @@ export const uploadDoctorPhoto = (form: FormData): Promise<string> =>
   apiForm.post(`${DOCTOR_BASE_URL}/updatePhoto`, form)
 
 export const createDoctor = (form: CreateDoctorFormInput): Promise<CreateDoctorResponse> =>
-  apiForm.post(`${DOCTOR_BASE_URL}/insert`, form)
+  api.post(`${DOCTOR_BASE_URL}/insert`, form)
 
 export const fetchDoctorFullDetail = (
   form: FetchDoctorFullDetailFormInput,
 ): Promise<DoctorFullDetail> => api.post(`${DOCTOR_BASE_URL}/searchById`, form)
 
 export const updateDoctor = (form: UpdateDoctorFormInput): Promise<any> =>
-  apiForm.patch(`${DOCTOR_BASE_URL}/update`, form)
+  api.patch(`${DOCTOR_BASE_URL}/update`, form)
+
+export const deleteDoctor = (form: DeleteDoctorFormInput): Promise<any> =>
+  api.patch(`${DOCTOR_BASE_URL}/deleteByIds`, form)

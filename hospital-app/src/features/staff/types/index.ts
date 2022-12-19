@@ -80,6 +80,10 @@ export type UpdateDoctorFormInput = {
   id: number
 } & CreateDoctorFormInput
 
+export type DeleteDoctorFormInput = {
+  ids: number[]
+}
+
 export type Doctor = {
   deptName: string
   school: string
