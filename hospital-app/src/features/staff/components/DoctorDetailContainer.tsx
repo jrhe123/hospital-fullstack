@@ -7,9 +7,12 @@ import { toast } from 'react-toastify'
 
 import AvatarImage from 'assets/images/doctor/avatar.png'
 import { BoxWrapper } from 'components/BoxWrapper'
+import { CustomModal } from 'components/Modal'
 import { Env } from 'config/Env'
 
 import { useStaffService } from '../hooks'
+
+import { DoctorForm } from './DoctorForm'
 
 type DoctorDetailParams = {
   id?: string
@@ -17,6 +20,8 @@ type DoctorDetailParams = {
 
 export const DoctorDetailContainer = () => {
   const { id } = useParams<DoctorDetailParams>()
+  const [open, setOpen] = useState<boolean>(false)
+
   const navigate = useNavigate()
   const { isLoading, doctor, fetchDoctorDetail, uploadDoctorPhoto } = useStaffService()
 
@@ -87,9 +92,14 @@ export const DoctorDetailContainer = () => {
       component="div"
       sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
     >
-      {/* new */}
+      {/* edit */}
       <Box component="div" sx={{ marginRight: '6px' }}>
-        <Button onClick={() => {}} sx={{ padding: 0 }}>
+        <Button
+          onClick={() => {
+            setOpen(true)
+          }}
+          sx={{ padding: 0 }}
+        >
           <Box
             component="div"
             sx={{
@@ -140,6 +150,32 @@ export const DoctorDetailContainer = () => {
 
   return (
     <BoxWrapper>
+      <CustomModal
+        open={open}
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '80vw',
+          maxWidth: '600px',
+          bgcolor: 'background.paper',
+          padding: '18px',
+          paddingTop: '24px',
+          paddingBottom: '24px',
+        }}
+        disableBackdropClick={true}
+        handleCloseModal={() => {
+          setOpen(false)
+        }}
+      >
+        <DoctorForm
+          id={Number(id)}
+          handleCloseModal={() => {
+            setOpen(false)
+          }}
+        />
+      </CustomModal>
       <Box
         component="div"
         sx={{

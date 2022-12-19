@@ -42,6 +42,10 @@ export type FetchDoctorDetailFormInput = {
   id: number
 }
 
+export type FetchDoctorFullDetailFormInput = {
+  id: number
+}
+
 export type UploadDoctorPhotoFormInput = {
   doctorId: string
   file: File
@@ -71,6 +75,10 @@ export type CreateDoctorFormInput = {
   status: number
   subId: number | string
 }
+
+export type UpdateDoctorFormInput = {
+  id: number
+} & CreateDoctorFormInput
 
 export type Doctor = {
   deptName: string
@@ -119,6 +127,30 @@ export type DoctorDetail = {
   uuid: string
   hiredate: Date
   email: string
+}
+
+export type DoctorFullDetail = {
+  birthday: Date
+  deptName: string
+  address: string
+  sex: Sex
+  degree: Degree
+  description: string
+  pid: string
+  remark: string
+  uuid: string
+  hiredate: Date
+  recommended: true
+  deptSubId: number
+  school: string
+  subName: string
+  name: string
+  tel: string
+  id: number
+  tag: string[]
+  job: Occupation
+  email: string
+  status: number
 }
 
 export type CreateDoctorResponse = {

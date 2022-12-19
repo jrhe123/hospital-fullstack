@@ -257,6 +257,7 @@ export const DoctorContainer = () => {
     order: undefined,
   })
   const [selected, setSelected] = useState<readonly number[]>([])
+  const [doctorId, setDoctorId] = useState<number | null>(null)
   const [open, setOpen] = useState<boolean>(false)
 
   const { fetchDepartments, fetchDoctors, isLoading, departmentList, doctorList, totalCount } =
@@ -652,7 +653,13 @@ export const DoctorContainer = () => {
     >
       {/* new */}
       <Box component="div" sx={{ marginRight: '6px' }}>
-        <Button onClick={() => setOpen(true)} sx={{ padding: 0 }}>
+        <Button
+          onClick={() => {
+            setDoctorId(null)
+            setOpen(true)
+          }}
+          sx={{ padding: 0 }}
+        >
           <Box
             component="div"
             sx={{
@@ -770,6 +777,8 @@ export const DoctorContainer = () => {
                 sx={{ padding: 0, minWidth: 0, marginRight: '6px' }}
                 onClick={e => {
                   e.stopPropagation()
+                  setDoctorId(doc.id)
+                  setOpen(true)
                 }}
               >
                 <Typography
@@ -829,6 +838,7 @@ export const DoctorContainer = () => {
         }}
       >
         <DoctorForm
+          id={doctorId}
           handleCloseModal={() => {
             setOpen(false)
           }}

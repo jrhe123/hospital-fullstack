@@ -10,6 +10,7 @@ import {
   selectTotalCount,
   selectTotalPage,
   selectDoctor,
+  selectDoctorDetail,
 } from 'features/staff/store'
 import {
   SearchDoctorFormInput,
@@ -17,9 +18,12 @@ import {
   Department,
   SearchDeptAndSubResponse,
   DoctorDetail,
+  DoctorFullDetail,
   FetchDoctorDetailFormInput,
   UploadDoctorPhotoFormInput,
   CreateDoctorFormInput,
+  FetchDoctorFullDetailFormInput,
+  UpdateDoctorFormInput,
 } from 'features/staff/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
@@ -32,12 +36,15 @@ export type StaffServiceOperators = {
   totalCount: number
   totalPage: number
   doctor: DoctorDetail | null
+  doctorDetail: DoctorFullDetail | null
   fetchDepartments: () => void
   fetchDeptAndSub: () => void
   fetchDoctors: (form: SearchDoctorFormInput) => void
   fetchDoctorDetail: (form: FetchDoctorDetailFormInput) => void
   uploadDoctorPhoto: (form: UploadDoctorPhotoFormInput) => void
   createDoctor: (form: CreateDoctorFormInput) => void
+  fetchDoctorFullDetail: (form: FetchDoctorFullDetailFormInput) => void
+  updateDoctor: (form: UpdateDoctorFormInput) => void
 }
 
 /**
@@ -55,6 +62,7 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     totalCount: useAppSelector(selectTotalCount),
     totalPage: useAppSelector(selectTotalPage),
     doctor: useAppSelector(selectDoctor),
+    doctorDetail: useAppSelector(selectDoctorDetail),
     fetchDepartments: useCallback(() => {
       dispatch(staffActions.fetchDepartmentRequest())
     }, [dispatch]),
@@ -83,6 +91,18 @@ export const useStaffService = (): Readonly<StaffServiceOperators> => {
     createDoctor: useCallback(
       (form: CreateDoctorFormInput) => {
         dispatch(staffActions.createDoctorRequest(form))
+      },
+      [dispatch],
+    ),
+    fetchDoctorFullDetail: useCallback(
+      (form: FetchDoctorFullDetailFormInput) => {
+        dispatch(staffActions.fetchDoctorFullDetailRequest(form))
+      },
+      [dispatch],
+    ),
+    updateDoctor: useCallback(
+      (form: UpdateDoctorFormInput) => {
+        dispatch(staffActions.updateDoctorRequest(form))
       },
       [dispatch],
     ),

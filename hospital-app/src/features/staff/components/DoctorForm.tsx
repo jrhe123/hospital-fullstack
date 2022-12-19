@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Button, IconButton, MenuItem, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, MenuItem, Typography } from '@mui/material'
 import React, { FC, useCallback, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
@@ -186,10 +186,11 @@ const statusList: StatusType[] = [
 type DeptAndSubType = { id: string; name: string; value: number | null; isSection: boolean }
 
 interface DoctorFormProps {
+  id?: number | null
   handleCloseModal: () => void
 }
 
-export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
+export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal, id }) => {
   const [defaultValues, setDefauleValues] = useState<CreateDoctorFormInput>({
     name: '',
     pid: '',
@@ -216,7 +217,23 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
   })
   const [formattedList, setFormattedList] = useState<DeptAndSubType[]>([])
 
-  const { createDoctor, fetchDeptAndSub, isLoading, deptAndSubMap } = useStaffService()
+  const {
+    createDoctor,
+    updateDoctor,
+    fetchDeptAndSub,
+    fetchDoctorFullDetail,
+    isLoading,
+    deptAndSubMap,
+    doctorDetail,
+  } = useStaffService()
+
+  useEffect(() => {
+    if (id) {
+      fetchDoctorFullDetail({
+        id,
+      })
+    }
+  }, [id, fetchDoctorFullDetail])
 
   useEffect(() => {
     fetchDeptAndSub()
@@ -277,6 +294,74 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
+  useEffect(() => {
+    if (id && doctorDetail) {
+      // re-format the enum
+      const sex = Object.keys(Sex)[
+        Object.values(Sex).indexOf(doctorDetail.sex as unknown as Sex)
+      ] as keyof typeof Sex
+      const sexId = sexList.find(item => item.name === Sex[sex || 'MALE'])?.id
+      //
+      const degree = Object.keys(Degree)[
+        Object.values(Degree).indexOf(doctorDetail.degree as unknown as Degree)
+      ] as keyof typeof Degree
+      const degreeId = degreeList.find(item => item.name === Degree[degree || 'BACHELOR'])?.id
+      //
+      const job = Object.keys(Occupation)[
+        Object.values(Occupation).indexOf(doctorDetail.job as unknown as Occupation)
+      ] as keyof typeof Occupation
+      const jobId = occupationList.find(item => item.name === Occupation[job || 'SPECIALIST'])?.id
+
+      setDefauleValues({
+        name: doctorDetail.name,
+        pid: doctorDetail.pid,
+        sex: Sex[sex || 'MALE'],
+        sexId: String(sexId || 1),
+        birthday: new Date(doctorDetail.birthday),
+        school: doctorDetail.school,
+        degree: Degree[degree || 'BACHELOR'],
+        degreeId: String(degreeId || 1),
+        tel: doctorDetail.tel,
+        address: doctorDetail.address,
+        email: doctorDetail.email,
+        job: Occupation[job || 'SPECIALIST'],
+        jobId: String(jobId || 1),
+        remark: doctorDetail.remark,
+        description: doctorDetail.description,
+        hiredate: new Date(doctorDetail.hiredate),
+        tag: doctorDetail.tag,
+        tagStr: '',
+        recommended: doctorDetail.recommended,
+        recommendedId: doctorDetail.recommended ? '1' : '2',
+        status: doctorDetail.status,
+        subId: doctorDetail.deptSubId,
+      })
+
+      setValue('name', doctorDetail.name)
+      setValue('pid', doctorDetail.pid)
+      setValue('sex', Sex[sex || 'MALE'])
+      setValue('sexId', String(sexId || 1))
+      setValue('birthday', new Date(doctorDetail.birthday))
+      setValue('school', doctorDetail.school)
+      setValue('degree', Degree[degree || 'BACHELOR'])
+      setValue('degreeId', String(degreeId || 1))
+      setValue('tel', doctorDetail.tel)
+      setValue('address', doctorDetail.address)
+      setValue('email', doctorDetail.email)
+      setValue('job', Occupation[job || 'SPECIALIST'])
+      setValue('jobId', String(jobId || 1))
+      setValue('remark', doctorDetail.remark)
+      setValue('description', doctorDetail.description)
+      setValue('hiredate', new Date(doctorDetail.hiredate))
+      setValue('tag', doctorDetail.tag)
+      setValue('tagStr', '')
+      setValue('recommended', doctorDetail.recommended)
+      setValue('recommendedId', doctorDetail.recommended ? '1' : '2')
+      setValue('status', doctorDetail.status)
+      setValue('subId', doctorDetail.deptSubId)
+    }
+  }, [id, doctorDetail, setValue])
+
   const handleTagStrEnter = () => {
     const values = getValues()
     const { tag } = values
@@ -318,7 +403,16 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
     setValue('recommended', formattedRecommend)
 
     const values = getValues()
-    createDoctor(values)
+
+    if (id) {
+      updateDoctor({
+        ...values,
+        id,
+      })
+    } else {
+      createDoctor(values)
+    }
+
     handleCloseModal()
   }
 
@@ -364,6 +458,25 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
       }}
       className="hide-scroll"
     >
+      {isLoading && !!id ? (
+        <Box
+          component="div"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0,0,0,0.6)',
+            zIndex: 2,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : null}
       <Box
         component="div"
         sx={{
@@ -391,7 +504,7 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
             color: 'white',
           }}
         >
-          Create Doctor
+          {id ? 'Update' : 'Create'} Doctor
         </Typography>
         <IconButton onClick={handleCloseModal}>
           <CloseIcon
@@ -896,7 +1009,7 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: '30px',
-          marginBottom: '24px',
+          marginBottom: '12px',
         }}
       >
         {/* submit */}
@@ -925,7 +1038,12 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal }) => {
         </Box>
         {/* cancel */}
         <Box component="div">
-          <Button onClick={() => {}} sx={{ padding: 0 }}>
+          <Button
+            onClick={() => {
+              handleCloseModal()
+            }}
+            sx={{ padding: 0 }}
+          >
             <Box
               component="div"
               sx={{

@@ -11,6 +11,8 @@ import {
   fetchDoctorDetail,
   uploadDoctorPhoto,
   createDoctor,
+  fetchDoctorFullDetail,
+  updateDoctor,
 } from 'features/staff/api'
 import { staffActions } from 'features/staff/store/staff.slice'
 import {
@@ -18,6 +20,7 @@ import {
   SearchDoctorFormInput,
   UploadDoctorPhotoFormInput,
   CreateDoctorFormInput,
+  UpdateDoctorFormInput,
 } from 'features/staff/types'
 
 // Worker Sagas
@@ -149,6 +152,60 @@ function* onCreateDoctor({
   }
 }
 
+function* onFetchDoctorFullDetail({
+  payload,
+}: {
+  type: typeof staffActions.fetchDoctorFullDetailRequest
+  payload: FetchDoctorDetailFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(fetchDoctorFullDetail, payload)
+    if (response.result) {
+      yield put(staffActions.fetchDoctorFullDetailSucceeded(response.data))
+    } else {
+      const errors = [new Error(response.message)]
+      yield put(staffActions.fetchDoctorFullDetailFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Api error')]
+    yield put(staffActions.fetchDoctorFullDetailFailed(errors))
+  }
+}
+
+function* onUpdateDoctor({
+  payload,
+}: {
+  type: typeof staffActions.updateDoctorRequest
+  payload: UpdateDoctorFormInput
+}): SagaIterator {
+  try {
+    payload.birthday = dayjs(payload.birthday).format('YYYY-MM-DD')
+    payload.hiredate = dayjs(payload.hiredate).format('YYYY-MM-DD')
+    delete payload.sexId
+    delete payload.degreeId
+    delete payload.jobId
+    delete payload.recommendedId
+    delete payload.tagStr
+    const response = yield call(updateDoctor, payload)
+    if (response.result) {
+      toast.success('Success, doctor updated')
+      // refetch
+      const doctor = yield call(fetchDoctorDetail, {
+        id: payload.id,
+      })
+      yield put(staffActions.updateDoctorSucceeded(doctor.data))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(staffActions.updateDoctorFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(staffActions.updateDoctorFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* staffWatcherSaga(): SagaIterator {
   yield takeLatest(staffActions.fetchDepartmentRequest.type, onFetchDepartmentList)
@@ -158,6 +215,8 @@ export function* staffWatcherSaga(): SagaIterator {
   yield takeEvery(staffActions.fetchDoctorDetailRequest.type, onFetchDoctorDetail)
   yield takeEvery(staffActions.uploadDoctorPhotoRequest.type, onUploadDoctorPhoto)
   yield takeEvery(staffActions.createDoctorRequest.type, onCreateDoctor)
+  yield takeEvery(staffActions.fetchDoctorFullDetailRequest.type, onFetchDoctorFullDetail)
+  yield takeEvery(staffActions.updateDoctorRequest.type, onUpdateDoctor)
 }
 
 export default staffWatcherSaga
