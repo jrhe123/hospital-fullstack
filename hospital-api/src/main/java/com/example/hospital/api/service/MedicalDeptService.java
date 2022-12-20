@@ -14,5 +14,7 @@ public interface MedicalDeptService {
 	
 	public HashMap searchDeptAndSub();
 	
+	public PageUtils searchDeptByPage(Map param);
+	
 	public PageUtils searchByPage(Map param);
 }

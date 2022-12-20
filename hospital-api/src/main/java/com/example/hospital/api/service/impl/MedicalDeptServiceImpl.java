@@ -98,6 +98,22 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 		
 		return result;
 	}
+	
+	@Override
+	public PageUtils searchDeptByPage(Map param) {
+		ArrayList<HashMap> list = null;
+		long count = medicalDeptDao.searchCount(param);
+		if (count > 0) {
+			list = medicalDeptDao.searchDeptByPage(param);
+		} else {
+			list = new ArrayList<>();
+		}
+		
+		int page = MapUtil.getInt(param, "page");
+		int length = MapUtil.getInt(param, "length");
+		PageUtils pageUtils = new PageUtils(list, count, page, length);
+		return pageUtils;
+	}
 
 	@Override
 	public PageUtils searchByPage(Map param) {
@@ -114,5 +130,7 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 		PageUtils pageUtils = new PageUtils(list, count, page, length);
 		return pageUtils;
 	}
+
+
 
 }

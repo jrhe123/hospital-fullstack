@@ -10,6 +10,8 @@ public interface MedicalDeptDao {
 
 	public ArrayList<HashMap> searchDeptAndSub();
 	
+	public ArrayList<HashMap> searchDeptByPage(Map param);
+	
 	public ArrayList<HashMap> searchByPage(Map param);
 	
 	public long searchCount(Map param);

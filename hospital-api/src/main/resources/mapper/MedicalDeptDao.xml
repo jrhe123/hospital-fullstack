@@ -20,6 +20,27 @@
     </select>
     
     
+    <select id="searchDeptByPage" parameterType="Map" resultType="HashMap">
+	    SELECT d."id" AS "id",
+	           d."name" AS "name",
+	           d."outpatient" AS "outpatient",
+	           d."recommended" AS "recommended",
+	           d."description" AS "description"
+	    FROM HOSPITAL.MEDICAL_DEPT d
+	    WHERE 1 = 1
+	      <if test="name!=null">
+	          AND d."name" LIKE '%${name}%'
+	      </if>
+	      <if test="outpatient!=null">
+	          AND d."outpatient" = ${outpatient}
+	      </if>
+	      <if test="recommended!=null">
+	          AND d."recommended" = ${recommended}
+	      </if>
+	    LIMIT ${length} OFFSET ${start}
+	</select>
+    
+    
     <select id="searchByPage" parameterType="Map" resultType="HashMap">
 	    SELECT d."id" AS "id",
 	           d."name" AS "name",

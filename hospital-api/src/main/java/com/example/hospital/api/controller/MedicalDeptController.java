@@ -48,6 +48,22 @@ public class MedicalDeptController {
 				.put("data", map);
 	}
 	
+	@PostMapping("/searchDeptByPage")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "MEDICAL_DEPT:SELECT"}, mode = SaMode.OR)
+	public R searchDeptByPage(@RequestBody @Valid SearchMedicalDeptByPageForm form) {
+		Map param = BeanUtil.beanToMap(form);
+		int page = form.getPage();
+		int length = form.getLength();
+		int start = (page - 1) * length;
+		param.put("start", start);
+		
+		PageUtils pageUtils = medicalDeptService.searchDeptByPage(param);
+		return R.ok()
+				.put("result", true)
+				.put("pageUtil", pageUtils);
+	}
+	
 	@PostMapping("/searchByPage")
 	@SaCheckLogin
 	@SaCheckPermission(value = {"ROOT", "MEDICAL_DEPT:SELECT"}, mode = SaMode.OR)
