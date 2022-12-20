@@ -176,6 +176,7 @@ mis_action
 #### query
 
 select * from hospital.doctor;
+UPSEERT INTO HOSPITAL.DOCTOR("id", "status") VALUES(1,1);
 
 
 CREATE TABLE hospital.doctor
