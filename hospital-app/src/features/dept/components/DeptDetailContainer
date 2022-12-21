@@ -10,25 +10,24 @@ import { BoxWrapper } from 'components/BoxWrapper'
 import { CustomModal } from 'components/Modal'
 import { Env } from 'config/Env'
 
-import {} from '../hooks'
+import { useDeptService } from '../hooks'
 
-import {} from './DeptForm'
+// import {} from './DeptForm'
 
-type DoctorDetailParams = {
+type DepartmentDetailParams = {
   id?: string
 }
 
 export const DeptDetailContainer = () => {
-  const { id } = useParams<DoctorDetailParams>()
+  const { id } = useParams<DepartmentDetailParams>()
   const [open, setOpen] = useState<boolean>(false)
   const [dOpen, setDOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const { isLoading, doctor, fetchDoctorDetail, uploadDoctorPhoto, deleteDoctor } =
-    useStaffService()
+  const { isLoading } = useDeptService()
 
   if (!id) {
-    navigate('/staff/doctor')
+    navigate('/management/dept')
   }
 
   useEffect(() => {
