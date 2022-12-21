@@ -61,7 +61,7 @@ const navbars: Narbar[] = [
         link: '/management/dept',
       },
       {
-        name: 'Department Section',
+        name: 'Section',
         link: '/management/deptSub',
       },
     ],
