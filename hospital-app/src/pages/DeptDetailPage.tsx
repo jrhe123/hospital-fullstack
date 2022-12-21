@@ -1,7 +1,7 @@
 import React from 'react'
 
 import SEO from 'components/SEO'
-// import { DoctorContainer } from 'features/staff'
+// import { DeptDetailContainer } from 'features/dept'
 
 const DeptDetailPage = () => (
   <>
@@ -11,7 +11,7 @@ const DeptDetailPage = () => (
       name={'Hospital'}
       type={'website'}
     />
-    123
+    {/* <DeptDetailContainer /> */}
   </>
 )
 

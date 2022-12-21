@@ -12,6 +12,10 @@ const HomePage = React.lazy(() => import('pages/HomePage'))
 const LoginPage = React.lazy(() => import('pages/LoginPage'))
 const DoctorPage = React.lazy(() => import('pages/DoctorPage'))
 const DoctorDetailPage = React.lazy(() => import('pages/DoctorDetailPage'))
+const DeptPage = React.lazy(() => import('pages/DeptPage'))
+const DeptDetailPage = React.lazy(() => import('pages/DeptDetailPage'))
+const DeptSubPage = React.lazy(() => import('pages/DeptSubPage'))
+const DeptSubDetailPage = React.lazy(() => import('pages/DeptSubDetailPage'))
 
 type ProtectedRouteProps = {
   isAuthenticated: boolean
@@ -69,20 +73,27 @@ const AppRoutes = () => {
                   element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<HomePage />} />}
                 />
                 <Route
-                  path="/management/sub123"
+                  path="/management/dept"
+                  element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeptPage />} />}
+                />
+                <Route
+                  path="/management/dept/:id"
                   element={
-                    <ProtectedRoute
-                      {...defaultProtectedRouteProps}
-                      outlet={<div>management page sub123</div>}
-                    />
+                    <ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeptDetailPage />} />
                   }
                 />
                 <Route
-                  path="/management/sub321"
+                  path="/management/deptSub"
+                  element={
+                    <ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeptSubPage />} />
+                  }
+                />
+                <Route
+                  path="/management/deptSub/:id"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>management page sub321</div>}
+                      outlet={<DeptSubDetailPage />}
                     />
                   }
                 />

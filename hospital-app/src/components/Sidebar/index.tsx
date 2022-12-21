@@ -57,12 +57,12 @@ const navbars: Narbar[] = [
     activeTab: TAB.MANAGEMENT,
     subNavbar: [
       {
-        name: 'Management sub 1',
-        link: '/management/sub123',
+        name: 'Department',
+        link: '/management/dept',
       },
       {
-        name: 'Management sub 2',
-        link: '/management/sub321',
+        name: 'Department Section',
+        link: '/management/deptSub',
       },
     ],
   },

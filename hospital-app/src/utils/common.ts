@@ -8,3 +8,6 @@ export const phoneFormat = (input: string) => {
   }
   return input
 }
+
+export const truncate = (str: string, maxlength: number) =>
+  str.length > maxlength ? `${str.slice(0, maxlength - 1)}...` : str
