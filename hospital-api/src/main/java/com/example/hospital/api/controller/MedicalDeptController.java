@@ -24,6 +24,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
 
 @RestController
 @RequestMapping("/medical/dept")
@@ -87,6 +88,9 @@ public class MedicalDeptController {
 	@SaCheckPermission(value = {"ROOT", "MEDICAL_DEPT:INSERT"}, mode = SaMode.OR)
 	public R insert(@RequestBody @Valid InsertMedicalDeptForm form) {
 		MedicalDeptEntity entity = BeanUtil.toBean(form, MedicalDeptEntity.class);
+		// add uuid
+		entity.setUuid(IdUtil.simpleUUID().toUpperCase());
+		
 		HashMap dept = medicalDeptService.insert(entity);
 		return R.ok()
 				.put("result", true)

@@ -16,6 +16,7 @@ import com.example.hospital.api.db.pojo.MedicalDeptEntity;
 import com.example.hospital.api.service.MedicalDeptService;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -61,43 +62,6 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 			}
 			
 		}
-		
-//			{
-//			  "msg": "success",
-//			  "result": {
-//			    "口腔科": [
-//			      {
-//			        "subId": 1,
-//			        "subName": "口腔颌面外科"
-//			      },
-//			      {
-//			        "subId": 2,
-//			        "subName": "口腔颌面内科"
-//			      }
-//			    ],
-//			    "眼科": [
-//			      {
-//			        "subId": 3,
-//			        "subName": "眼科门诊"
-//			      },
-//			      {
-//			        "subId": 4,
-//			        "subName": "白内障诊疗中心"
-//			      },
-//			      {
-//			        "subId": 5,
-//			        "subName": "屈光中心门诊"
-//			      },
-//			      {
-//			        "subId": 6,
-//			        "subName": "眼激光门诊"
-//			      }
-//			    ]
-//			  },
-//			  "code": 200
-//			}
-
-		
 		return result;
 	}
 	
@@ -135,21 +99,15 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 
 	@Override
 	@Transactional
-	public HashMap insert(MedicalDeptEntity entity) {
+	public HashMap insert(MedicalDeptEntity entity) {		
 		// 1. insert
-		int id = medicalDeptDao.insert(entity);
-		
-		System.out.println("++++++++++ id: ");
-		System.out.println("++++++++++ id: ");
-		System.out.println("++++++++++ id: ");
-		System.out.println("++++++++++ id: ");
-		System.out.println("++++++++++ id: ");
-		System.out.println("++++++++++ id: " + id);
-		
-		// 2. response
-//		HashMap dept = medicalDeptDao.getDeptDetailById(id);
-		
-		return null;
+		medicalDeptDao.insert(entity);
+		// 2. get id from uuid
+		String uuid = entity.getUuid();
+		Integer medicalDeptId = medicalDeptDao.searchIdByUuid(uuid);
+		// 3. response
+		HashMap dept = medicalDeptDao.getDeptDetailById(medicalDeptId);
+		return dept;
 	}
 
 

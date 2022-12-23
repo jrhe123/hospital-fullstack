@@ -20,6 +20,8 @@ public interface MedicalDeptDao {
 	
 	public int insert(MedicalDeptEntity entity);
 	
+	public Integer searchIdByUuid(String uuid);
+	
 	public HashMap getDeptDetailById(int id);
 	
 	public HashMap searchById(int id);

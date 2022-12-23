@@ -111,6 +111,12 @@
 	    )
 	</insert>
 	
+	<select id="searchIdByUuid" parameterType="String" resultType="Integer">
+    	SELECT "id"
+    	FROM HOSPITAL.MEDICAL_DEPT
+    	WHERE "uuid" = #{uuid}
+    </select>
+	
 	<select id="getDeptDetailById" parameterType="Integer" resultType="HashMap">
     	SELECT d."id" AS "id",
 	           d."name" AS "name",
