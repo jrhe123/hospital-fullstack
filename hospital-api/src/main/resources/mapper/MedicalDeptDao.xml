@@ -110,6 +110,63 @@
 	    	#{description}
 	    )
 	</insert>
+	
+	<select id="getDeptDetailById" parameterType="Integer" resultType="HashMap">
+    	SELECT d."id" AS "id",
+	           d."name" AS "name",
+	           d."outpatient" AS "outpatient",
+	           d."recommended" AS "recommended",
+	           t1."subs" AS "subs",
+	           t2."doctors" AS "doctors",
+	           d."description" AS "description"
+	    FROM HOSPITAL.MEDICAL_DEPT d
+	    JOIN (
+	        SELECT md."id",
+	               COUNT(ms."id") AS "subs"
+	        FROM HOSPITAL.MEDICAL_DEPT md
+	        LEFT JOIN HOSPITAL.MEDICAL_DEPT_SUB ms ON ms."dept_id" = md."id"
+	        GROUP BY md."id"
+	    ) t1 ON t1."id" = d."id"
+	    JOIN (
+	        SELECT md."id",
+	               COUNT(d."id") AS "doctors"
+	        FROM HOSPITAL.MEDICAL_DEPT md
+	        LEFT JOIN HOSPITAL.MEDICAL_DEPT_SUB ms ON ms."dept_id" = md."id"
+	        LEFT JOIN HOSPITAL.MEDICAL_DEPT_SUB_AND_DOCTOR sd ON sd."dept_sub_id" = ms."id"
+	        LEFT JOIN HOSPITAL.DOCTOR d ON d."id" = sd."doctor_id" AND d."status" = 1
+	        GROUP BY md."id"
+	    ) t2 ON d."id" = t2."id"
+	    
+	    WHERE d."id"=${id}
+    	LIMIT 1
+    </select>
+    
+    <select id="searchById" parameterType="int" resultType="HashMap">
+	    SELECT "name",
+	           "outpatient",
+	           "recommended",
+	           "description"
+	    FROM HOSPITAL.MEDICAL_DEPT
+	    WHERE "id" = ${id}
+	</select>
+	
+	<update id="update" parameterType="com.example.hospital.api.db.pojo.MedicalDeptEntity">
+	    UPSERT INTO HOSPITAL.MEDICAL_DEPT(
+	    	"id",
+	    	"name",
+	    	"outpatient",
+	    	"recommended",
+	    	"description"
+	    )
+	    VALUES(
+	    	${id},
+	    	#{name},
+	    	${outpatient},
+	    	${recommended},
+	    	#{description}
+	    )
+	</update>
+
 
     
 </mapper>

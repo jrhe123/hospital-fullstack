@@ -19,5 +19,5 @@ public interface MedicalDeptService {
 	
 	public PageUtils searchByPage(Map param);
 	
-	public void insert(MedicalDeptEntity entity);
+	public HashMap insert(MedicalDeptEntity entity);
 }

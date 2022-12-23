@@ -18,7 +18,14 @@ public interface MedicalDeptDao {
 	
 	public long searchCount(Map param);
 	
-	public void insert(MedicalDeptEntity entity);
+	public int insert(MedicalDeptEntity entity);
+	
+	public HashMap getDeptDetailById(int id);
+	
+	public HashMap searchById(int id);
+	
+	public void update(MedicalDeptEntity entity);
+	
 }
 
 

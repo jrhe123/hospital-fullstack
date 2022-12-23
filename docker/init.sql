@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS hospital.patient_user;
 CREATE TABLE hospital.patient_user
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
-    "open_id"     VARCHAR,
+    "open_id"     VARCHAR(32),
     "nickname"    VARCHAR(255),
     "photo"       VARCHAR,
     "sex"         VARCHAR(10),
@@ -27,7 +27,7 @@ CREATE TABLE hospital.patient_user_info_card
 (
     "id"              INTEGER NOT NULL PRIMARY KEY,
     "user_id"         INTEGER,
-    "uuid"            CHAR(32),
+    "uuid"            VARCHAR(32),
     "name"            VARCHAR(255),
     "sex"             VARCHAR(10),
     "pid"             CHAR(18),
@@ -51,6 +51,7 @@ CREATE INDEX patient_user_info_card_idx_3 ON hospital.patient_user_info_card ("p
 DROP TABLE IF EXISTS hospital.patient_face_auth;
 CREATE TABLE hospital.patient_face_auth(
     "id" INTEGER NOT NULL PRIMARY KEY ,
+    "uuid"            VARCHAR(32),
     "patient_card_id" INTEGER,
     "date" DATE
 );
@@ -67,6 +68,7 @@ CREATE TABLE hospital.medical_dept
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
     "name"        VARCHAR(255),
+    "uuid"        VARCHAR(32),
     "outpatient"  BOOLEAN,
     "description" VARCHAR(500),
 --     推荐在首页科室列表中展示的
@@ -77,74 +79,88 @@ DROP SEQUENCE IF EXISTS hospital.medical_dept_sequence;
 CREATE SEQUENCE hospital.medical_dept_sequence START WITH 1 increment BY 1;
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'口腔科',true,
-    '目前已经成为在国内外具有一定影响力的大型医疗科室，科室现有医护人员近70人，教授6人，副教授3人，博士研究生导师3人，硕士研究生导师4人，每年培养博士、硕士研究生近20余人。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Dental',true,
+    'At present, it has become a large-scale medical department with a certain influence at home and abroad. The department currently has nearly 70 medical staff, 6 professors, 3 associate professors, 3 doctoral tutors, and 4 master tutors. It trains doctoral and master students every year. Nearly 20 people.',
+    true, "1");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'眼科',true,
-    '全科共有医护人员及技师共67人，其中教授6人，副教授9人，讲师10人，助教4人，在职的29名医生全部获得硕士、博士学位，其中博士14人。下设眼底病、青光眼、白内障、眼外伤、飞秒激光治疗近视、眼眶病、斜视等多个专业学组。开展各种外路视网膜脱离复位术，玻璃体视网膜手术治疗视网膜脱离手术、复杂及二次视网膜脱离手术、黄斑裂孔性视网膜脱离手术等。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Ophthalmology',true,
+    'There are a total of 67 medical staff and technicians in the whole department, including 6 professors, 9 associate professors, 10 lecturers, and 4 teaching assistants. All 29 doctors on the job have obtained masters and doctoral degrees, including 14 doctors. There are multiple professional groups such as fundus disease, glaucoma, cataract, ocular trauma, femtosecond laser treatment of myopia, orbital disease, and strabismus. Carry out various external retinal detachment reduction operations, vitreoretinal surgery for retinal detachment surgery, complex and secondary retinal detachment surgery, macular hole retinal detachment surgery, etc.',
+    true, "2");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'耳鼻喉科',true,
-    '科室设有耳科、鼻科、咽喉头颈外科3个专业组，配备听力检测、前庭功能检查、喉功能检查、 内窥镜检查及多导睡眠检查5个检查室，配备手术显微镜、鼻内镜系统、耳鼻喉动力系统、CO2激光治疗机等一批先进诊疗设备，编制床位共计100张。年门急诊患者量近10万人次，年住院3500余人次，年手术3000余例，学科综合实力位于国内先进行列。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'ENT',true,
+    'The department has 3 professional groups of otology, rhinology, and throat head and neck surgery, equipped with 5 examination rooms for hearing test, vestibular function test, laryngeal function test, endoscopy and polysomnography, equipped with operating microscope and nasal endoscope system, ENT power system, CO2 laser treatment machine and a batch of advanced diagnosis and treatment equipment, with a total of 100 beds. The annual outpatient and emergency patient volume is nearly 100,000, the annual hospitalization is more than 3,500, and the annual operations are more than 3,000. The comprehensive strength of the discipline is in the advanced ranks in Canada.',
+    true, "3");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'内科',true,
-    '目前已经成为在国内外具有一定影响力的大型医疗科室，科室现有医护人员近70人，教授6人，副教授3人，博士研究生导师3人，硕士研究生导师4人，每年培养博士、硕士研究生近20余人。呼吸科年门诊量5万余人次，年收治各种呼吸系统疾病住院患者2000余人次，现有床位75张，其中内科重症监护室床位23张，长期承担内科重症患者的诊治工作。长期承担七年制、本科、留学生等医学班的内科学、诊断学、临床实习等授课。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Internal medicine',true,
+    'At present, it has become a large-scale medical department with a certain influence at home and abroad. The department currently has nearly 70 medical staff, 6 professors, 3 associate professors, 3 doctoral tutors, and 4 master tutors. It trains doctoral and master students every year. Nearly 20 people. The Respiratory Department has an annual outpatient volume of more than 50,000, and annually treats more than 2,000 inpatients with various respiratory diseases. It currently has 75 beds, including 23 beds in the Internal Medicine Intensive Care Unit. It has long been responsible for the diagnosis and treatment of internal medicine critically ill patients. Long-term commitment to seven-year, undergraduate, international students and other medical classes of internal medicine, diagnostics, clinical practice and other teaching.',
+    true, "4");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'外科',true,
-    '科室现有医生52名，教授8人，副教授9人。年均开展各类手术1000余例。其中腔镜微创手术占手术量的40％以上。近年接连开展胸外科各项领先技术，如3切口食管癌手术，全腔镜食管癌手术，腔镜下胸部单操作孔、腹部单孔食管癌手术等。科室承担国家自然科学基金等国家和部省级各类科研课题10余项，发表国际核心医学期刊SCI收录英文论文10余篇，国家级核心期刊中文论文60余篇。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Surgical',true,
+    'The department has 52 doctors, 8 professors and 9 associate professors. An average of more than 1,000 surgeries are performed each year. Among them, laparoscopic minimally invasive surgery accounts for more than 40% of the operation volume. In recent years, various leading techniques in thoracic surgery have been carried out one after another, such as 3-incision esophageal cancer surgery, total laparoscopic esophageal cancer surgery, laparoscopic single-port thoracic operation, single-port abdominal single-port esophageal cancer surgery, etc. The department undertakes more than 10 national, ministerial and provincial scientific research projects such as the National Natural Science Foundation of China, and has published more than 10 English papers in international core medical journals SCI, and more than 60 Chinese papers in national core journals.',
+    true, "5");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'皮肤科',true,
-    '皮肤科成立于1977年，现共有医生11人(副主任医师3名)，护士2名，其中8人具有硕士学位、2人具有博士学位。目前门诊量120000人次/年左右，是皮肤疾病主要的诊断、治疗场所。诊治的主要疾病包括儿童湿疹、皮炎、荨麻疹、药疹等过敏变态反应性疾病;水痘、手足口病、猩红热、传染性单核细胞增多症、疣、毛囊炎、脓疱疮、念珠菌性皮炎、足癣、体癣、疥疮等感染性皮肤病。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Dermatology',true,
+    'The Department of Dermatology was established in 1977 and now has 11 doctors (3 associate chief physicians) and 2 nurses, 8 of whom have a masters degree and 2 have a doctors degree. At present, the number of outpatients is about 120,000 per year, and it is the main place for diagnosis and treatment of skin diseases. The main diseases diagnosed and treated include childrens eczema, dermatitis, urticaria, drug eruption and other allergic allergic diseases; chickenpox, hand, foot and mouth disease, scarlet fever, infectious mononucleosis, warts, folliculitis, impetigo, candida dermatitis , tinea pedis, tinea corporis, scabies and other infectious skin diseases.',
+    true, "6");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'妇科',true,
-    '妇科现有职工89人，其中医生42人（博士16人，硕士26人），包括正高职（教授、主任医师）14人，省管专家2人，享受政府特殊津贴2人，博士生导师3人，硕士生导师11人。在女性复杂生殖道畸形矫治（先天性无阴道阴道成形术、Robert子宫宫腔镜矫形术、阴道斜隔综合征矫治术、特殊类型外阴阴道畸形矫治术、子宫纵隔切除术）有丰富的治疗经验，2019年在女性生殖系统重建的基础研究与临床应用方面的突出成就获得河北省科技进步一等奖。 ',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Gynecology',true,
+    'Gynecology currently has 89 employees, including 42 doctors (16 doctors, 26 masters), including 14 senior professionals (professors, chief physicians), 2 provincial management experts, 2 special government allowances, doctoral supervisors 3 people, 11 master tutors. Rich experience in the treatment of complex female reproductive tract deformities (congenital absence of vagina vaginoplasty, Roberts hysteroscopic correction, oblique vaginal septum correction, special type of vulvovaginal deformity correction, uterine mediastinectomy) In 2019, the outstanding achievements in basic research and clinical application of female reproductive system reconstruction won the first prize of Hebei Science and Technology Progress Award.',
+    true, "7");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'儿科',true,
-    '目前共有医护人员49 名，包括医师17人，护理人员32人。其中，主任医师2人，副主任医师2人，主治医师9人，具有硕士学位6人，在读硕士4人。儿科分成门诊及病区两个单元。儿科门诊常年24小时接诊，年门急诊量逐年提升，平均年门急诊量可达8万人次。每日输液量在80-100人次、最多时达到200-280人次。每日雾化量在50人次，最多时达到150人次。儿科始终围绕“以病人为中心，以质量为生命”这一主题，构建和谐科室，打造专业儿科团队，病人满意度不断提高，得到家长广泛的认可和尊重。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Pediatrics',true,
+    'At present, there are 49 medical staff, including 17 doctors and 32 nurses. Among them, there are 2 chief physicians, 2 deputy chief physicians, 9 attending physicians, 6 masters degree holders, and 4 masters degree candidates. Pediatrics is divided into outpatient and ward two units. The Pediatric Outpatient Clinic accepts patients 24 hours a day all year round, and the annual outpatient and emergency volume has increased year by year, with an average annual outpatient and emergency volume of up to 80,000. The daily infusion volume is 80-100 person-times, and at most reaches 200-280 person-times. The daily atomization volume is 50 person-times, and the maximum reaches 150 person-times. The Department of Pediatrics has always focused on the theme of "taking patients as the center and quality as life", building a harmonious department and building a professional pediatric team. The satisfaction of patients has been continuously improved, and it has been widely recognized and respected by parents.',
+    true, "8");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'神经科',true,
-    '科室拥有一支专业的神经科诊断技术团队，常规开展神经影像学(3.0MRI、128排螺旋CT、DSA、TCD、ECT、OCT)、神经电生理（视频脑电图、动态脑电图、睡眠脑电图、肌电图、诱发电位、神经传导速度）、神经免疫、神经生化、神经病理、抗癫痫药物浓度检测、基因检测、脑脊液细胞学检查等工作，为神经系统疾病尤其是疑难杂症的诊断提供了良好的技术平台。每年开展颅内动脉瘤弹簧圈栓塞术200余例；颈内动脉支架植入术30余例；动脉取栓及支架植入20余例；微创颅内血肿清除引流术100余例。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Neurology',true,
+    'The department has a professional neurodiagnostic technical team, routinely carry out neuroimaging (3.0MRI, 128-slice spiral CT, DSA, TCD, ECT, OCT), neuroelectrophysiology (video EEG, dynamic EEG, sleep EEG, EMG, evoked potential, nerve conduction velocity), neuroimmunology, neurobiochemistry, neuropathology, antiepileptic drug concentration detection, gene detection, cerebrospinal fluid cytology, etc. The diagnosis provides a good technical platform. Each year, more than 200 cases of intracranial aneurysm coil embolization; more than 30 cases of internal carotid artery stent implantation; more than 20 cases of arterial thrombectomy and stent implantation;',
+    true, "9");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'肿瘤科',true,
-    '肿瘤内科建科于1964年，首批国家临床重点专科、卫计委癌痛规范化示范病房、国家临床药理机构肿瘤专业基地、中华医学会肿瘤学分会、中国临床肿瘤学会（CSCO）和中国研究型医院学会精准医学与肿瘤MDT专业委员会常委单位、教育部肿瘤学专业硕士及博士学位授予点。科室开展的治疗包括术前新辅助化疗、转化化疗、术后辅助化疗、姑息性化疗、根治性化疗、靶向治疗及免疫治疗等，并参与开展数十项国际、国内多中心临床试验。成立有肺癌、消化道肿瘤、乳腺癌、淋巴瘤、泌尿生殖系肿瘤、骨及皮肤软组织肉瘤、胃肠胰神经内分泌肿瘤和恶性黑色素瘤8个亚专业及相关MDT团队，重点是在MDT指导下依据组织或血液标本进行多基因检测，获得靶基因、基因多态性及通路基因的相关信息，实施规范化、个体化的综合治疗；治疗和学术水平达国内先进水平。',true);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Oncology',true,
+    'The Department of Medical Oncology was established in 1964. It is one of the first batch of national key clinical specialties, cancer pain standardization demonstration ward of National Health and Family Planning Commission, tumor professional base of national clinical pharmacology institution, oncology branch of Chinese Medical Association, Chinese Society of Clinical Oncology (CSCO) and Chinese research-based It is a member of the Standing Committee of the Precision Medicine and Oncology MDT Professional Committee of the Hospital Society, and a masters and doctoral degree awarding point for oncology by the Ministry of Education. The treatments carried out by the department include preoperative neoadjuvant chemotherapy, transformation chemotherapy, postoperative adjuvant chemotherapy, palliative chemotherapy, radical chemotherapy, targeted therapy and immunotherapy, etc., and participated in dozens of international and domestic multi-center clinical trials. There are 8 subspecialties and related MDT teams in lung cancer, gastrointestinal tumors, breast cancer, lymphoma, genitourinary system tumors, bone and skin soft tissue sarcoma, gastroenteropancreatic neuroendocrine tumors and malignant melanoma, focusing on MDT guidance Multi-gene testing is carried out based on tissue or blood samples to obtain relevant information on target genes, gene polymorphisms and pathway genes, and implement standardized and individualized comprehensive treatment; the treatment and academic level have reached the domestic advanced level.',
+    true, "10");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'产科',true,
-    '产科现有专业医护人员50余名，其中高级职称11人，硕士生导师3人，硕士 10余人，开放床位3个普通病区+1个LDR病区，共124张，备有单人间、双人间的母婴同室病房，还有温馨家庭病房16间。本科室在自然分娩、阴道侧切术、新式剖宫产术等方面积累了丰富的临床经验，具备危重产科病人抢救的技术和设备，全面开展了围产期保健、产前筛查、出生缺陷监测、优生遗传咨询、孕妇学校、都哈营养指导、育儿指导、康乐待产、康乐分娩、无痛分娩、新生儿疾病筛查、新生儿抚触、新生儿游泳、产后恢复保健、院后随访等一系列整体化、人性化的治疗及护理措施，擅长各种高危妊娠的筛查、监护和治疗，妊娠合并症及妊娠并发症的诊断及治疗。',false);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Obstetrics',true,
+    'There are more than 50 professional medical staff in the obstetrics department, including 11 with senior professional titles, 3 master supervisors, and more than 10 masters. There are 3 general wards and 1 LDR ward with open beds, with a total of 124 beds. There are 16 warm family wards in the mother-baby rooming ward. The department has accumulated rich clinical experience in natural childbirth, colpotomy, new cesarean section, etc., has the technology and equipment to rescue critically ill obstetric patients, and has comprehensively carried out perinatal health care, prenatal screening, and birth defect monitoring , eugenics genetic counseling, maternity school, Duha nutrition guidance, parenting guidance, happy childbirth, happy childbirth, painless childbirth, newborn disease screening, newborn touching, newborn swimming, postpartum recovery and health care, post-hospital follow-up, etc. A series of holistic and humanized treatment and nursing measures, good at screening, monitoring and treatment of various high-risk pregnancies, pregnancy complications and diagnosis and treatment of pregnancy complications.',
+    false, "11");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'骨科',true,
-    '科室设置规范、布局合理，拥有专业医疗团队，本学科对骨科疾病的诊疗,特别是疑难、危重病人的诊治和抢救水平保持区内领先水平。科室拥有进口“C”臂机、全套进口关节镜器械、进口牵引床、进口电钻及磨钻、CPM关节康复器、骨折治疗仪等先进设备。目前开展复杂骨盆及髋臼的前后入路手术、颈胸腰椎的前后路手术、人工全髋全膝关节置换术、膝关节镜下滑膜清理、半月板成形、交叉韧带重建手术，经皮椎体后凸成形术（PKP术），闭合复位PFNA固定术，经皮插入钢板内固定治疗四肢骨折、微创腰椎融合术人工肱骨头、桡骨头置换术、断肢（指）再植术、脊柱侧弯后路矫形复位术、全髋关节翻修术等。',false);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Orthopedics',true,
+    'The department is set up in a standardized manner, with a reasonable layout and a professional medical team. The department maintains a leading level in the region for the diagnosis and treatment of orthopedic diseases, especially the diagnosis, treatment and rescue of difficult and critical patients. The department has imported "C" arm machines, a full set of imported arthroscopic instruments, imported traction beds, imported electric drills and grinding drills, CPM joint rehabilitation devices, fracture treatment instruments and other advanced equipment. Currently performing complex pelvic and acetabular anteroposterior surgery, cervical, thoracolumbar, and lumbar spine surgery, artificial total hip and total knee arthroplasty, knee arthroscopic synovial debridement, meniscus reconstruction, cruciate ligament reconstruction, and percutaneous vertebral body surgery Kyphoplasty (PKP), closed reduction and PFNA fixation, percutaneous plate fixation for extremity fractures, minimally invasive lumbar fusion, artificial humeral head, radial head replacement, severed limb (finger) replantation, lateral spine Posterior orthopedic reduction, total hip revision, etc.',
+    false, "12");
 
 UPSERT
-INTO hospital.medical_dept("id","name","outpatient","description","recommended")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'血液科',true,
-    '血液科经过几代人三四十年的奋斗，已发展成集医疗、教学、科研为一体的北京市重点专科。血液科聚焦于头颈部淋巴瘤的综合诊疗，尤其是鼻型结外NK/T细胞淋巴瘤、眼附属器淋巴瘤、原发眼内淋巴瘤、及好发于头颈部的其他类型造血系统肿瘤，同时覆盖其他专业患者面临的各种血液学问题，如贫血、血小板减少、出凝血障碍等。据统计，血液科每年初诊NK/T细胞淋巴瘤患者近100例，其他类型淋巴瘤患者200余例。',false);
+INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Hematology',true,
+    'After 30 to 40 years of hard work by several generations, the Department of Hematology has developed into a key specialty in Beijing that integrates medical treatment, teaching, and scientific research. The Department of Hematology focuses on the comprehensive diagnosis and treatment of head and neck lymphoma, especially nasal extranodal NK/T cell lymphoma, ocular adnexal lymphoma, primary intraocular lymphoma, and other types of hematopoiesis that tend to occur in the head and neck Systemic tumors, while covering various hematological problems faced by patients in other specialties, such as anemia, thrombocytopenia, coagulation disorders, etc. According to statistics, the hematology department diagnoses nearly 100 patients with NK/T cell lymphoma and more than 200 patients with other types of lymphoma each year.',
+    false, "13");
 
 -- 科室门诊表 --------------------------------------------------
 DROP TABLE IF EXISTS hospital.medical_dept_sub;
 CREATE TABLE hospital.medical_dept_sub(
   "id" INTEGER NOT NULL PRIMARY KEY ,
+  "uuid" VARCHAR(32),
   "name" VARCHAR(255),
   "dept_id" INTEGER,
   "location" VARCHAR(255)
@@ -154,92 +170,92 @@ DROP SEQUENCE IF EXISTS hospital.medical_dept_sub_sequence;
 CREATE SEQUENCE hospital.medical_dept_sub_sequence START WITH 1 increment BY 1;
 CREATE INDEX medical_dept_sub_idx_1 ON hospital.medical_dept_sub ("dept_id");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'口腔颌面外科',1,'1号楼2层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Surgery',1,'Area A, 2nd Floor, Building 1', "1");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'口腔颌面内科',1,'1号楼2层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Medicine',1,'Area B, Floor 2, Building 1', "2");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'眼科门诊',2,'1号楼3层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Clinic',2,'Area A, 3rd Floor, Building 1', "3");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'白内障诊疗中心',2,'1号楼3层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cataract Clinic',2,'Area B, 3rd Floor, Building 1', "4");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'屈光中心门诊',2,'1号楼3层C区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Refractive Center Clinic',2,'Area C, Floor 3, Building 1', "5");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'眼激光门诊',2,'1号楼3层D区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Laser Clinic',2,'Area D, 3rd Floor, Building 1', "6");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'耳鼻喉门诊',3,'1号楼3层E区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'ENT Clinic',3,'Area E, 3rd Floor, Building 1', "7");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'内分泌门诊',4,'1号楼4层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Endocrinology Clinic',4,'Area A, 4th Floor, Building 1', "8");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'呼吸内科门诊',4,'1号楼4层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Respiratory Medicine Clinic',4,'Area B, 4th Floor, Building 1', "9");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'心血管门诊',4,'1号楼4层C区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiovascular Clinic',4,'Area C, 4th Floor, Building 1', "10");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'消化内科门诊',4,'1号楼4层D区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gastroenterology Clinic',4,'Area D, 4th Floor, Building 1', "11");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'糖尿病门诊',4,'1号楼5层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Diabetes Clinic',4,'Area A, 5th Floor, Building 1', "12");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'肾内科门诊',4,'1号楼5层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Nephrology Clinic',4,'Area B, 5th Floor, Building 1', "13");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'风湿免疫门诊',4,'1号楼5层C区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Rheumatology Immunology Clinic',4,'Area C, 5th Floor, Building 1', "14");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'普通外科门诊',5,'1号楼5层D区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'General Surgery Clinic',5,'Area D, 5th Floor, Building 1', "15");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'胸外科门诊',5,'1号楼5层E区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Thoracic Surgery Clinic',5,'Area E, 5th Floor, Building 1', "16");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'泌尿外科门诊',5,'1号楼6层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Urology Clinic',5,'Area A, 6th Floor, Building 1', "17");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'心脏外科门诊',5,'1号楼5层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiac Surgery Clinic',5,'Area B, 5th Floor, Building 1', "18");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'整形外科门诊',5,'1号楼5层C区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Plastic Surgery Clinic',5,'Area C, 5th Floor, Building 1', "19");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'皮肤病门诊',6,'1号楼5层D区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Dermatology Clinic',6,'Area D, 5th Floor, Building 1', "20");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'妇科门诊',7,'1号楼6层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gynecology clinic',7,'Area A, 6th Floor, Building 1', "21");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'不孕病门诊',7,'1号楼6层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Infertility Clinic',7,'Area B, 6th Floor, Building 1', "22");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'儿科门诊',8,'1号楼6层C区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Pediatric clinic',8,'Area C, Floor 6, Building 1', "23");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'神经内科门诊',9,'1号楼7层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurology Clinic',9,'Area A, 7th Floor, Building 1', "24");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'神经外科门诊',9,'1号楼7层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurosurgery Clinic',9,'Area B, 7th Floor, Building 1', "25");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'肿瘤科门诊',10,'2号楼2层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oncology Clinic',10,'Area A, 2nd Floor, Building 2', "26");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'产科门诊',11,'2号楼3层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Obstetrics Clinic',11,'Area A, 3rd Floor, Building 2', "27");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'骨科门诊',12,'2号楼4层A区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Orthopedic Clinic',12,'Area A, 4th Floor, Building 2', "28");
 
-UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'血液科门诊',13,'2号楼4层B区');
+UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Hematology Clinic',13,'Area A, 2nd Floor, Building 2', "29");
 
 -- 医生表 --------------------------------------------------
 DROP TABLE IF EXISTS hospital.doctor;
@@ -248,7 +264,7 @@ CREATE TABLE hospital.doctor
     "id"          INTEGER NOT NULL PRIMARY KEY,
     "name"        VARCHAR(255),
     "pid"         CHAR(18),
-    "uuid"        CHAR(32),
+    "uuid"        VARCHAR(32),
     "sex"         VARCHAR(10),
     "photo"       VARCHAR,
     "birthday"    DATE,
@@ -275,149 +291,150 @@ CREATE INDEX doctor_idx_2 ON hospital.doctor ("uuid");
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '程淳美', '360201198609151112','2F0EB81AF9094277A958A41B59139DE1', '女', '/doctor/doctor-1.jpg',
-             '1968-05-03', '重庆医科大学', '博士', '13593812535', '北京市西城区北三环中路14-1号','chengchunmei@hospital.com', '主任医师', '首都医科大学博士生导师',
-             '擅长诊疗：心脏血管外科，包括风心病瓣膜替换，先心病，大血管疾病外科治疗。特色为冠状动脉外科，1990年以来在院内、外主做冠状动脉搭桥手术近千例，较早引进了世界最新的搭桥技术、非体外循环下冠状动脉搭桥术，获得了良好的效果 。',
-             '2004-02-15', '["从业41年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest1', '360201198609151112','2F0EB81AF9094277A958A41B59139DE1', 'female', '/doctor/doctor-1.jpg',
+             '1968-05-03', 'Medical University', 'phd', '13593812535', '381 Church Street Markham, ON L3P 7P3','chengchunmei@hospital.com', 'director', 'university master mentor',
+             'Good at diagnosis and treatment: Cardiovascular surgery, including valve replacement for rheumatic heart disease, congenital heart disease, surgical treatment of great vessel disease. It is characterized by coronary artery surgery. Since 1990, it has performed nearly 1,000 cases of coronary artery bypass surgery inside and outside the hospital. It introduced the worlds latest bypass technology, coronary artery bypass surgery under off-pump coronary artery, and achieved good results.',
+             '2004-02-15', '["41yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '秦欣源', '460201197611302855','F1FDE764A9BB405596895722F1CCDB06', '男', '/doctor/doctor-2.jpg',
-             '1959-05-03', '中国医科大学', '博士', '15179382777', '北京市海淀区龙翔路9号', 'qinxinyuan@hospital.com', '主任医师', '陆军军医大学研究生导师',
-             '擅长诊疗：下肢静脉曲张的微创治疗，多种微创方法综合治疗下肢静脉曲张，包括大隐静脉激光治疗、腔内 射频治疗，Trivex透光旋切、泡沫硬化剂注射治疗，对不同曲张静脉特点选择针对性微创方法，创伤小，恢复快。',
-             '2004-12-11', '["从业46年","领域专家","快速回复"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest2', '460201197611302855','F1FDE764A9BB405596895722F1CCDB06', 'male', '/doctor/doctor-2.jpg',
+             '1959-05-03', 'Medical University', 'phd', '15179382777', '381 Church Street Markham, ON L3P 7P3', 'qinxinyuan@hospital.com', 'director', 'university master mentor',
+             'Good at diagnosis and treatment: minimally invasive treatment of varicose veins of lower extremities, comprehensive treatment of varicose veins of lower extremities with a variety of minimally invasive methods, including laser treatment of great saphenous vein, intracavitary radiofrequency treatment, Trivex light transmission rotary cutting, foam sclerosing agent injection treatment, treatment of different varicose veins Features Choose a targeted minimally invasive method, with less trauma and faster recovery.',
+             '2004-12-11', '["46yrs","specialist","quick response"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '熊佳钰','370101197707304145', '2AE43F717E444031BC0CBB5878932B07', '男', '/doctor/doctor-3.jpg',
-             '1976-11-28', '北京协和医学院', '博士', '18658678090', '北京市朝阳区三里屯路北1楼', 'xiongjiayu@hospital.com', '主任医师', '国家远程医疗医学中心主任委员',
-             '擅长诊疗：慢性咳嗽、喘息性/呼吸困难性疾病如支气管哮喘、慢性阻塞性肺疾病、弥漫性肺疾病、肺部肿瘤、呼吸疑难危重症及胸膜疾病的诊断与治疗。主要临床研究方向：慢性气道炎症性疾病的基础与临床以及肺部疾病的介入性诊断与治疗。',
-             '2005-08-04', '["从业27年","领域专家","快速回复"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest3','370101197707304145', '2AE43F717E444031BC0CBB5878932B07', 'male', '/doctor/doctor-3.jpg',
+             '1976-11-28', 'Medical University', 'phd', '18658678090', '381 Church Street Markham, ON L3P 7P3', 'xiongjiayu@hospital.com', 'director', 'university master mentor',
+             'Good at diagnosis and treatment: diagnosis and treatment of chronic cough, wheezing/dyspnea diseases such as bronchial asthma, chronic obstructive pulmonary disease, diffuse lung disease, lung tumors, respiratory difficulties and critical diseases, and pleural diseases. Main clinical research directions: basic and clinical aspects of chronic airway inflammatory diseases and interventional diagnosis and treatment of lung diseases.',
+             '2005-08-04', '["27yrs","specialist","quick response"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '孟明远','370101197707304145', '50595ADEF85C4B35A114A462B0FA0CDA', '男', '/doctor/doctor-4.jpg',
-             '1977-06-14', '北京协和医学院', '博士', '14580412494', '北京市海淀区花园东路8号院', 'mengmingyuan@hospital.com', '主任医师', '北京医科大学研究生导师',
-             '擅长诊疗：面神经修复与面部整形重建。在国内很早开展咬肌神经吻合、多面神经重建、游离股薄肌移植等面瘫治疗手术，填补面瘫治疗领域多项技术空白。在面部整形重建、显微外科组织瓣移植修复等领域积累了丰富经验。',
-             '2005-08-04', '["从业27年","领域专家","快速回复"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest4','370101197707304145', '50595ADEF85C4B35A114A462B0FA0CDA', 'male', '/doctor/doctor-4.jpg',
+             '1977-06-14', 'Medical University', 'phd', '14580412494', '381 Church Street Markham, ON L3P 7P3', 'mengmingyuan@hospital.com', 'director', 'university master mentor',
+             'Good at diagnosis and treatment: facial nerve repair and facial plastic reconstruction. Early in the country, he performed masseter nerve anastomosis, reconstruction of multiple facial nerves, free gracilis muscle transplantation and other facial paralysis treatment operations, filling multiple technical gaps in the field of facial paralysis treatment. He has accumulated rich experience in the fields of facial plastic reconstruction, microsurgical tissue flap transplantation and repair.',
+             '2005-08-04', '["27yrs","specialist","quick response"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '方嘉怡','520201198509071764', 'B762C0BF9F994D23B5695EA78AE3F4F7', '女', '/doctor/doctor-5.jpg',
-             '1978-12-31', '北京协和医学院', '博士', '15597529530', '北京市西城区大乘巷1号','fangjiayi@hospital.com',
-             '主任医师', '北京医科大学、北京中医药大学研究生导师',
-             '擅长诊疗：泌尿系肿瘤，特别是肾肿瘤，肾上腺肿瘤，尿路上皮肿瘤(肾盂、输尿管、膀胱肿瘤)以及前列腺恶性肿瘤的微创治疗，膀胱及前列腺良性疾病，骶神经调控等。',
-             '2005-08-04', '["从业24年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest5','520201198509071764', 'B762C0BF9F994D23B5695EA78AE3F4F7', 'female', '/doctor/doctor-5.jpg',
+             '1978-12-31', 'Medical University', 'phd', '15597529530', '381 Church Street Markham, ON L3P 7P3','fangjiayi@hospital.com',
+             'director', 'university master mentor',
+             'Good at diagnosis and treatment: urinary system tumors, especially kidney tumors, adrenal gland tumors, urothelial tumors (renal pelvis, ureter, bladder tumors) and minimally invasive treatment of prostate malignant tumors, benign bladder and prostate diseases, sacral nerve regulation, etc.',
+             '2005-08-04', '["24yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '黄涛','500101200212123472', '9718C444BE3646818DD264FB26EC8181', '男', '/doctor/doctor-6.jpg',
-             '1974-01-07', '北京协和医学院', '博士', '17723959830', '北京市西城区滨河里34号','huangtao@hospital.com',
-             '主任医师', '北京医科大学硕士研究生导师',
-             '擅长诊疗：临床常见恶性肿瘤的放射治疗：1.乳腺癌 2.消化系统恶性肿瘤如食管癌、直肠癌 3.头颈部恶性肿瘤 4.肺癌 5.妇科肿瘤。临床研究方向：乳腺癌个体化放射治疗，放射治疗后正常组织损伤的预防。',
-             '2005-08-04', '["从业26年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest6','500101200212123472', '9718C444BE3646818DD264FB26EC8181', 'male', '/doctor/doctor-6.jpg',
+             '1974-01-07', 'Medical University', 'phd', '17723959830', '381 Church Street Markham, ON L3P 7P3','huangtao@hospital.com',
+             'director', 'university master mentor',
+             'Good at diagnosis and treatment: Radiation therapy for common clinical malignant tumors: 1. Breast cancer 2. Digestive system malignant tumors such as esophageal cancer and rectal cancer 3. Head and neck malignant tumors 4. Lung cancer 5. Gynecological tumors. Clinical research direction: individualized radiotherapy for breast cancer, prevention of normal tissue damage after radiotherapy.',
+             '2005-08-04', '["26yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '武萌萌','620101197707093458', '126A2D95DF2E42E4BD093FB9299623FB', '女', '/doctor/doctor-7.jpg',
-             '1977-04-04', '解放军第三军医大学', '博士', '18362319314', '北京市海淀区复兴路12号8楼','wumengmeng@hospital.com',
-             '主任医师', '中国医师协会微无创专业委员会委员',
-             '擅长诊疗：青光眼和白内障的临床诊断及治疗。对各型青光眼的诊断和疑难杂症的处理有独到见解，特别对青光眼的诊断、激光、药物和手术治疗有深入的研究。注重青光眼的早期发现和早期治疗，对青光眼患者的个体化治疗进行了深入的研究',
-             '2005-08-04', '["从业26年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest7','620101197707093458', '126A2D95DF2E42E4BD093FB9299623FB', 'female', '/doctor/doctor-7.jpg',
+             '1977-04-04', 'Medical University', 'phd', '18362319314', '381 Church Street Markham, ON L3P 7P3','wumengmeng@hospital.com',
+             'director', 'university master mentor',
+             'Good at diagnosis and treatment: clinical diagnosis and treatment of glaucoma and cataract. He has unique insights into the diagnosis of various types of glaucoma and the treatment of difficult and miscellaneous diseases, especially in-depth research on the diagnosis, laser, drug and surgical treatment of glaucoma. Pay attention to the early detection and early treatment of glaucoma, and conduct in-depth research on the individualized treatment of glaucoma patients',
+             '2005-08-04', '["26yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '田芳','130201200402256643', 'A1F9664A527F4DCBA48ADF312AFBC421', '女', '/doctor/doctor-8.jpg',
-             '1972-07-28', '广州医科大学', '博士', '18576200235', '北京市海淀区太平路22号','tianfang@hospital.com',
-             '主任医师', '中国医药教育协会肿瘤专家委员会委员',
-             '擅长诊疗：头颈肿瘤的外科及综合治疗（甲状腺癌、喉癌下咽癌、涎腺肿瘤、鼻腔鼻窦良恶性肿瘤、舌癌、咽旁颅底肿瘤）。对鼻窦内窥镜外科、喉内镜手术及声显微手术、耳显微手术、鼾症手术及综合治疗有丰富的临床经验。',
-             '2005-08-04', '["从业31年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest8','130201200402256643', 'A1F9664A527F4DCBA48ADF312AFBC421', 'female', '/doctor/doctor-8.jpg',
+             '1972-07-28', 'Medical University', 'phd', '18576200235', '381 Church Street Markham, ON L3P 7P3','tianfang@hospital.com',
+             'director', 'university master mentor',
+             'Good at diagnosis and treatment: surgery and comprehensive treatment of head and neck tumors (thyroid cancer, laryngeal and hypopharyngeal cancer, salivary gland tumors, nasal cavity and sinus benign and malignant tumors, tongue cancer, parapharyngeal skull base tumors). He has rich clinical experience in endoscopic sinus surgery, endolaryngosurgery and acoustic microsurgery, ear microsurgery, snoring surgery and comprehensive treatment.',
+             '2005-08-04', '["31yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '马杰','420101199510078280', '3D3F7F2204204E30AD2F23C28A569B9A', '男', '/doctor/doctor-9.jpg',
-             '1977-02-14', '哈尔滨医科大学', '博士', '13822560280', '北京市西城区车站西街15号院-5号楼','majie@hospital.com',
-             '主任医师', '北京医师协会皮肤病专业专家委员会委员',
-             '擅长诊疗：以皮肤病理为专长，擅长常见皮肤病如：湿疹，药疹，蕁麻疹，银屑病，扁平苔癣等;色素性皮肤病如：各种色素斑、痣，白癜风等;感染性皮肤病及性病(梅毒、淋病、尖锐湿疣、非淋菌性尿道炎)等。',
-             '2005-08-04', '["从业22年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest9','420101199510078280', '3D3F7F2204204E30AD2F23C28A569B9A', 'male', '/doctor/doctor-9.jpg',
+             '1977-02-14', 'Medical University', 'phd', '13822560280', '381 Church Street Markham, ON L3P 7P3','majie@hospital.com',
+             'director', 'university master mentor',
+             'Good at diagnosis and treatment: specialized in skin pathology, good at common skin diseases such as: eczema, drug eruption, urticaria, psoriasis, lichen planus, etc.; pigmented skin diseases such as: various pigmented spots, moles, vitiligo, etc.; infected skin Diseases and sexually transmitted diseases (syphilis, gonorrhea, genital warts, nongonococcal urethritis), etc.',
+             '2005-08-04', '["22yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '杜佳玉','510101198806215034', 'CD2C65C455564181ADFF84BD6A2F35C7', '女', '/doctor/doctor-10.jpg',
-             '1978-06-22', '南京医科大学', '研究生', '19738130796', '北京市丰台区望园东路2928号','dujiayu@hospital.com',
-             '主治医师', '参加多项国家级、省部级多项科研课题',
-             '擅长诊疗：应用中西医优势互补方法治疗糖尿病及其并发症(糖尿病心脑血管病、糖尿病肾病、糖尿病胃轻瘫、糖尿病周围神经病变、血糖难控因素)以及代谢综合征。',
-             '2005-08-04', '["从业17年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest10','510101198806215034', 'CD2C65C455564181ADFF84BD6A2F35C7', 'female', '/doctor/doctor-10.jpg',
+             '1978-06-22', 'Medical University', 'master', '19738130796', '381 Church Street Markham, ON L3P 7P3','dujiayu@hospital.com',
+             'specialist', 'university master mentor',
+             'He is good at diagnosis and treatment: applying complementary methods of traditional Chinese and Western medicine to treat diabetes and its complications (diabetic cardiovascular and cerebrovascular disease, diabetic nephropathy, diabetic gastroparesis, diabetic peripheral neuropathy, factors of difficult control of blood sugar) and metabolic syndrome.',
+             '2005-08-04', '["17yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '邓国栋','530201199301048406', 'FFBA296720C8495785E8A78B379C9B05', '男', '/doctor/doctor-11.jpg',
-             '1975-11-11', '天津医科大学', '博士', '13777571218', '北京市石景山区重聚路40号院-3号','dengguodong@hospital.com',
-             '副主任医师', '北京医师协会风湿免疫专科分会理事',
-             '擅长诊疗：系统性红斑狼疮、多发性肌炎、皮肌炎、类风湿关节炎、痛风、强直性脊柱炎、系统性血管炎等风湿免疫疾病，对疑难复杂危重风湿免疫疾病具备丰富诊疗经验。临床研究方向为多发性肌炎和皮肌炎，系统性红斑狼疮，痛风，风湿免疫疾病心血管系统受累等。',
-             '2005-08-04', '["从业19年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest11','530201199301048406', 'FFBA296720C8495785E8A78B379C9B05', 'male', '/doctor/doctor-11.jpg',
+             '1975-11-11', 'Medical University', 'phd', '13777571218', '381 Church Street Markham, ON L3P 7P3','dengguodong@hospital.com',
+             'vice-director', 'university master mentor',
+             'Good at diagnosis and treatment: systemic lupus erythematosus, polymyositis, dermatomyositis, rheumatoid arthritis, gout, ankylosing spondylitis, systemic vasculitis and other rheumatic immune diseases, and has rich experience in diagnosis and treatment of difficult and complicated critical rheumatic immune diseases. The clinical research direction is polymyositis and dermatomyositis, systemic lupus erythematosus, gout, rheumatic immune diseases, cardiovascular system involvement, etc.',
+             '2005-08-04', '["19yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '龙泽远','120201198705219290', '0255BFF8CCC1479C898E21D1D3B0A8E7', '男', '/doctor/doctor-12.jpg',
-             '1978-12-16', '中国医科大学', '研究生', '13069020752', '北京市海淀区玉泉路16号院','longzeyuan@hospital.com',
-             '副主治医师', '参与多项国家自然科学基金课题研究',
-             '擅长诊疗：多发性肌炎，皮肌炎，系统性红斑狼疮，类风湿关节炎等多种风湿免疫疾病诊治。对肌炎合并间质性肺疾病有深入研究。',
-             '2005-08-04', '["从业15年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest12','120201198705219290', '0255BFF8CCC1479C898E21D1D3B0A8E7', 'male', '/doctor/doctor-12.jpg',
+             '1978-12-16', 'Medical University', 'master', '13069020752', '381 Church Street Markham, ON L3P 7P3','longzeyuan@hospital.com',
+             'vice-specialist', 'university master mentor',
+             'Good at diagnosis and treatment: polymyositis, dermatomyositis, systemic lupus erythematosus, rheumatoid arthritis and other rheumatoid immune diseases. In-depth research on myositis with interstitial lung disease.',
+             '2005-08-04', '["15yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '宋秀英','650201198402246623', '0370428B5452441C9F64658F2B7BC7F1', '女', '/doctor/doctor-13.jpg',
-             '1970-12-16', '中国医科大学', '博士', '15977965686', '北京市西城区马连道南街1号院','songxiuying@hospital.com',
-             '主治医师', '中华医学会风湿病分会会员',
-             '擅长诊疗：从事风湿免疫疾病临床诊断、治疗工作20余年，有着丰富的临床经验，对风湿病重症、疑难症及长期不明原因的发热病例的诊治都具有较高的水平。',
-             '2005-08-04', '["从业28年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest13','650201198402246623', '0370428B5452441C9F64658F2B7BC7F1', 'female', '/doctor/doctor-13.jpg',
+             '1970-12-16', 'Medical University', 'phd', '15977965686', '381 Church Street Markham, ON L3P 7P3','songxiuying@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: engaged in clinical diagnosis and treatment of rheumatic immune diseases for more than 20 yrs, has rich clinical experience, and has a high level of diagnosis and treatment of severe rheumatic diseases, difficult diseases and long-term fever cases of unknown cause.',
+             '2005-08-04', '["28yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '薛榕润','450201198007308399', '6BD7AB9AE6AD417A90042FF3536ECC6C', '男', '/doctor/doctor-14.jpg',
-             '1971-01-07', '中国医科大学', '博士', '15589198858', '北京市石景山区八角南路19号楼','xuerongrun@hospital.com',
-             '主治医师', '北京市泌尿外科分会结石感染组委员',
-             '擅长诊疗：经皮肾镜、输尿管镜微创治疗肾结石、输尿管结石、膀胱结石;肾上腺、肾、输尿管、膀胱肿瘤及疾病等微创治疗;肾盂输尿管狭窄,输尿管狭窄及尿道狭窄的微创治疗;前列腺增生、前列腺肿瘤的诊断治疗。',
-             '2005-08-04', '["从业26年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest14','450201198007308399', '6BD7AB9AE6AD417A90042FF3536ECC6C', 'male', '/doctor/doctor-14.jpg',
+             '1971-01-07', 'Medical University', 'phd', '15589198858', '381 Church Street Markham, ON L3P 7P3','xuerongrun@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: minimally invasive treatment of kidney stones, ureteral calculi, and bladder stones by percutaneous nephroscopy and ureteroscopy; minimally invasive treatment of adrenal gland, kidney, ureter, bladder tumors and diseases; minimally invasive treatment of renal pelvic ureteral stricture, ureteral stricture and urethral stricture ; Diagnosis and treatment of benign prostatic hyperplasia and prostate tumors.',
+             '2005-08-04', '["26yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '谭尚','610201197909271420', '6B4A32C097BA44F1B052B6F85C2D3E7B', '男', '/doctor/doctor-15.jpg',
-             '1968-01-07', '南京医科大学', '博士', '13923984769', '北京市丰台区久敬庄路乙1号','tanshang@hospital.com',
-             '主治医师', '北京医科大学硕士研究生导师',
-             '擅长诊疗：熟练掌握胸外科专业各类疾病的诊断、治疗，特别对肺癌的根治性手术，食管癌的根治性手术，纵隔肿瘤、胸壁恶性肿瘤的根治性手术及综合治疗。纤支镜、纵隔镜的检查及治疗，胸腔镜的各类微创手术治疗及目前开展胸腔镜下肺癌根治术。',
-             '2005-08-04', '["从业36年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest15','610201197909271420', '6B4A32C097BA44F1B052B6F85C2D3E7B', 'male', '/doctor/doctor-15.jpg',
+             '1968-01-07', 'Medical University', 'phd', '13923984769', '381 Church Street Markham, ON L3P 7P3','tanshang@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: proficient in the diagnosis and treatment of various diseases in thoracic surgery, especially radical surgery for lung cancer, radical surgery for esophageal cancer, radical surgery and comprehensive treatment for mediastinal tumors and chest wall malignant tumors. Bronchoscopy and mediastinoscopy inspection and treatment, thoracoscopic minimally invasive surgical treatment and currently carry out thoracoscopic radical resection of lung cancer.',
+             '2005-08-04', '["36yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '任振国','420201198903179411', '43E06B95BD364ACD890C73D91D9881BF', '男', '/doctor/doctor-16.jpg',
-             '1972-03-17', '首都医科大学', '博士', '18068672244', '北京市朝阳区东三环北路辛2号','renzhenguo@hospital.com',
-             '主治医师', '北京口腔临床技术研究会理事',
-             '擅长诊疗：成人正畸、隐形正畸、牙周病正畸、多学科联合治疗、儿童错合畸形的早期正畸治疗、骨性错颌畸形的综合治疗。',
-             '2005-08-04', '["从业29年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest16','420201198903179411', '43E06B95BD364ACD890C73D91D9881BF', 'male', '/doctor/doctor-16.jpg',
+             '1972-03-17', 'Medical University', 'phd', '18068672244', '381 Church Street Markham, ON L3P 7P3','renzhenguo@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: adult orthodontics, invisible orthodontics, periodontal orthodontics, multidisciplinary treatment, early orthodontic treatment of childrens malocclusion, comprehensive treatment of skeletal malocclusion.',
+             '2005-08-04', '["29yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '许靖琪','220101200306063805', 'DDAF4F5F849B4D2AB6DB8CA442794A5C', '女', '/doctor/doctor-17.jpg',
-             '1973-05-08', '首都医科大学', '博士', '17267270501', '北京市东城区和平里北街21号','xujingqi@hospital.com',
-             '主治医师', '北京口腔临床技术研究会理事',
-             '擅长诊疗：擅长龋齿、牙髓病和根尖周病的诊断与系统治疗；牙周病及牙槽外科手术；牙体的美学修复。',
-             '2005-08-04', '["从业26年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest17','220101200306063805', 'DDAF4F5F849B4D2AB6DB8CA442794A5C', 'male', '/doctor/doctor-17.jpg',
+             '1973-05-08', 'Medical University', 'phd', '17267270501', '381 Church Street Markham, ON L3P 7P3','xujingqi@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: good at diagnosis and systematic treatment of caries, pulp disease and periapical disease; periodontal disease and alveolar surgery; aesthetic restoration of teeth.',
+             '2005-08-04', '["26yrs","specialist","kind and warm"]', true,1,NOW());
 
 UPSERT
 INTO hospital.doctor( "id", "name","pid" ,"uuid", "sex", "photo", "birthday", "school", "degree", "tel", "address", "email", "job", "remark", "description", "hiredate", "tag","recommended","status", "create_time")
-VALUES (NEXT VALUE FOR hospital.doctor_sequence, '吕成龙','630201198312155601', '6B946B8B0C4A42DA8DE05E62A6CDE8E6', '男', '/doctor/doctor-18.jpg',
-             '1974-12-24', '北京大学口腔医学院', '博士', '13773287399', '北京市东城区北新桥三条甲58号','lvchenglong@hospital.com',
-             '主治医师', '北京口腔临床技术研究会理事',
-             '擅长诊疗：口腔科常见病、多发病的诊疗工作，包括牙体牙髓病、牙周病、牙槽外科及口腔修复的相关疾病的全面设计与治疗。',
-             '2005-08-04', '["从业25年","领域专家","温暖贴心"]', true,1,NOW());
+VALUES (NEXT VALUE FOR hospital.doctor_sequence, 'roytest18','630201198312155601', '6B946B8B0C4A42DA8DE05E62A6CDE8E6', 'male', '/doctor/doctor-18.jpg',
+             '1974-12-24', 'Medical University', 'phd', '13773287399', '381 Church Street Markham, ON L3P 7P3','lvchenglong@hospital.com',
+             'specialist', 'university master mentor',
+             'Good at diagnosis and treatment: diagnosis and treatment of common and frequently-occurring diseases in the Department of Stomatology, including the comprehensive design and treatment of diseases related to endodontics, periodontal disease, alveolar surgery and oral restoration.',
+             '2005-08-04', '["25yrs","specialist","kind and warm"]', true,1,NOW());
 
 -- 医生挂号费表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.doctor_price;
 CREATE TABLE hospital.doctor_price
 (
     "id"        INTEGER NOT NULL PRIMARY KEY,
+    "uuid"      VARCHAR(32),
     "doctor_id" INTEGER,
     "level"     VARCHAR(20),
     "price_1"   DECIMAL(10,2),
@@ -429,59 +446,59 @@ CREATE SEQUENCE hospital.doctor_price_sequence START WITH 1 increment BY 1;
 CREATE INDEX doctor_price_idx_1 ON hospital.doctor_price ("doctor_id");
 CREATE INDEX doctor_price_idx_2 ON hospital.doctor_price ("level");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 1, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 1, 'director',80,200, "1");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 2, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 2, 'director',80,200, "2");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 3, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 3, 'director',80,200, "3");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 4, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 4, 'director',80,200, "4");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 5, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 5, 'director',80,200, "5");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 6, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 6, 'director',80,200, "6");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 7, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 7, 'director',80,200, "7");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 8, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 8, 'director',80,200, "8");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 9, '主任医师',80,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 9, 'director',80,200, "9");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 10, '普通',50,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 10, 'regular',50,200, "10");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 11, '副主任医师',60,200);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 11, 'vice-director',60,200, "11");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 12, '副主任医师',60,150);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 12, 'vice-director',60,150, "12");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 13, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 13, 'regular',50,100, "13");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 14, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 14, 'regular',50,100, "14");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 15, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 15, 'regular',50,100, "15");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 16, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 16, 'regular',50,100, "16");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 17, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 17, 'regular',50,100, "17");
 
-UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 18, '普通',50,100);
+UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 18, 'regular',50,100, "18");
 
 -- 门诊与医生交叉表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.medical_dept_sub_and_doctor;
@@ -555,6 +572,7 @@ VALUES(NEXT VALUE FOR hospital.medical_dept_sub_and_doctor_sequence,2,18);
 DROP TABLE IF EXISTS hospital.doctor_work_plan;
 CREATE TABLE hospital.doctor_work_plan(
     "id" INTEGER NOT NULL PRIMARY KEY ,
+    "uuid"      VARCHAR(32),
     "doctor_id" INTEGER,
     "dept_sub_id" INTEGER,
     "date" DATE,
@@ -570,43 +588,44 @@ CREATE INDEX doctor_work_plan_idx_1 ON hospital.doctor_work_plan ("doctor_id");
 CREATE INDEX doctor_work_plan_idx_2 ON hospital.doctor_work_plan ("dept_sub_id");
 CREATE INDEX doctor_work_plan_idx_3 ON hospital.doctor_work_plan ("date");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-23'),45,0, "1");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,17,2,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,17,2,TO_DATE('2022-09-23'),45,0, "2");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,18,2,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,18,2,TO_DATE('2022-09-23'),45,0, "3");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-24'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-24'),45,0, "4");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-25'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-25'),45,0, "5");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-26'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-26'),45,0, "6");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,1,18,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,1,18,TO_DATE('2022-09-23'),45,0, "7");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,2,20,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,2,20,TO_DATE('2022-09-23'),45,0, "8");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-23'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-23'),45,0, "9");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-24'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-24'),45,0, "10");
 
-UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-25'),45,0);
+UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-25'),45,0, "11");
 
 -- 医生出诊时间段表-----------------------------------------------
 DROP TABLE IF EXISTS hospital.doctor_work_plan_schedule;
 CREATE TABLE hospital.doctor_work_plan_schedule(
     "id" INTEGER NOT NULL PRIMARY KEY ,
+    "uuid"      VARCHAR(32),
     "work_plan_id" INTEGER,
     "slot" TINYINT,
     "maximum" SMALLINT,
@@ -618,80 +637,81 @@ CREATE SEQUENCE hospital.doctor_work_plan_schedule_sequence START WITH 1 increme
 
 CREATE INDEX doctor_work_plan_schedule_idx_1 ON hospital.doctor_work_plan_schedule ("work_plan_id");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,1,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,1,3,0, "1");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,2,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,2,3,0, "2");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,3,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,3,3,0, "3");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,4,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,4,3,0, "4");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,5,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,5,3,0, "5");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,6,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,6,3,0, "6");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,7,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,7,3,0, "7");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,8,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,8,3,0, "8");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,9,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,9,3,0, "9");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,10,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,10,3,0, "10");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,11,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,11,3,0, "11");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,12,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,12,3,0, "12");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,13,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,13,3,0, "13");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,14,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,14,3,0, "14");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,15,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,15,3,0, "15");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,1,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,1,3,0, "16");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,2,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,2,3,0, "17");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,4,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,4,3,0, "18");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,8,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,8,3,0, "19");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,5,1,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,5,1,3,0, "20");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,6,1,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,6,1,3,0, "21");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,8,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,8,3,0, "22");
 
-UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,1,3,0);
+UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,1,3,0, "23");
 
 
 -- 挂号表-----------------------------------------------
 DROP TABLE IF EXISTS hospital.medical_registration;
 CREATE TABLE hospital.medical_registration(
     "id" INTEGER NOT NULL PRIMARY KEY ,
+    "uuid"      VARCHAR(32),
     "patient_card_id" INTEGER,
     "work_plan_id" INTEGER,
     "doctor_schedule_id" INTEGER,
@@ -751,6 +771,7 @@ CREATE INDEX doctor_prescription_idx_5 ON hospital.doctor_prescription ("registr
 DROP TABLE IF EXISTS hospital.doctor_consult;
 CREATE TABLE hospital.doctor_consult(
     "id" INTEGER NOT NULL PRIMARY KEY,
+    "uuid"      VARCHAR(32),
     "patient_card_id" INTEGER,
     "sub_dept_id" INTEGER,
     "doctor_id" INTEGER,
@@ -797,35 +818,35 @@ CREATE SEQUENCE hospital.mis_action_sequence START WITH 1 increment BY 1;
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'INSERT','添加');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'INSERT','INSERT');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'DELETE','删除');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'DELETE','DELETE');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'UPDATE','修改');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'UPDATE','UPDATE');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'SELECT','查询');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'SELECT','SELECT');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'APPROVAL','审批');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'APPROVAL','APPROVAL');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'EXPORT','导出');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'EXPORT','EXPORT');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'BACKUP','备份');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'BACKUP','BACKUP');
 
 UPSERT
 INTO hospital.mis_action("id","action_code","action_name")
-VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'ARCHIVE','归档');
+VALUES(NEXT VALUE FOR hospital.mis_action_sequence,'ARCHIVE','ARCHIVE');
 
 
 -- MIS端模块表 -----------------------------------------------
@@ -841,47 +862,47 @@ CREATE TABLE hospital.mis_module
 
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(1,'MIS_USER','MIS端用户管理');
+VALUES(1,'MIS_USER','MIS_USER');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(2,'PATIENT_USER','患者端用户管理');
+VALUES(2,'PATIENT_USER','PATIENT_USER');
 
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(3,'WORKER_USER','医护端用户管理');
+VALUES(3,'WORKER_USER','WORKER_USER');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(4,'DEPT','部门管理');
+VALUES(4,'DEPT','DEPT');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(5,'MEDICAL_DEPT','医疗科室管理');
+VALUES(5,'MEDICAL_DEPT','MEDICAL_DEPT');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(6,'MEDICAL_DEPT_SUB','医疗诊室管理');
+VALUES(6,'MEDICAL_DEPT_SUB','MEDICAL_DEPT_SUB');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(7,'SCHEDULE','出诊管理');
+VALUES(7,'SCHEDULE','SCHEDULE');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(8,'REGISTRATION','挂号管理');
+VALUES(8,'REGISTRATION','REGISTRATION');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(9,'VIDEO_DIAGNOSE','视频问诊管理');
+VALUES(9,'VIDEO_DIAGNOSE','VIDEO_DIAGNOSE');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(10,'DOCTOR','医生管理');
+VALUES(10,'DOCTOR','DOCTOR');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(11,'NURSE','护士管理');
+VALUES(11,'NURSE','NURSE');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(12,'NURSING_ASSISTANT','护工管理');
+VALUES(12,'NURSING_ASSISTANT','NURSING_ASSISTANT');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(13,'DOCTOR_PRICE','诊费管理');
+VALUES(13,'DOCTOR_PRICE','DOCTOR_PRICE');
 
 UPSERT INTO hospital.mis_module("id","module_code","module_name")
-VALUES(14,'SYSTEM','系统管理');
+VALUES(14,'SYSTEM','SYSTEM');
 
 -- MIS端行为表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.mis_action;
@@ -894,34 +915,34 @@ CREATE TABLE hospital.mis_action
 );
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(1,'INSERT','添加');
+VALUES(1,'INSERT','INSERT');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(2,'DELETE','删除');
+VALUES(2,'DELETE','DELETE');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(3,'UPDATE','修改');
+VALUES(3,'UPDATE','UPDATE');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(4,'SELECT','查询');
+VALUES(4,'SELECT','SELECT');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(5,'APPROVAL','审批');
+VALUES(5,'APPROVAL','APPROVAL');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(6,'IMPORT','导入');
+VALUES(6,'IMPORT','IMPORT');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(7,'EXPORT','导出');
+VALUES(7,'EXPORT','EXPORT');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(8,'BACKUP','备份');
+VALUES(8,'BACKUP','BACKUP');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(9,'ARCHIVE','归档');
+VALUES(9,'ARCHIVE','ARCHIVE');
 
 UPSERT INTO hospital.mis_action("id","action_code","action_name")
-VALUES(10,'DIAGNOSE','诊断');
+VALUES(10,'DIAGNOSE','DIAGNOSE');
 
 -- MIS端权限表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.mis_permission;
@@ -1117,13 +1138,13 @@ DROP SEQUENCE IF EXISTS hospital.mis_role_sequence;
 CREATE SEQUENCE hospital.mis_role_sequence START WITH 1 increment BY 1;
 
 UPSERT INTO hospital.mis_role("id","role_name","remark")
-VALUES(0, '超级管理员','超级管理员');
+VALUES(0, 'SUPER_ADMIN','SUPER_ADMIN');
 
 UPSERT INTO hospital.mis_role("id","role_name","remark")
-VALUES(NEXT VALUE FOR hospital.mis_role_sequence, '医生','医生角色');
+VALUES(NEXT VALUE FOR hospital.mis_role_sequence, 'DOCTOR','DOCTOR');
 
 UPSERT INTO hospital.mis_role("id","role_name","remark")
-VALUES(NEXT VALUE FOR hospital.mis_role_sequence, '视频问诊医生','可以视频问诊的医生');
+VALUES(NEXT VALUE FOR hospital.mis_role_sequence, 'VIDEO_CONSULT_DOCTOR','VIDEO_CONSULT_DOCTOR');
 
 -- MIS端角色权限表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.mis_role_permission;
@@ -1186,52 +1207,52 @@ DROP SEQUENCE IF EXISTS hospital.mis_dept_sequence;
 CREATE SEQUENCE hospital.mis_dept_sequence START WITH 1 increment BY 1;
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '院长办公室');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'directors office');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '人力资源部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'human resources department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '财务部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'finance department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '保卫部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'security department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '后勤部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'logistics department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '工程部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'engineering department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '基建部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'ministry of infrastructure');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '物资部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'department of materials');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '运营部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'operations');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '医务部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'medical department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '门诊部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'outpatient department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '护理部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'nursing department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '科研教育部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'ministry of research and education');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '国际合作部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'international cooperation department');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '信息中心');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'information center');
 
 UPSERT INTO hospital.mis_dept("id","name")
-VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, '公共关系部');
+VALUES(NEXT VALUE FOR hospital.mis_dept_sequence, 'PR department');
 
 
 -- MIS端用户表 -----------------------------------------------
@@ -1240,6 +1261,7 @@ DROP TABLE IF EXISTS hospital.mis_user;
 CREATE TABLE hospital.mis_user
 (
     "id"        INTEGER NOT NULL PRIMARY KEY,
+    "uuid"      VARCHAR(32),
     "username"  VARCHAR(255),
     "password"  VARCHAR,
     "name"      VARCHAR(255),
@@ -1264,10 +1286,10 @@ CREATE INDEX mis_user_idx_4 ON hospital.mis_user ("dept_id");
 CREATE INDEX mis_user_idx_5 ON hospital.mis_user ("status");
 
 UPSERT INTO hospital.mis_user(
-    "id","username","password","name","sex","tel","email","dept_id","job","status","create_time"
+    "id","username","password","name","sex","tel","email","dept_id","job","status","create_time","uuid"
 )
 VALUES(
-    0,'admin','061575f43e456772015c0032c0531edf','超级管理员','男',NULL,NULL,NULL,NULL,1,NOW()
+    0,'admin','061575f43e456772015c0032c0531edf','admin','male',NULL,NULL,NULL,NULL,1,NOW(),"123123123"
 );
 
 
@@ -1299,6 +1321,7 @@ DROP TABLE IF EXISTS hospital.video_diagnose;
 CREATE TABLE hospital.video_diagnose
 (
     "id"              INTEGER NOT NULL PRIMARY KEY,
+    "uuid"            VARCHAR(32),
     "patient_card_id" INTEGER,
     "doctor_id"       INTEGER,
     "out_trade_no"    CHAR(32),
@@ -1333,6 +1356,7 @@ CREATE INDEX video_diagnose_idx_9 ON hospital.video_diagnose ("status");
 DROP TABLE IF EXISTS hospital.video_diagnose_file;
 CREATE TABLE hospital.video_diagnose_file(
     "id" INTEGER NOT NULL PRIMARY KEY,
+    "uuid"            VARCHAR(32),
     "video_diagnose_id" INTEGER,
     "filename" VARCHAR(100),
     "path" VARCHAR(300),

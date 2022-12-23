@@ -135,8 +135,21 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 
 	@Override
 	@Transactional
-	public void insert(MedicalDeptEntity entity) {
-		medicalDeptDao.insert(entity);
+	public HashMap insert(MedicalDeptEntity entity) {
+		// 1. insert
+		int id = medicalDeptDao.insert(entity);
+		
+		System.out.println("++++++++++ id: ");
+		System.out.println("++++++++++ id: ");
+		System.out.println("++++++++++ id: ");
+		System.out.println("++++++++++ id: ");
+		System.out.println("++++++++++ id: ");
+		System.out.println("++++++++++ id: " + id);
+		
+		// 2. response
+//		HashMap dept = medicalDeptDao.getDeptDetailById(id);
+		
+		return null;
 	}
 
 

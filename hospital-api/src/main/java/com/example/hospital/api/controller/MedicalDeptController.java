@@ -87,8 +87,9 @@ public class MedicalDeptController {
 	@SaCheckPermission(value = {"ROOT", "MEDICAL_DEPT:INSERT"}, mode = SaMode.OR)
 	public R insert(@RequestBody @Valid InsertMedicalDeptForm form) {
 		MedicalDeptEntity entity = BeanUtil.toBean(form, MedicalDeptEntity.class);
-		medicalDeptService.insert(entity);
+		HashMap dept = medicalDeptService.insert(entity);
 		return R.ok()
-				.put("result", true);
+				.put("result", true)
+				.put("data", dept);
 	}
 }
