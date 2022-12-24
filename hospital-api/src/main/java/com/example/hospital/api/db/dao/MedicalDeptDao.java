@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.hospital.api.db.pojo.MedicalDeptEntity;
 
 public interface MedicalDeptDao {
@@ -18,6 +20,7 @@ public interface MedicalDeptDao {
 	
 	public long searchCount(Map param);
 	
+	@Transactional
 	public int insert(MedicalDeptEntity entity);
 	
 	public Integer searchIdByUuid(String uuid);
@@ -26,8 +29,11 @@ public interface MedicalDeptDao {
 	
 	public HashMap searchById(int id);
 	
-	public void update(MedicalDeptEntity entity);
+	public void update(Map param);
 	
+	public long searchSubCount(Integer[] ids);
+	
+	public void deleteByIds(Integer[] ids);
 }
 
 

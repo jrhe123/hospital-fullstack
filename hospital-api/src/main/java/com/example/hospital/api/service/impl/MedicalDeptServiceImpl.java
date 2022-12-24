@@ -13,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.hospital.api.common.PageUtils;
 import com.example.hospital.api.db.dao.MedicalDeptDao;
 import com.example.hospital.api.db.pojo.MedicalDeptEntity;
+import com.example.hospital.api.exception.HospitalException;
 import com.example.hospital.api.service.MedicalDeptService;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -98,7 +101,6 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 	}
 
 	@Override
-	@Transactional
 	public HashMap insert(MedicalDeptEntity entity) {		
 		// 1. insert
 		medicalDeptDao.insert(entity);
@@ -108,6 +110,29 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 		// 3. response
 		HashMap dept = medicalDeptDao.getDeptDetailById(medicalDeptId);
 		return dept;
+	}
+
+	@Override
+	public HashMap getDetailById(Integer id) {
+		HashMap dept = medicalDeptDao.getDeptDetailById(id);
+		return dept;
+	}
+
+	@Override
+	@Transactional
+	public void update(Map param) {
+		medicalDeptDao.update(param);
+	}
+
+	@Override
+	@Transactional
+	public void deleteByIds(Integer[] ids) {
+		long count = medicalDeptDao.searchSubCount(ids);		
+		if (count != 0) {
+			throw new HospitalException("Department has sub exists, cannot be deleted");
+		}
+		
+		medicalDeptDao.deleteByIds(ids);
 	}
 
 

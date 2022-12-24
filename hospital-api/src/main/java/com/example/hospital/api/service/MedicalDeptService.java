@@ -20,4 +20,10 @@ public interface MedicalDeptService {
 	public PageUtils searchByPage(Map param);
 	
 	public HashMap insert(MedicalDeptEntity entity);
+	
+	public HashMap getDetailById(Integer id);
+	
+	public void update(Map param);
+	
+	public void deleteByIds(Integer[] ids);
 }
