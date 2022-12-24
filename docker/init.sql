@@ -70,7 +70,7 @@ CREATE TABLE hospital.medical_dept
     "name"        VARCHAR(255),
     "uuid"        VARCHAR(32),
     "outpatient"  BOOLEAN,
-    "description" VARCHAR(500),
+    "description" VARCHAR,
 --     推荐在首页科室列表中展示的
     "recommended" BOOLEAN
 );
@@ -82,79 +82,79 @@ UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Dental',true,
     'At present, it has become a large-scale medical department with a certain influence at home and abroad. The department currently has nearly 70 medical staff, 6 professors, 3 associate professors, 3 doctoral tutors, and 4 master tutors. It trains doctoral and master students every year. Nearly 20 people.',
-    true, "1");
+    true, '1');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Ophthalmology',true,
     'There are a total of 67 medical staff and technicians in the whole department, including 6 professors, 9 associate professors, 10 lecturers, and 4 teaching assistants. All 29 doctors on the job have obtained masters and doctoral degrees, including 14 doctors. There are multiple professional groups such as fundus disease, glaucoma, cataract, ocular trauma, femtosecond laser treatment of myopia, orbital disease, and strabismus. Carry out various external retinal detachment reduction operations, vitreoretinal surgery for retinal detachment surgery, complex and secondary retinal detachment surgery, macular hole retinal detachment surgery, etc.',
-    true, "2");
+    true, '2');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'ENT',true,
     'The department has 3 professional groups of otology, rhinology, and throat head and neck surgery, equipped with 5 examination rooms for hearing test, vestibular function test, laryngeal function test, endoscopy and polysomnography, equipped with operating microscope and nasal endoscope system, ENT power system, CO2 laser treatment machine and a batch of advanced diagnosis and treatment equipment, with a total of 100 beds. The annual outpatient and emergency patient volume is nearly 100,000, the annual hospitalization is more than 3,500, and the annual operations are more than 3,000. The comprehensive strength of the discipline is in the advanced ranks in Canada.',
-    true, "3");
+    true, '3');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Internal medicine',true,
     'At present, it has become a large-scale medical department with a certain influence at home and abroad. The department currently has nearly 70 medical staff, 6 professors, 3 associate professors, 3 doctoral tutors, and 4 master tutors. It trains doctoral and master students every year. Nearly 20 people. The Respiratory Department has an annual outpatient volume of more than 50,000, and annually treats more than 2,000 inpatients with various respiratory diseases. It currently has 75 beds, including 23 beds in the Internal Medicine Intensive Care Unit. It has long been responsible for the diagnosis and treatment of internal medicine critically ill patients. Long-term commitment to seven-year, undergraduate, international students and other medical classes of internal medicine, diagnostics, clinical practice and other teaching.',
-    true, "4");
+    true, '4');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Surgical',true,
     'The department has 52 doctors, 8 professors and 9 associate professors. An average of more than 1,000 surgeries are performed each year. Among them, laparoscopic minimally invasive surgery accounts for more than 40% of the operation volume. In recent years, various leading techniques in thoracic surgery have been carried out one after another, such as 3-incision esophageal cancer surgery, total laparoscopic esophageal cancer surgery, laparoscopic single-port thoracic operation, single-port abdominal single-port esophageal cancer surgery, etc. The department undertakes more than 10 national, ministerial and provincial scientific research projects such as the National Natural Science Foundation of China, and has published more than 10 English papers in international core medical journals SCI, and more than 60 Chinese papers in national core journals.',
-    true, "5");
+    true, '5');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Dermatology',true,
     'The Department of Dermatology was established in 1977 and now has 11 doctors (3 associate chief physicians) and 2 nurses, 8 of whom have a masters degree and 2 have a doctors degree. At present, the number of outpatients is about 120,000 per year, and it is the main place for diagnosis and treatment of skin diseases. The main diseases diagnosed and treated include childrens eczema, dermatitis, urticaria, drug eruption and other allergic allergic diseases; chickenpox, hand, foot and mouth disease, scarlet fever, infectious mononucleosis, warts, folliculitis, impetigo, candida dermatitis , tinea pedis, tinea corporis, scabies and other infectious skin diseases.',
-    true, "6");
+    true, '6');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Gynecology',true,
     'Gynecology currently has 89 employees, including 42 doctors (16 doctors, 26 masters), including 14 senior professionals (professors, chief physicians), 2 provincial management experts, 2 special government allowances, doctoral supervisors 3 people, 11 master tutors. Rich experience in the treatment of complex female reproductive tract deformities (congenital absence of vagina vaginoplasty, Roberts hysteroscopic correction, oblique vaginal septum correction, special type of vulvovaginal deformity correction, uterine mediastinectomy) In 2019, the outstanding achievements in basic research and clinical application of female reproductive system reconstruction won the first prize of Hebei Science and Technology Progress Award.',
-    true, "7");
+    true, '7');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Pediatrics',true,
     'At present, there are 49 medical staff, including 17 doctors and 32 nurses. Among them, there are 2 chief physicians, 2 deputy chief physicians, 9 attending physicians, 6 masters degree holders, and 4 masters degree candidates. Pediatrics is divided into outpatient and ward two units. The Pediatric Outpatient Clinic accepts patients 24 hours a day all year round, and the annual outpatient and emergency volume has increased year by year, with an average annual outpatient and emergency volume of up to 80,000. The daily infusion volume is 80-100 person-times, and at most reaches 200-280 person-times. The daily atomization volume is 50 person-times, and the maximum reaches 150 person-times. The Department of Pediatrics has always focused on the theme of "taking patients as the center and quality as life", building a harmonious department and building a professional pediatric team. The satisfaction of patients has been continuously improved, and it has been widely recognized and respected by parents.',
-    true, "8");
+    true, '8');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Neurology',true,
     'The department has a professional neurodiagnostic technical team, routinely carry out neuroimaging (3.0MRI, 128-slice spiral CT, DSA, TCD, ECT, OCT), neuroelectrophysiology (video EEG, dynamic EEG, sleep EEG, EMG, evoked potential, nerve conduction velocity), neuroimmunology, neurobiochemistry, neuropathology, antiepileptic drug concentration detection, gene detection, cerebrospinal fluid cytology, etc. The diagnosis provides a good technical platform. Each year, more than 200 cases of intracranial aneurysm coil embolization; more than 30 cases of internal carotid artery stent implantation; more than 20 cases of arterial thrombectomy and stent implantation;',
-    true, "9");
+    true, '9');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Oncology',true,
     'The Department of Medical Oncology was established in 1964. It is one of the first batch of national key clinical specialties, cancer pain standardization demonstration ward of National Health and Family Planning Commission, tumor professional base of national clinical pharmacology institution, oncology branch of Chinese Medical Association, Chinese Society of Clinical Oncology (CSCO) and Chinese research-based It is a member of the Standing Committee of the Precision Medicine and Oncology MDT Professional Committee of the Hospital Society, and a masters and doctoral degree awarding point for oncology by the Ministry of Education. The treatments carried out by the department include preoperative neoadjuvant chemotherapy, transformation chemotherapy, postoperative adjuvant chemotherapy, palliative chemotherapy, radical chemotherapy, targeted therapy and immunotherapy, etc., and participated in dozens of international and domestic multi-center clinical trials. There are 8 subspecialties and related MDT teams in lung cancer, gastrointestinal tumors, breast cancer, lymphoma, genitourinary system tumors, bone and skin soft tissue sarcoma, gastroenteropancreatic neuroendocrine tumors and malignant melanoma, focusing on MDT guidance Multi-gene testing is carried out based on tissue or blood samples to obtain relevant information on target genes, gene polymorphisms and pathway genes, and implement standardized and individualized comprehensive treatment; the treatment and academic level have reached the domestic advanced level.',
-    true, "10");
+    true, '10');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Obstetrics',true,
     'There are more than 50 professional medical staff in the obstetrics department, including 11 with senior professional titles, 3 master supervisors, and more than 10 masters. There are 3 general wards and 1 LDR ward with open beds, with a total of 124 beds. There are 16 warm family wards in the mother-baby rooming ward. The department has accumulated rich clinical experience in natural childbirth, colpotomy, new cesarean section, etc., has the technology and equipment to rescue critically ill obstetric patients, and has comprehensively carried out perinatal health care, prenatal screening, and birth defect monitoring , eugenics genetic counseling, maternity school, Duha nutrition guidance, parenting guidance, happy childbirth, happy childbirth, painless childbirth, newborn disease screening, newborn touching, newborn swimming, postpartum recovery and health care, post-hospital follow-up, etc. A series of holistic and humanized treatment and nursing measures, good at screening, monitoring and treatment of various high-risk pregnancies, pregnancy complications and diagnosis and treatment of pregnancy complications.',
-    false, "11");
+    false, '11');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Orthopedics',true,
     'The department is set up in a standardized manner, with a reasonable layout and a professional medical team. The department maintains a leading level in the region for the diagnosis and treatment of orthopedic diseases, especially the diagnosis, treatment and rescue of difficult and critical patients. The department has imported "C" arm machines, a full set of imported arthroscopic instruments, imported traction beds, imported electric drills and grinding drills, CPM joint rehabilitation devices, fracture treatment instruments and other advanced equipment. Currently performing complex pelvic and acetabular anteroposterior surgery, cervical, thoracolumbar, and lumbar spine surgery, artificial total hip and total knee arthroplasty, knee arthroscopic synovial debridement, meniscus reconstruction, cruciate ligament reconstruction, and percutaneous vertebral body surgery Kyphoplasty (PKP), closed reduction and PFNA fixation, percutaneous plate fixation for extremity fractures, minimally invasive lumbar fusion, artificial humeral head, radial head replacement, severed limb (finger) replantation, lateral spine Posterior orthopedic reduction, total hip revision, etc.',
-    false, "12");
+    false, '12');
 
 UPSERT
 INTO hospital.medical_dept("id","name","outpatient","description","recommended", "uuid")
 VALUES(NEXT VALUE FOR hospital.medical_dept_sequence,'Hematology',true,
     'After 30 to 40 years of hard work by several generations, the Department of Hematology has developed into a key specialty in Beijing that integrates medical treatment, teaching, and scientific research. The Department of Hematology focuses on the comprehensive diagnosis and treatment of head and neck lymphoma, especially nasal extranodal NK/T cell lymphoma, ocular adnexal lymphoma, primary intraocular lymphoma, and other types of hematopoiesis that tend to occur in the head and neck Systemic tumors, while covering various hematological problems faced by patients in other specialties, such as anemia, thrombocytopenia, coagulation disorders, etc. According to statistics, the hematology department diagnoses nearly 100 patients with NK/T cell lymphoma and more than 200 patients with other types of lymphoma each year.',
-    false, "13");
+    false, '13');
 
 -- 科室门诊表 --------------------------------------------------
 DROP TABLE IF EXISTS hospital.medical_dept_sub;
@@ -171,91 +171,91 @@ CREATE SEQUENCE hospital.medical_dept_sub_sequence START WITH 1 increment BY 1;
 CREATE INDEX medical_dept_sub_idx_1 ON hospital.medical_dept_sub ("dept_id");
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Surgery',1,'Area A, 2nd Floor, Building 1', "1");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Surgery',1,'Area A, 2nd Floor, Building 1', '1');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Medicine',1,'Area B, Floor 2, Building 1', "2");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oral and Maxillofacial Medicine',1,'Area B, Floor 2, Building 1', '2');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Clinic',2,'Area A, 3rd Floor, Building 1', "3");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Clinic',2,'Area A, 3rd Floor, Building 1', '3');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cataract Clinic',2,'Area B, 3rd Floor, Building 1', "4");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cataract Clinic',2,'Area B, 3rd Floor, Building 1', '4');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Refractive Center Clinic',2,'Area C, Floor 3, Building 1', "5");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Refractive Center Clinic',2,'Area C, Floor 3, Building 1', '5');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Laser Clinic',2,'Area D, 3rd Floor, Building 1', "6");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Eye Laser Clinic',2,'Area D, 3rd Floor, Building 1', '6');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'ENT Clinic',3,'Area E, 3rd Floor, Building 1', "7");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'ENT Clinic',3,'Area E, 3rd Floor, Building 1', '7');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Endocrinology Clinic',4,'Area A, 4th Floor, Building 1', "8");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Endocrinology Clinic',4,'Area A, 4th Floor, Building 1', '8');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Respiratory Medicine Clinic',4,'Area B, 4th Floor, Building 1', "9");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Respiratory Medicine Clinic',4,'Area B, 4th Floor, Building 1', '9');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiovascular Clinic',4,'Area C, 4th Floor, Building 1', "10");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiovascular Clinic',4,'Area C, 4th Floor, Building 1', '10');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gastroenterology Clinic',4,'Area D, 4th Floor, Building 1', "11");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gastroenterology Clinic',4,'Area D, 4th Floor, Building 1', '11');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Diabetes Clinic',4,'Area A, 5th Floor, Building 1', "12");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Diabetes Clinic',4,'Area A, 5th Floor, Building 1', '12');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Nephrology Clinic',4,'Area B, 5th Floor, Building 1', "13");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Nephrology Clinic',4,'Area B, 5th Floor, Building 1', '13');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Rheumatology Immunology Clinic',4,'Area C, 5th Floor, Building 1', "14");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Rheumatology Immunology Clinic',4,'Area C, 5th Floor, Building 1', '14');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'General Surgery Clinic',5,'Area D, 5th Floor, Building 1', "15");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'General Surgery Clinic',5,'Area D, 5th Floor, Building 1', '15');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Thoracic Surgery Clinic',5,'Area E, 5th Floor, Building 1', "16");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Thoracic Surgery Clinic',5,'Area E, 5th Floor, Building 1', '16');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Urology Clinic',5,'Area A, 6th Floor, Building 1', "17");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Urology Clinic',5,'Area A, 6th Floor, Building 1', '17');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiac Surgery Clinic',5,'Area B, 5th Floor, Building 1', "18");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Cardiac Surgery Clinic',5,'Area B, 5th Floor, Building 1', '18');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Plastic Surgery Clinic',5,'Area C, 5th Floor, Building 1', "19");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Plastic Surgery Clinic',5,'Area C, 5th Floor, Building 1', '19');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Dermatology Clinic',6,'Area D, 5th Floor, Building 1', "20");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Dermatology Clinic',6,'Area D, 5th Floor, Building 1', '20');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gynecology clinic',7,'Area A, 6th Floor, Building 1', "21");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Gynecology clinic',7,'Area A, 6th Floor, Building 1', '21');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Infertility Clinic',7,'Area B, 6th Floor, Building 1', "22");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Infertility Clinic',7,'Area B, 6th Floor, Building 1', '22');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Pediatric clinic',8,'Area C, Floor 6, Building 1', "23");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Pediatric clinic',8,'Area C, Floor 6, Building 1', '23');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurology Clinic',9,'Area A, 7th Floor, Building 1', "24");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurology Clinic',9,'Area A, 7th Floor, Building 1', '24');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurosurgery Clinic',9,'Area B, 7th Floor, Building 1', "25");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Neurosurgery Clinic',9,'Area B, 7th Floor, Building 1', '25');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oncology Clinic',10,'Area A, 2nd Floor, Building 2', "26");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Oncology Clinic',10,'Area A, 2nd Floor, Building 2', '26');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Obstetrics Clinic',11,'Area A, 3rd Floor, Building 2', "27");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Obstetrics Clinic',11,'Area A, 3rd Floor, Building 2', '27');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Orthopedic Clinic',12,'Area A, 4th Floor, Building 2', "28");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Orthopedic Clinic',12,'Area A, 4th Floor, Building 2', '28');
 
 UPSERT INTO hospital.medical_dept_sub("id","name","dept_id","location", "uuid")
-VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Hematology Clinic',13,'Area A, 2nd Floor, Building 2', "29");
+VALUES(NEXT VALUE FOR hospital.medical_dept_sub_sequence,'Hematology Clinic',13,'Area A, 2nd Floor, Building 2', '29');
 
 -- 医生表 --------------------------------------------------
 DROP TABLE IF EXISTS hospital.doctor;
@@ -447,58 +447,58 @@ CREATE INDEX doctor_price_idx_1 ON hospital.doctor_price ("doctor_id");
 CREATE INDEX doctor_price_idx_2 ON hospital.doctor_price ("level");
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 1, 'director',80,200, "1");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 1, 'director',80,200, '1');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 2, 'director',80,200, "2");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 2, 'director',80,200, '2');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 3, 'director',80,200, "3");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 3, 'director',80,200, '3');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 4, 'director',80,200, "4");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 4, 'director',80,200, '4');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 5, 'director',80,200, "5");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 5, 'director',80,200, '5');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 6, 'director',80,200, "6");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 6, 'director',80,200, '6');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 7, 'director',80,200, "7");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 7, 'director',80,200, '7');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 8, 'director',80,200, "8");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 8, 'director',80,200, '8');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 9, 'director',80,200, "9");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 9, 'director',80,200, '9');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 10, 'regular',50,200, "10");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 10, 'regular',50,200, '10');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 11, 'vice-director',60,200, "11");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 11, 'vice-director',60,200, '11');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 12, 'vice-director',60,150, "12");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 12, 'vice-director',60,150, '12');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 13, 'regular',50,100, "13");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 13, 'regular',50,100, '13');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 14, 'regular',50,100, "14");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 14, 'regular',50,100, '14');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 15, 'regular',50,100, "15");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 15, 'regular',50,100, '15');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 16, 'regular',50,100, "16");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 16, 'regular',50,100, '16');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 17, 'regular',50,100, "17");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 17, 'regular',50,100, '17');
 
 UPSERT INTO hospital.doctor_price("id","doctor_id","level","price_1","price_2", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 18, 'regular',50,100, "18");
+VALUES(NEXT VALUE FOR hospital.doctor_price_sequence, 18, 'regular',50,100, '18');
 
 -- 门诊与医生交叉表 -----------------------------------------------
 DROP TABLE IF EXISTS hospital.medical_dept_sub_and_doctor;
@@ -589,37 +589,37 @@ CREATE INDEX doctor_work_plan_idx_2 ON hospital.doctor_work_plan ("dept_sub_id")
 CREATE INDEX doctor_work_plan_idx_3 ON hospital.doctor_work_plan ("date");
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-23'),45,0, "1");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-23'),45,0, '1');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,17,2,TO_DATE('2022-09-23'),45,0, "2");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,17,2,TO_DATE('2022-09-23'),45,0, '2');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,18,2,TO_DATE('2022-09-23'),45,0, "3");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,18,2,TO_DATE('2022-09-23'),45,0, '3');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-24'),45,0, "4");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-24'),45,0, '4');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-25'),45,0, "5");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-25'),45,0, '5');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-26'),45,0, "6");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,16,2,TO_DATE('2022-09-26'),45,0, '6');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,1,18,TO_DATE('2022-09-23'),45,0, "7");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,1,18,TO_DATE('2022-09-23'),45,0, '7');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,2,20,TO_DATE('2022-09-23'),45,0, "8");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,2,20,TO_DATE('2022-09-23'),45,0, '8');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-23'),45,0, "9");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-23'),45,0, '9');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-24'),45,0, "10");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-24'),45,0, '10');
 
 UPSERT INTO hospital.doctor_work_plan("id","doctor_id","dept_sub_id","date","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-25'),45,0, "11");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_sequence,9,20,TO_DATE('2022-09-25'),45,0, '11');
 
 -- 医生出诊时间段表-----------------------------------------------
 DROP TABLE IF EXISTS hospital.doctor_work_plan_schedule;
@@ -638,73 +638,73 @@ CREATE SEQUENCE hospital.doctor_work_plan_schedule_sequence START WITH 1 increme
 CREATE INDEX doctor_work_plan_schedule_idx_1 ON hospital.doctor_work_plan_schedule ("work_plan_id");
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,1,3,0, "1");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,1,3,0, '1');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,2,3,0, "2");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,2,3,0, '2');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,3,3,0, "3");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,3,3,0, '3');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,4,3,0, "4");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,4,3,0, '4');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,5,3,0, "5");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,5,3,0, '5');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,6,3,0, "6");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,6,3,0, '6');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,7,3,0, "7");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,7,3,0, '7');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,8,3,0, "8");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,8,3,0, '8');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,9,3,0, "9");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,9,3,0, '9');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,10,3,0, "10");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,10,3,0, '10');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,11,3,0, "11");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,11,3,0, '11');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,12,3,0, "12");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,12,3,0, '12');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,13,3,0, "13");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,13,3,0, '13');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,14,3,0, "14");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,14,3,0, '14');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,15,3,0, "15");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,1,15,3,0, '15');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,1,3,0, "16");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,1,3,0, '16');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,2,3,0, "17");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,2,3,0, '17');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,4,3,0, "18");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,4,3,0, '18');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,8,3,0, "19");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,2,8,3,0, '19');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,5,1,3,0, "20");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,5,1,3,0, '20');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,6,1,3,0, "21");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,6,1,3,0, '21');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,8,3,0, "22");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,8,3,0, '22');
 
 UPSERT INTO hospital.doctor_work_plan_schedule("id","work_plan_id","slot","maximum","num", "uuid")
-VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,1,3,0, "23");
+VALUES(NEXT VALUE FOR hospital.doctor_work_plan_schedule_sequence,3,1,3,0, '23');
 
 
 -- 挂号表-----------------------------------------------
@@ -1289,7 +1289,7 @@ UPSERT INTO hospital.mis_user(
     "id","username","password","name","sex","tel","email","dept_id","job","status","create_time","uuid"
 )
 VALUES(
-    0,'admin','061575f43e456772015c0032c0531edf','admin','male',NULL,NULL,NULL,NULL,1,NOW(),"123123123"
+    0,'admin','061575f43e456772015c0032c0531edf','admin','male',NULL,NULL,NULL,NULL,1,NOW(),'123123123'
 );
 
 
