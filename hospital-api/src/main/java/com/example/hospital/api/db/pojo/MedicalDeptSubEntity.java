@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MedicalDeptSubEntity {
     private Integer id;
+    private String uuid;
     private String name;
     private Integer deptId;
     private String location;

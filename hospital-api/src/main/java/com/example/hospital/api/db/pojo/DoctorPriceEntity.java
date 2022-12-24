@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class DoctorPriceEntity {
     private Integer id;
+    private String uuid;
     private Integer doctorId;
     private String level;
     private BigDecimal price_1;

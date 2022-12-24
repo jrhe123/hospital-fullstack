@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MisUserEntity {
     private Integer id;
+    private String uuid;
     private String username;
     private String password;
     private String name;

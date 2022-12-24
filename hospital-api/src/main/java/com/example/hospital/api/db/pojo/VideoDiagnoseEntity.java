@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class VideoDiagnoseEntity {
     private Integer id;
+    private String uuid;
     private Integer patientCardId;
     private Integer doctorId;
     private String outTradeNo;
