@@ -27,7 +27,7 @@ import { truncate } from 'utils/common'
 import { useDeptService } from '../hooks'
 import { Department, SearchDeptFormInput } from '../types'
 
-// import { DeptForm } from './DeptForm'
+import { DeptForm } from './DeptForm'
 
 const textFieldStyle = {
   '& div': {
@@ -179,7 +179,7 @@ export const DeptContainer = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [dOpen, setDOpen] = useState<boolean>(false)
 
-  const { fetchDepartments, isLoading, departmentList, totalCount } = useDeptService()
+  const { fetchDepartments, deleteDept, isLoading, departmentList, totalCount } = useDeptService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
@@ -506,7 +506,7 @@ export const DeptContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px', minWidth: '90px' }}>
             <Link
               to={`/management/dept/${dept.id}`}
-              style={{ color: '#81B3AA', textDecoration: 'underline' }}
+              style={{ color: '#81B3AA', textDecoration: 'underline', fontWeight: 'bold' }}
             >
               {dept.name}
             </Link>
@@ -588,12 +588,12 @@ export const DeptContainer = () => {
           setOpen(false)
         }}
       >
-        {/* <DeptForm
+        <DeptForm
           id={deptId}
           handleCloseModal={() => {
             setOpen(false)
           }}
-        /> */}
+        />
       </CustomModal>
       <CustomModal
         open={dOpen}
@@ -657,9 +657,9 @@ export const DeptContainer = () => {
             <Box component="div" sx={{ marginRight: '6px' }}>
               <Button
                 onClick={() => {
-                  // deleteDoctor({
-                  //   ids: [...selected],
-                  // })
+                  deleteDept({
+                    ids: [...selected],
+                  })
                   setDOpen(false)
                 }}
                 sx={{ padding: 0 }}

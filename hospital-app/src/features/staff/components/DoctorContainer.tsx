@@ -760,7 +760,7 @@ export const DoctorContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px', minWidth: '90px' }}>
             <Link
               to={`/staff/doctor/${doc.id}`}
-              style={{ color: '#81B3AA', textDecoration: 'underline' }}
+              style={{ color: '#81B3AA', textDecoration: 'underline', fontWeight: 'bold' }}
             >
               {doc.name}
             </Link>

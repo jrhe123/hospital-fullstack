@@ -514,7 +514,7 @@ export const DeptSubContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px', minWidth: '90px' }}>
             <Link
               to={`/management/dept/${dept.id}`}
-              style={{ color: '#81B3AA', textDecoration: 'underline' }}
+              style={{ color: '#81B3AA', textDecoration: 'underline', fontWeight: 'bold' }}
             >
               {dept.name}
             </Link>

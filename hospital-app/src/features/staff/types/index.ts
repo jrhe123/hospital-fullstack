@@ -131,6 +131,7 @@ export type DoctorDetail = {
   uuid: string
   hiredate: Date
   email: string
+  name: string
 }
 
 export type DoctorFullDetail = {

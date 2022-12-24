@@ -9,6 +9,27 @@ export type SearchDeptFormInput = {
   recommended?: boolean | string
 }
 
+export type CreateDeptFormInput = {
+  name: string
+  description: string
+  recommended: boolean
+  recommendedId?: number | string
+  outpatient: boolean
+  outpatientId?: number | string
+}
+
+export type FetchDeptFormInput = {
+  id: number
+}
+
+export type UpdateDeptFormInput = {
+  id: number
+} & CreateDeptFormInput
+
+export type DeleteDeptFormInput = {
+  ids: number[]
+}
+
 export type Department = {
   name: string
   description: string
@@ -49,4 +70,9 @@ export type DeptSubPageUtil = {
     pageIndex: number
     list: DeptSub[]
   }
+}
+
+export type CreateDeptResponse = {
+  result: boolean
+  data: Department
 }

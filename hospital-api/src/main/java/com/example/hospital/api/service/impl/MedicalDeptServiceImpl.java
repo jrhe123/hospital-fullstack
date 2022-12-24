@@ -129,7 +129,7 @@ public class MedicalDeptServiceImpl implements MedicalDeptService {
 	public void deleteByIds(Integer[] ids) {
 		long count = medicalDeptDao.searchSubCount(ids);		
 		if (count != 0) {
-			throw new HospitalException("Department has sub exists, cannot be deleted");
+			throw new HospitalException("One of department has sub exists, cannot be deleted");
 		}
 		
 		medicalDeptDao.deleteByIds(ids);

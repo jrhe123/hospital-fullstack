@@ -30,7 +30,7 @@
 	    FROM HOSPITAL.MEDICAL_DEPT d
 	    WHERE 1 = 1
 	      <if test="name!=null">
-	          AND d."name" LIKE '%${name}%'
+	       	  AND UPPER(d."name") LIKE UPPER('%${name}%')
 	      </if>
 	      <if test="outpatient!=null">
 	          AND d."outpatient" = ${outpatient}
@@ -38,6 +38,7 @@
 	      <if test="recommended!=null">
 	          AND d."recommended" = ${recommended}
 	      </if>
+		ORDER BY d."id" DESC
 	    LIMIT ${length} OFFSET ${start}
 	</select>
     
@@ -70,7 +71,7 @@
 	    ) t2 ON d."id" = t2."id"
 	    WHERE 1 = 1
 	      <if test="name!=null">
-	          AND d."name" LIKE '%${name}%'
+	       	  AND UPPER(d."name") LIKE UPPER('%${name}%')
 	      </if>
 	      <if test="outpatient!=null">
 	          AND d."outpatient" = ${outpatient}
@@ -78,6 +79,7 @@
 	      <if test="recommended!=null">
 	          AND d."recommended" = ${recommended}
 	      </if>
+	    ORDER BY d."id" DESC
 	    LIMIT ${length} OFFSET ${start}
 	</select>
 	
@@ -86,7 +88,7 @@
 	    FROM HOSPITAL.MEDICAL_DEPT
 	    WHERE 1 = 1
 	      <if test="name!=null">
-	          AND "name" LIKE '%${name}%'
+	       	  AND UPPER("name") LIKE UPPER('%${name}%')
 	      </if>
 	      <if test="outpatient!=null">
 	          AND "outpatient" = ${outpatient}

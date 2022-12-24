@@ -385,8 +385,8 @@ export const DoctorDetailContainer = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Icon icon="mdi:id-card-outline" fontSize={10} style={{ marginRight: '5px' }} />
-                  SIN
+                  <Icon icon="fontisto:doctor" fontSize={10} style={{ marginRight: '5px' }} />
+                  Doctor name
                 </Typography>
                 <Typography
                   component="div"
@@ -395,7 +395,7 @@ export const DoctorDetailContainer = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {doctor.pid}
+                  {doctor.name}
                 </Typography>
               </Box>
               <Box component="div" sx={{ flex: 1 }}>
@@ -571,6 +571,29 @@ export const DoctorDetailContainer = () => {
                   }}
                 >
                   {doctor.address}
+                </Typography>
+              </Box>
+              <Box component="div" sx={{ flex: 1 }}>
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '10px',
+                    marginBottom: '6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Icon icon="mdi:id-card-outline" fontSize={10} style={{ marginRight: '5px' }} />
+                  SIN
+                </Typography>
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {doctor.pid}
                 </Typography>
               </Box>
             </Box>

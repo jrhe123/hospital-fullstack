@@ -178,6 +178,7 @@ mis_action
 select * from hospital.doctor;
 UPSEERT INTO HOSPITAL.DOCTOR("id", "status") VALUES(1,1);
 
+AND "name" LIKE '%${name}%'
 
 CREATE TABLE hospital.doctor
 (

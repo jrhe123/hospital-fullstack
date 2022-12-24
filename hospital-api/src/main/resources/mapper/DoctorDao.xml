@@ -24,7 +24,7 @@
     	WHERE 1=1
     	AND d."status" = ${status}
     	<if test="name!=null">
-    		AND d."name" LIKE '%${name}%'
+    		AND UPPER(d."name") LIKE UPPER('%${name}%')
     	</if>
     	<if test="degree!=null">
     		AND d."degree" = #{degree}
@@ -41,6 +41,12 @@
     	<if test="order!=null">
     		ORDER BY md."id" ${order}
     	</if>
+    	
+    	<if test="order==null">
+    		ORDER BY d."name" ASC
+    	</if>
+    	
+		
     	LIMIT ${length} OFFSET #{start}
     </select>
     
@@ -54,7 +60,7 @@
     	WHERE 1=1
     	AND d."status" = ${status}
     	<if test="name!=null">
-    		AND d."name" LIKE '%${name}%'
+    		AND UPPER(d."name") LIKE UPPER('%${name}%')
     	</if>
     	<if test="degree!=null">
     		AND d."degree" = #{degree}
@@ -72,6 +78,7 @@
     
     <select id="searchContent" parameterType="int" resultType="HashMap">
     	SELECT "photo",
+    	        "name",
     			"pid",
     			"birthday",
     			"uuid",

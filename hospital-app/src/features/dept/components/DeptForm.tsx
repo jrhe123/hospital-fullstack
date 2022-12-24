@@ -7,10 +7,9 @@ import * as Yup from 'yup'
 
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
-import FormTimePicker from 'libs/ui/components/FormTimePicker'
 
-import {} from '../hooks'
-import {} from '../types'
+import { useDeptService } from '../hooks'
+import { CreateDeptFormInput } from '../types'
 
 const textboxFieldStyle = {
   '& div': {
@@ -72,21 +71,36 @@ const selectFieldStyle = {
     right: 0,
   },
 }
-const timePickerStyle = {
-  height: '32px',
-  width: '100%',
-  '& div input': {
-    height: '32px',
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: '9px',
-    paddingRight: '9px',
-    fontSize: '11px',
-  },
-  '& div div button svg': {
-    fontSize: '18px',
-  },
+
+type OutpatientType = {
+  id: number
+  name: string
 }
+const outpatientList: OutpatientType[] = [
+  {
+    id: 1,
+    name: 'External',
+  },
+  {
+    id: 2,
+    name: 'Internal',
+  },
+]
+
+type RecommendType = {
+  id: number
+  name: string
+}
+const recommendList: RecommendType[] = [
+  {
+    id: 1,
+    name: 'True',
+  },
+  {
+    id: 2,
+    name: 'False',
+  },
+]
 
 interface DeptFormProps {
   id?: number | null
@@ -94,7 +108,81 @@ interface DeptFormProps {
 }
 
 export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
-  console.log('DeptForm hit here')
+  const [defaultValues, setDefauleValues] = useState<CreateDeptFormInput>({
+    name: '',
+    description: '',
+    outpatient: true,
+    outpatientId: '1',
+    recommended: true,
+    recommendedId: '1',
+  })
+
+  const { createDept, updateDept, isLoading, department } = useDeptService()
+
+  // form check
+  const formValidationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    description: Yup.string().required('Descrition is required'),
+    recommended: Yup.bool().oneOf([true, false], 'Recommended is invalid'),
+    outpatient: Yup.bool().oneOf([true, false], 'Recommended is invalid'),
+  })
+  const methods = useForm<CreateDeptFormInput, unknown>({
+    defaultValues,
+    resolver: yupResolver(formValidationSchema),
+  })
+  const { control, handleSubmit, reset, watch, setValue, getValues } = methods
+
+  useEffect(() => {
+    if (id && department) {
+      setDefauleValues({
+        name: department.name,
+        description: department.description,
+        recommended: department.recommended,
+        recommendedId: department.recommended ? '1' : '2',
+        outpatient: department.outpatient,
+        outpatientId: department.outpatient ? '1' : '2',
+      })
+
+      setValue('name', department.name)
+      setValue('description', department.description)
+      setValue('recommended', department.recommended)
+      setValue('recommendedId', department.recommended ? '1' : '2')
+      setValue('outpatient', department.outpatient)
+      setValue('outpatientId', department.outpatient ? '1' : '2')
+    }
+  }, [id, department, setValue])
+
+  const onSubmitClick = (data: CreateDeptFormInput) => {
+    const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
+    let formattedRecommend
+    if (!recommend || recommend.id === 1) {
+      formattedRecommend = true
+    } else {
+      formattedRecommend = false
+    }
+    const outpatient = outpatientList.find(i => i.id === Number(data.outpatientId))
+    let formattedOutpatient
+    if (!outpatient || outpatient.id === 1) {
+      formattedOutpatient = true
+    } else {
+      formattedOutpatient = false
+    }
+    setValue('recommended', formattedRecommend)
+    setValue('outpatient', formattedOutpatient)
+
+    const values = getValues()
+    if (id) {
+      updateDept({
+        ...values,
+        id,
+      })
+    } else {
+      createDept(values)
+    }
+
+    handleCloseModal()
+  }
+
   return (
     <Box
       component="div"
@@ -108,7 +196,7 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
       }}
       className="hide-scroll"
     >
-      {/* {isLoading && !!id ? (
+      {isLoading && !!id ? (
         <Box
           component="div"
           sx={{
@@ -126,7 +214,7 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
         >
           <CircularProgress />
         </Box>
-      ) : null} */}
+      ) : null}
       <Box
         component="div"
         sx={{
@@ -154,7 +242,7 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
             color: 'white',
           }}
         >
-          {id ? 'Update' : 'Create'} Department
+          {id ? 'Update' : 'Create'} Doctor
         </Typography>
         <IconButton onClick={handleCloseModal}>
           <CloseIcon
@@ -190,6 +278,93 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
           type={'text'}
           variant={'outlined'}
         />
+      </Box>
+      {/* description */}
+      <Box
+        component="div"
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontSize: '10px',
+            fontWeight: 'bold',
+            marginRight: '12px',
+            width: '60px',
+          }}
+        >
+          Description
+        </Typography>
+        <FormTextField
+          name="description"
+          control={control}
+          sx={textboxFieldStyle}
+          type={'text'}
+          variant={'outlined'}
+          multiline
+        />
+      </Box>
+      {/* outpatient */}
+      <Box
+        component="div"
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontSize: '10px',
+            fontWeight: 'bold',
+            marginRight: '12px',
+            width: '60px',
+          }}
+        >
+          Type
+        </Typography>
+        <FormSelect
+          name="outpatientId"
+          label={''}
+          control={control}
+          sx={selectFieldStyle}
+          lsx={inputLabelStyle}
+          errorMessage={'Invalid recommend'}
+        >
+          {outpatientList.map((out, index) => (
+            <MenuItem key={index} value={out.id} sx={{ fontSize: '11px' }}>
+              {out.name}
+            </MenuItem>
+          ))}
+        </FormSelect>
+      </Box>
+      {/* recommend */}
+      <Box
+        component="div"
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontSize: '10px',
+            fontWeight: 'bold',
+            marginRight: '12px',
+            width: '60px',
+          }}
+        >
+          Recommend
+        </Typography>
+        <FormSelect
+          name="recommendedId"
+          label={''}
+          control={control}
+          sx={selectFieldStyle}
+          lsx={inputLabelStyle}
+          errorMessage={'Invalid recommend'}
+        >
+          {recommendList.map((recomm, index) => (
+            <MenuItem key={index} value={recomm.id} sx={{ fontSize: '11px' }}>
+              {recomm.name}
+            </MenuItem>
+          ))}
+        </FormSelect>
       </Box>
       {/* btns */}
       <Box

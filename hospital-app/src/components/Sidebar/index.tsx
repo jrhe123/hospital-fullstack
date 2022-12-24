@@ -475,8 +475,7 @@ const Sidebar = () => {
                   fontSize: '12px',
                 }}
               >
-                {/* {user?.name} */}
-                Administator
+                {user?.name}
               </Typography>
             </Box>
           </Button>

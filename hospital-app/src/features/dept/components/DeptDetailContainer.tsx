@@ -12,7 +12,7 @@ import { Env } from 'config/Env'
 
 import { useDeptService } from '../hooks'
 
-// import {} from './DeptForm'
+import { DeptForm } from './DeptForm'
 
 type DepartmentDetailParams = {
   id?: string
@@ -24,33 +24,19 @@ export const DeptDetailContainer = () => {
   const [dOpen, setDOpen] = useState<boolean>(false)
 
   const navigate = useNavigate()
-  const { isLoading } = useDeptService()
+  const { isLoading, department, fetchDept, deleteDept } = useDeptService()
 
   if (!id) {
     navigate('/management/dept')
   }
 
   useEffect(() => {
-    fetchDoctorDetail({
+    fetchDept({
       id: Number(id),
     })
-  }, [fetchDoctorDetail, id])
+  }, [fetchDept, id])
 
-  if (!doctor) return null
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.currentTarget
-    if (!id || !files || !files?.length) return
-    if (files.length !== 1) {
-      toast.warn('Please select your image')
-      return
-    }
-    const file = files[0]
-    uploadDoctorPhoto({
-      doctorId: id,
-      file,
-    })
-  }
+  if (!department) return null
 
   const renderLeftSideBtns = () => (
     <Box
@@ -175,7 +161,7 @@ export const DeptDetailContainer = () => {
           setOpen(false)
         }}
       >
-        <DoctorForm
+        <DeptForm
           id={Number(id)}
           handleCloseModal={() => {
             setOpen(false)
@@ -218,7 +204,7 @@ export const DeptDetailContainer = () => {
               marginBottom: '12px',
             }}
           >
-            Are you sure delete current doctor?
+            Are you sure delete current department?
           </Typography>
           <Typography
             component="div"
@@ -246,7 +232,7 @@ export const DeptDetailContainer = () => {
                 onClick={() => {
                   if (!id) return
                   setDOpen(false)
-                  deleteDoctor({
+                  deleteDept({
                     ids: [Number(id)],
                   })
                   navigate(-1)
@@ -342,27 +328,6 @@ export const DeptDetailContainer = () => {
             flexDirection: 'row',
           }}
         >
-          <Box component="div" sx={{ padding: '12px', width: '150px' }}>
-            <Button sx={{ padding: 0 }} component="label">
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                hidden
-                onChange={handleImageChange}
-              />
-              <Box
-                component="img"
-                sx={{
-                  width: '100%',
-                  cursor: 'pointer',
-                  display: 'block',
-                  objectFit: 'cover',
-                }}
-                alt={'doctor image'}
-                src={doctor.photo ? `${Env.MINIO_BASE_URL}${doctor.photo}` : AvatarImage}
-              />
-            </Button>
-          </Box>
           <Box component="div" sx={{ padding: '12px', flexGrow: 1 }}>
             {/* #1 */}
             <Box
@@ -384,8 +349,8 @@ export const DeptDetailContainer = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Icon icon="mdi:id-card-outline" fontSize={10} style={{ marginRight: '5px' }} />
-                  SIN
+                  <Icon icon="mdi:hospital-marker" fontSize={10} style={{ marginRight: '5px' }} />
+                  Department name
                 </Typography>
                 <Typography
                   component="div"
@@ -394,7 +359,7 @@ export const DeptDetailContainer = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {doctor.pid}
+                  {department.name}
                 </Typography>
               </Box>
               <Box component="div" sx={{ flex: 1 }}>
@@ -407,8 +372,8 @@ export const DeptDetailContainer = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Icon icon="iwwa:year" fontSize={10} style={{ marginRight: '5px' }} />
-                  DOB
+                  <Icon icon="carbon:category-new" fontSize={10} style={{ marginRight: '5px' }} />
+                  Type
                 </Typography>
                 <Typography
                   component="div"
@@ -417,7 +382,7 @@ export const DeptDetailContainer = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {dayjs(doctor.birthday).format('MMM D, YYYY')}
+                  {department.outpatient ? 'External' : 'Internal'}
                 </Typography>
               </Box>
             </Box>
@@ -441,8 +406,8 @@ export const DeptDetailContainer = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Icon icon="ic:round-qr-code" fontSize={10} style={{ marginRight: '5px' }} />
-                  SID
+                  <Icon icon="carbon:recommend" fontSize={10} style={{ marginRight: '5px' }} />
+                  System rate
                 </Typography>
                 <Typography
                   component="div"
@@ -451,179 +416,8 @@ export const DeptDetailContainer = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {doctor.uuid}
+                  {department.recommended ? 'Recommended' : 'Regular'}
                 </Typography>
-              </Box>
-              <Box component="div" sx={{ flex: 1 }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '10px',
-                    marginBottom: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon icon="maki:doctor" fontSize={10} style={{ marginRight: '5px' }} />
-                  Career
-                </Typography>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {dayjs(doctor.hiredate).format('MMM D, YYYY')}
-                </Typography>
-              </Box>
-            </Box>
-            {/* #3 */}
-            <Box
-              component="div"
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flex: 1,
-                marginBottom: '12px',
-              }}
-            >
-              <Box component="div" sx={{ flex: 1 }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '10px',
-                    marginBottom: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon icon="ic:baseline-email" fontSize={10} style={{ marginRight: '5px' }} />
-                  Email
-                </Typography>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {doctor.email}
-                </Typography>
-              </Box>
-              <Box component="div" sx={{ flex: 1 }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '10px',
-                    marginBottom: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon
-                    icon="material-symbols:note-alt"
-                    fontSize={10}
-                    style={{ marginRight: '5px' }}
-                  />
-                  Remark
-                </Typography>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {doctor.remark}
-                </Typography>
-              </Box>
-            </Box>
-            {/* #4 */}
-            <Box
-              component="div"
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flex: 1,
-                marginBottom: '12px',
-              }}
-            >
-              <Box component="div" sx={{ flex: 1 }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '10px',
-                    marginBottom: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon icon="mdi:address-marker" fontSize={10} style={{ marginRight: '5px' }} />
-                  Address
-                </Typography>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {doctor.address}
-                </Typography>
-              </Box>
-            </Box>
-            {/* #5 */}
-            <Box
-              component="div"
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flex: 1,
-                marginBottom: '12px',
-              }}
-            >
-              <Box component="div" sx={{ flex: 1 }}>
-                <Typography
-                  component="div"
-                  sx={{
-                    fontSize: '10px',
-                    marginBottom: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Icon icon="mdi:prize" fontSize={10} style={{ marginRight: '5px' }} />
-                  Highlights
-                </Typography>
-                <Box component="div" sx={{ display: 'flex', flexDirection: 'row' }}>
-                  {doctor.tag.map((tag, index) => (
-                    <Box
-                      key={index}
-                      component="div"
-                      sx={{
-                        background: '#81B3AA',
-                        borderRadius: '9px',
-                        paddingLeft: '12px',
-                        paddingRight: '12px',
-                        paddingTop: '3px',
-                        paddingBottom: '3px',
-                        marginRight: '9px',
-                      }}
-                    >
-                      <Typography
-                        component="div"
-                        sx={{
-                          fontSize: '9px',
-                          fontWeight: 'bold',
-                          color: 'white',
-                        }}
-                      >
-                        {tag}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
               </Box>
             </Box>
           </Box>
@@ -638,7 +432,7 @@ export const DeptDetailContainer = () => {
               fontWeight: 'bold',
             }}
           >
-            {doctor.description}
+            {department.description}
           </Typography>
         </Box>
       </Box>
