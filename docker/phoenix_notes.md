@@ -19,6 +19,16 @@ export HBASE_CONF_DIR=/opt/hbase/conf/
 
 !exit
 
+SELECT 
+ds."id" AS "id", 
+ds."name" AS "subName", 
+ds."uuid" AS "uuid", 
+d."name" AS "deptName", 
+ds."location" AS "location" 
+FROM HOSPITAL.MEDICAL_DEPT_SUB ds 
+LEFT JOIN HOSPITAL.MEDICAL_DEPT d ON ds."dept_id" = d."id" 
+WHERE ds."id"=106 LIMIT 1;
+
 #### tables
 - patient_user
 - patient_user_info_card
