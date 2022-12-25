@@ -5,10 +5,12 @@ import {
   selectIsLoading,
   selectTotalCount,
   selectTotalPage,
+  //
   selectDepartmentList,
   selectDepartment,
   //
   selectDeptSubList,
+  selectDeptSub,
 } from 'features/dept/store'
 import {
   Department,
@@ -20,6 +22,10 @@ import {
   //
   DeptSub,
   SearchDeptSubFormInput,
+  CreateDeptSubFormInput,
+  FetchDeptSubFormInput,
+  UpdateDeptSubFormInput,
+  DeleteDeptSubFormInput,
 } from 'features/dept/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
@@ -28,10 +34,12 @@ export type DeptServiceOperators = {
   //
   totalCount: number
   totalPage: number
+  //
   departmentList: Department[]
   department: Department | null
   //
   deptSubList: DeptSub[]
+  deptSub: DeptSub | null
   //
   fetchDepartments: (form: SearchDeptFormInput) => void
   createDept: (form: CreateDeptFormInput) => void
@@ -40,6 +48,10 @@ export type DeptServiceOperators = {
   deleteDept: (form: DeleteDeptFormInput) => void
   //
   fetchDeptSubs: (form: SearchDeptFormInput) => void
+  createDeptSub: (form: CreateDeptSubFormInput) => void
+  fetchDeptSub: (form: FetchDeptSubFormInput) => void
+  updateDeptSub: (form: UpdateDeptSubFormInput) => void
+  deleteDeptSub: (form: DeleteDeptSubFormInput) => void
 }
 
 /**
@@ -57,6 +69,7 @@ export const useDeptService = (): Readonly<DeptServiceOperators> => {
     department: useAppSelector(selectDepartment),
     //
     deptSubList: useAppSelector(selectDeptSubList),
+    deptSub: useAppSelector(selectDeptSub),
     //
     fetchDepartments: useCallback(
       (form: SearchDeptFormInput) => {
@@ -92,6 +105,30 @@ export const useDeptService = (): Readonly<DeptServiceOperators> => {
     fetchDeptSubs: useCallback(
       (form: SearchDeptSubFormInput) => {
         dispatch(deptActions.fetchDeptSubRequest(form))
+      },
+      [dispatch],
+    ),
+    createDeptSub: useCallback(
+      (form: CreateDeptSubFormInput) => {
+        dispatch(deptActions.createDeptSubRequest(form))
+      },
+      [dispatch],
+    ),
+    fetchDeptSub: useCallback(
+      (form: FetchDeptSubFormInput) => {
+        dispatch(deptActions.fetchDeptSubDetailRequest(form))
+      },
+      [dispatch],
+    ),
+    updateDeptSub: useCallback(
+      (form: UpdateDeptSubFormInput) => {
+        dispatch(deptActions.updateDeptSubRequest(form))
+      },
+      [dispatch],
+    ),
+    deleteDeptSub: useCallback(
+      (form: DeleteDeptSubFormInput) => {
+        dispatch(deptActions.deleteDeptSubRequest(form))
       },
       [dispatch],
     ),

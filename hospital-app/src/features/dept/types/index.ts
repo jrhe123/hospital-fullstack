@@ -42,6 +42,24 @@ export type SearchDeptSubFormInput = {
   order?: Order
 }
 
+export type CreateDeptSubFormInput = {
+  name: string
+  deptId: number | string
+  location: string
+}
+
+export type FetchDeptSubFormInput = {
+  id: number
+}
+
+export type UpdateDeptSubFormInput = {
+  id: number
+} & CreateDeptSubFormInput
+
+export type DeleteDeptSubFormInput = {
+  ids: number[]
+}
+
 export type Department = {
   name: string
   description: string
@@ -88,4 +106,9 @@ export type DeptSubPageUtil = {
 export type CreateDeptResponse = {
   result: boolean
   data: Department
+}
+
+export type CreateDeptSubResponse = {
+  result: boolean
+  data: DeptSub
 }

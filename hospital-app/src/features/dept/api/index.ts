@@ -13,7 +13,12 @@ import {
   UpdateDeptFormInput,
   DeleteDeptFormInput,
   //
+  CreateDeptSubResponse,
   SearchDeptSubFormInput,
+  CreateDeptSubFormInput,
+  FetchDeptSubFormInput,
+  UpdateDeptSubFormInput,
+  DeleteDeptSubFormInput,
 } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
@@ -38,3 +43,15 @@ export const deleteDept = (form: DeleteDeptFormInput): Promise<any> =>
 // Dept Sub
 export const searchDeptSubs = (form: SearchDeptSubFormInput): Promise<DeptSubPageUtil> =>
   api.post(`${DEPT_SUB_BASE_URL}/searchByPage`, form)
+
+export const createDeptSub = (form: CreateDeptSubFormInput): Promise<CreateDeptSubResponse> =>
+  api.post(`${DEPT_SUB_BASE_URL}/insert`, form)
+
+export const fetchDeptSub = (form: FetchDeptSubFormInput): Promise<Department> =>
+  api.post(`${DEPT_SUB_BASE_URL}/searchById`, form)
+
+export const updateDeptSub = (form: UpdateDeptSubFormInput): Promise<any> =>
+  api.patch(`${DEPT_SUB_BASE_URL}/update`, form)
+
+export const deleteDeptSub = (form: DeleteDeptSubFormInput): Promise<any> =>
+  api.post(`${DEPT_SUB_BASE_URL}/deleteByIds`, form)

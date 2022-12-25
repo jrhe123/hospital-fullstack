@@ -11,6 +11,10 @@ import {
   deleteDept,
   //
   searchDeptSubs,
+  createDeptSub,
+  fetchDeptSub,
+  updateDeptSub,
+  deleteDeptSub,
 } from 'features/dept/api'
 import { deptActions } from 'features/dept/store/dept.slice'
 import {
@@ -21,6 +25,10 @@ import {
   DeleteDeptFormInput,
   //
   SearchDeptSubFormInput,
+  CreateDeptSubFormInput,
+  FetchDeptSubFormInput,
+  UpdateDeptSubFormInput,
+  DeleteDeptSubFormInput,
 } from 'features/dept/types'
 
 // Worker Sagas
@@ -100,10 +108,10 @@ function* onUpdateDept({
     if (response.result) {
       toast.success('Success, department updated')
       // refetch
-      const doctor = yield call(fetchDept, {
+      const dept = yield call(fetchDept, {
         id: payload.id,
       })
-      yield put(deptActions.updateDeptSucceeded(doctor.data))
+      yield put(deptActions.updateDeptSucceeded(dept.data))
     } else {
       toast.error('Oops, something goes wrong')
       const errors = [new Error(response.message)]
@@ -160,6 +168,99 @@ function* onFetchDeptSubList({
   }
 }
 
+function* onCreateDeptSub({
+  payload,
+}: {
+  type: typeof deptActions.createDeptSubRequest
+  payload: CreateDeptSubFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(createDeptSub, payload)
+    if (response.result) {
+      toast.success('Success, department unit added')
+      yield put(deptActions.createDeptSubSucceeded(response))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(deptActions.createDeptSubFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(deptActions.createDeptSubFailed(errors))
+  }
+}
+
+function* onFetchDeptSub({
+  payload,
+}: {
+  type: typeof deptActions.fetchDeptSubDetailRequest
+  payload: FetchDeptSubFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(fetchDeptSub, payload)
+    if (response.result) {
+      yield put(deptActions.fetchDeptSubDetailSucceeded(response.data))
+    } else {
+      const errors = [new Error(response.message)]
+      yield put(deptActions.fetchDeptSubDetailFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Api error')]
+    yield put(deptActions.fetchDeptSubDetailFailed(errors))
+  }
+}
+
+function* onUpdateDeptSub({
+  payload,
+}: {
+  type: typeof deptActions.updateDeptSubRequest
+  payload: UpdateDeptSubFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(updateDeptSub, payload)
+    if (response.result) {
+      toast.success('Success, department unit updated')
+      // refetch
+      const deptSub = yield call(fetchDeptSub, {
+        id: payload.id,
+      })
+      yield put(deptActions.updateDeptSubSucceeded(deptSub.data))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(deptActions.updateDeptSubFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(deptActions.updateDeptSubFailed(errors))
+  }
+}
+
+function* onDeleteDeptSub({
+  payload,
+}: {
+  type: typeof deptActions.deleteDeptSubRequest
+  payload: DeleteDeptSubFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(deleteDeptSub, payload)
+    if (response.result) {
+      toast.success('Success, department unit deleted')
+      yield put(deptActions.deleteDeptSubSucceeded(payload.ids))
+    } else {
+      toast.error('Oops, something goes wrong. Please check doctor under this unit')
+      const errors = [new Error(response.message)]
+      yield put(deptActions.deleteDeptSubFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(deptActions.deleteDeptSubFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* deptWatcherSaga(): SagaIterator {
   yield takeLatest(deptActions.fetchDepartmentRequest.type, onFetchDepartmentList)
@@ -169,6 +270,10 @@ export function* deptWatcherSaga(): SagaIterator {
   yield takeEvery(deptActions.deleteDeptRequest.type, onDeleteDept)
   //
   yield takeLatest(deptActions.fetchDeptSubRequest.type, onFetchDeptSubList)
+  yield takeEvery(deptActions.createDeptSubRequest.type, onCreateDeptSub)
+  yield takeEvery(deptActions.fetchDeptSubDetailRequest.type, onFetchDeptSub)
+  yield takeEvery(deptActions.updateDeptSubRequest.type, onUpdateDeptSub)
+  yield takeEvery(deptActions.deleteDeptSubRequest.type, onDeleteDeptSub)
 }
 
 export default deptWatcherSaga
