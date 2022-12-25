@@ -153,8 +153,17 @@ export const staffSlice = createSlice({
       state.isLoading = true
       state.errors = []
     },
-    updateDoctorSucceeded(state, action: PayloadAction<DoctorDetail>) {
+    updateDoctorSucceeded(state, action: PayloadAction<DoctorFullDetail>) {
       state.isLoading = false
+      // update it in the list if exists
+      const updatedDoctor = action.payload
+      const filterDoctorList = state.doctorList.map(item => {
+        if (item.id === updatedDoctor.id) {
+          item = updatedDoctor
+        }
+        return item
+      })
+      state.doctorList = filterDoctorList
       state.doctor = action.payload
     },
     updateDoctorFailed(state, action: PayloadAction<Error[]>) {

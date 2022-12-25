@@ -138,6 +138,7 @@ export type DoctorFullDetail = {
   birthday: Date
   deptName: string
   address: string
+  photo: string
   sex: Sex
   degree: Degree
   description: string

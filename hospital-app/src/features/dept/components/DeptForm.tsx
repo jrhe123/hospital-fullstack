@@ -117,7 +117,7 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
     recommendedId: '1',
   })
 
-  const { createDept, updateDept, isLoading, department } = useDeptService()
+  const { createDept, updateDept, fetchDept, isLoading, department } = useDeptService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
@@ -133,6 +133,11 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
   useEffect(() => {
+    if ((id && !department) || (id && department?.id !== id)) {
+      fetchDept({
+        id,
+      })
+    }
     if (id && department) {
       setDefauleValues({
         name: department.name,
@@ -150,7 +155,7 @@ export const DeptForm: FC<DeptFormProps> = ({ handleCloseModal, id }) => {
       setValue('outpatient', department.outpatient)
       setValue('outpatientId', department.outpatient ? '1' : '2')
     }
-  }, [id, department, setValue])
+  }, [id, department, setValue, fetchDept])
 
   const onSubmitClick = (data: CreateDeptFormInput) => {
     const recommend = recommendList.find(i => i.id === Number(data.recommendedId))

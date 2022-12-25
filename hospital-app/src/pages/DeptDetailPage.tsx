@@ -7,7 +7,7 @@ const DeptDetailPage = () => (
   <>
     <SEO
       title={'Department | Hospital'}
-      description={'hospital department management'}
+      description={'hospital department detail management'}
       name={'Hospital'}
       type={'website'}
     />

@@ -150,6 +150,7 @@
     <select id="getDoctorDetailById" parameterType="Integer" resultType="HashMap">
     	SELECT d."id" AS "id",
     			d."name" AS "name",
+    			d."photo" AS "photo",
     			d."pid" AS "pid",
     			d."uuid" AS "uuid",
     			d."sex" AS "sex",

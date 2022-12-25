@@ -81,14 +81,11 @@ interface DeptSubFormProps {
 export const DeptSubForm: FC<DeptSubFormProps> = ({ handleCloseModal, id }) => {
   const [defaultValues, setDefauleValues] = useState<CreateDeptSubFormInput>({
     name: '',
-    description: '',
-    outpatient: true,
-    outpatientId: '1',
-    recommended: true,
-    recommendedId: '1',
+    deptId: '',
+    location: '',
   })
 
-  const { createDept, updateDept, isLoading, department } = useDeptService()
+  const { createDeptSub, updateDeptSub, fetchDeptSub, isLoading, deptSub } = useDeptService()
   const { fetchDepartments, departmentList } = useStaffService()
 
   useEffect(() => {
@@ -98,9 +95,8 @@ export const DeptSubForm: FC<DeptSubFormProps> = ({ handleCloseModal, id }) => {
   // form check
   const formValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Descrition is required'),
-    recommended: Yup.bool().oneOf([true, false], 'Recommended is invalid'),
-    outpatient: Yup.bool().oneOf([true, false], 'Recommended is invalid'),
+    deptId: Yup.number().min(1, 'Must be greater than 1').required('Department Id is required'),
+    location: Yup.string().required('Location is required'),
   })
   const methods = useForm<CreateDeptSubFormInput, unknown>({
     defaultValues,
@@ -109,51 +105,32 @@ export const DeptSubForm: FC<DeptSubFormProps> = ({ handleCloseModal, id }) => {
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
   useEffect(() => {
-    if (id && department) {
-      setDefauleValues({
-        name: department.name,
-        description: department.description,
-        recommended: department.recommended,
-        recommendedId: department.recommended ? '1' : '2',
-        outpatient: department.outpatient,
-        outpatientId: department.outpatient ? '1' : '2',
+    if ((id && !deptSub) || (id && deptSub?.id !== id)) {
+      fetchDeptSub({
+        id,
       })
-
-      setValue('name', department.name)
-      setValue('description', department.description)
-      setValue('recommended', department.recommended)
-      setValue('recommendedId', department.recommended ? '1' : '2')
-      setValue('outpatient', department.outpatient)
-      setValue('outpatientId', department.outpatient ? '1' : '2')
     }
-  }, [id, department, setValue])
+    if (id && deptSub) {
+      setDefauleValues({
+        name: deptSub.subName,
+        deptId: deptSub.deptId,
+        location: deptSub.location,
+      })
+      setValue('name', deptSub.subName)
+      setValue('deptId', deptSub.deptId)
+      setValue('location', deptSub.location)
+    }
+  }, [id, deptSub, setValue, fetchDeptSub])
 
   const onSubmitClick = (data: CreateDeptSubFormInput) => {
-    const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
-    let formattedRecommend
-    if (!recommend || recommend.id === 1) {
-      formattedRecommend = true
-    } else {
-      formattedRecommend = false
-    }
-    const outpatient = outpatientList.find(i => i.id === Number(data.outpatientId))
-    let formattedOutpatient
-    if (!outpatient || outpatient.id === 1) {
-      formattedOutpatient = true
-    } else {
-      formattedOutpatient = false
-    }
-    setValue('recommended', formattedRecommend)
-    setValue('outpatient', formattedOutpatient)
-
     const values = getValues()
     if (id) {
-      updateDept({
+      updateDeptSub({
         ...values,
         id,
       })
     } else {
-      createDept(values)
+      createDeptSub(values)
     }
 
     handleCloseModal()
@@ -255,7 +232,7 @@ export const DeptSubForm: FC<DeptSubFormProps> = ({ handleCloseModal, id }) => {
           variant={'outlined'}
         />
       </Box>
-      {/* description */}
+      {/* department */}
       <Box
         component="div"
         sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
@@ -269,78 +246,53 @@ export const DeptSubForm: FC<DeptSubFormProps> = ({ handleCloseModal, id }) => {
             width: '60px',
           }}
         >
-          Description
+          Department
+        </Typography>
+        <FormSelect
+          name="deptId"
+          label={''}
+          control={control}
+          sx={selectFieldStyle}
+          lsx={inputLabelStyle}
+          errorMessage={'Invalid department'}
+        >
+          {departmentList.map(item => (
+            <MenuItem
+              key={item.id}
+              value={item.id}
+              sx={{
+                fontSize: '11px',
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </FormSelect>
+      </Box>
+      {/* location */}
+      <Box
+        component="div"
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
+      >
+        <Typography
+          component="div"
+          sx={{
+            fontSize: '10px',
+            fontWeight: 'bold',
+            marginRight: '12px',
+            width: '60px',
+          }}
+        >
+          Location
         </Typography>
         <FormTextField
-          name="description"
+          name="location"
           control={control}
           sx={textboxFieldStyle}
           type={'text'}
           variant={'outlined'}
           multiline
         />
-      </Box>
-      {/* outpatient */}
-      <Box
-        component="div"
-        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-      >
-        <Typography
-          component="div"
-          sx={{
-            fontSize: '10px',
-            fontWeight: 'bold',
-            marginRight: '12px',
-            width: '60px',
-          }}
-        >
-          Type
-        </Typography>
-        <FormSelect
-          name="outpatientId"
-          label={''}
-          control={control}
-          sx={selectFieldStyle}
-          lsx={inputLabelStyle}
-          errorMessage={'Invalid recommend'}
-        >
-          {outpatientList.map((out, index) => (
-            <MenuItem key={index} value={out.id} sx={{ fontSize: '11px' }}>
-              {out.name}
-            </MenuItem>
-          ))}
-        </FormSelect>
-      </Box>
-      {/* recommend */}
-      <Box
-        component="div"
-        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-      >
-        <Typography
-          component="div"
-          sx={{
-            fontSize: '10px',
-            fontWeight: 'bold',
-            marginRight: '12px',
-            width: '60px',
-          }}
-        >
-          Recommend
-        </Typography>
-        <FormSelect
-          name="recommendedId"
-          label={''}
-          control={control}
-          sx={selectFieldStyle}
-          lsx={inputLabelStyle}
-          errorMessage={'Invalid recommend'}
-        >
-          {recommendList.map((recomm, index) => (
-            <MenuItem key={index} value={recomm.id} sx={{ fontSize: '11px' }}>
-              {recomm.name}
-            </MenuItem>
-          ))}
-        </FormSelect>
       </Box>
       {/* btns */}
       <Box

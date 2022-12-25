@@ -28,7 +28,7 @@ import FormTextField from 'libs/ui/components/FormTextField'
 import { useDeptService } from '../hooks'
 import { DeptSub, SearchDeptSubFormInput } from '../types'
 
-// import { DeptForm } from './DeptForm'
+import { DeptSubForm } from './DeptSubForm'
 
 const textFieldStyle = {
   '& div': {
@@ -93,17 +93,17 @@ const headCells: readonly HeadCell[] = [
   },
   {
     id: 'doctors',
-    label: 'Doctors',
+    label: 'Doctor',
     isSort: false,
   },
   {
     id: 'masterDoctors',
-    label: 'Director',
+    label: 'Doctor(D)',
     isSort: false,
   },
   {
     id: 'generalDoctors',
-    label: 'Specialist',
+    label: 'Doctor(S)',
     isSort: false,
   },
   {
@@ -183,7 +183,7 @@ export const DeptSubContainer = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [dOpen, setDOpen] = useState<boolean>(false)
 
-  const { fetchDeptSubs, isLoading, deptSubList, totalCount } = useDeptService()
+  const { fetchDeptSubs, deleteDeptSub, isLoading, deptSubList, totalCount } = useDeptService()
   const { fetchDepartments, departmentList } = useStaffService()
 
   // form check
@@ -208,7 +208,6 @@ export const DeptSubContainer = () => {
       // sort
       order: values.order,
     }
-    console.log('form: ', form)
     fetchDeptSubs(form)
   }, [fetchDeptSubs, getValues])
 
@@ -492,13 +491,13 @@ export const DeptSubContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             {deptSub.deptName}
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
+          <TableCell align="center" sx={{ fontSize: '10px', minWidth: '60px' }}>
             {deptSub.doctors}
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
+          <TableCell align="center" sx={{ fontSize: '10px', minWidth: '60px' }}>
             {deptSub.masterDoctors}
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
+          <TableCell align="center" sx={{ fontSize: '10px', minWidth: '60px' }}>
             {deptSub.generalDoctors}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
@@ -572,12 +571,12 @@ export const DeptSubContainer = () => {
           setOpen(false)
         }}
       >
-        {/* <DeptForm
+        <DeptSubForm
           id={deptSubId}
           handleCloseModal={() => {
             setOpen(false)
           }}
-        /> */}
+        />
       </CustomModal>
       <CustomModal
         open={dOpen}
@@ -615,7 +614,7 @@ export const DeptSubContainer = () => {
               marginBottom: '12px',
             }}
           >
-            Are you sure delete {selected.length} of departments?
+            Are you sure delete {selected.length} of units?
           </Typography>
           <Typography
             component="div"
@@ -641,9 +640,9 @@ export const DeptSubContainer = () => {
             <Box component="div" sx={{ marginRight: '6px' }}>
               <Button
                 onClick={() => {
-                  // deleteDoctor({
-                  //   ids: [...selected],
-                  // })
+                  deleteDeptSub({
+                    ids: [...selected],
+                  })
                   setDOpen(false)
                 }}
                 sx={{ padding: 0 }}

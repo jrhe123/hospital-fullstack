@@ -6,8 +6,8 @@ import { DoctorDetailContainer } from 'features/staff'
 const DoctorDetailPage = () => (
   <>
     <SEO
-      title={'Doctor information | Hospital'}
-      description={'hospital doctor management'}
+      title={'Doctor | Hospital'}
+      description={'hospital doctor detail management'}
       name={'Hospital'}
       type={'website'}
     />

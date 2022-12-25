@@ -345,7 +345,7 @@ export const DoctorForm: FC<DoctorFormProps> = ({ handleCloseModal, id }) => {
       setValue('school', doctorDetail.school)
       setValue('degree', Degree[degree || 'BACHELOR'])
       setValue('degreeId', String(degreeId || 1))
-      setValue('tel', doctorDetail.tel)
+      setValue('tel', doctorDetail.tel.trim())
       setValue('address', doctorDetail.address)
       setValue('email', doctorDetail.email)
       setValue('job', Occupation[job || 'SPECIALIST'])

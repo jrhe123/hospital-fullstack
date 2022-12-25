@@ -105,6 +105,15 @@ export const deptSlice = createSlice({
     },
     updateDeptSucceeded(state, action: PayloadAction<Department>) {
       state.isLoading = false
+      // update it in the list if exists
+      const updatedDepartment = action.payload
+      const filterDepartmentList = state.departmentList.map(item => {
+        if (item.id === updatedDepartment.id) {
+          item = updatedDepartment
+        }
+        return item
+      })
+      state.departmentList = filterDepartmentList
       state.department = action.payload
     },
     updateDeptFailed(state, action: PayloadAction<Error[]>) {
@@ -180,6 +189,15 @@ export const deptSlice = createSlice({
     },
     updateDeptSubSucceeded(state, action: PayloadAction<DeptSub>) {
       state.isLoading = false
+      // update it in the list if exists
+      const updatedDeptSub = action.payload
+      const filterDeptSubList = state.deptSubList.map(item => {
+        if (item.id === updatedDeptSub.id) {
+          item = updatedDeptSub
+        }
+        return item
+      })
+      state.deptSubList = filterDeptSubList
       state.deptSub = action.payload
     },
     updateDeptSubFailed(state, action: PayloadAction<Error[]>) {

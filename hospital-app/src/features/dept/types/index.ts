@@ -86,6 +86,7 @@ export type DeptSub = {
   subName: string
   doctors: number
   location: string
+  deptId: number
   id: number
   uuid: string
   masterDoctors: number

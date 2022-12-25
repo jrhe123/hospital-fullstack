@@ -192,7 +192,7 @@ function* onUpdateDoctor({
     if (response.result) {
       toast.success('Success, doctor updated')
       // refetch
-      const doctor = yield call(fetchDoctorDetail, {
+      const doctor = yield call(fetchDoctorFullDetail, {
         id: payload.id,
       })
       yield put(staffActions.updateDoctorSucceeded(doctor.data))

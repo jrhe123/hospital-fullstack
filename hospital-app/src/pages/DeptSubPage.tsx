@@ -6,8 +6,8 @@ import { DeptSubContainer } from 'features/dept'
 const DeptSubPage = () => (
   <>
     <SEO
-      title={'Department | Hospital'}
-      description={'hospital department management'}
+      title={'Unit | Hospital'}
+      description={'hospital department unit management'}
       name={'Hospital'}
       type={'website'}
     />

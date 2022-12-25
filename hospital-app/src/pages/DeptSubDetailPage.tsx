@@ -1,17 +1,17 @@
 import React from 'react'
 
 import SEO from 'components/SEO'
-// import { DoctorContainer } from 'features/staff'
+import { DeptSubDetailContainer } from 'features/dept'
 
 const DeptSubDetailPage = () => (
   <>
     <SEO
-      title={'Department detail | Hospital'}
-      description={'hospital department detail management'}
+      title={'Unit detail | Hospital'}
+      description={'hospital department unit detail management'}
       name={'Hospital'}
       type={'website'}
     />
-    123
+    <DeptSubDetailContainer />
   </>
 )
 
