@@ -285,7 +285,7 @@ export const DoctorContainer = () => {
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  const fetchDoctorList = useCallback(() => {
+  const fetchDoctorList: () => void = useCallback(() => {
     const values = getValues()
     const form = {
       page: values.page + 1,
@@ -729,7 +729,7 @@ export const DoctorContainer = () => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1
   const renderTable = () => {
     if (!doctorList.length) return null
-    return doctorList.map((doc, index) => {
+    return doctorList.map((doc: Doctor, index: number) => {
       const isItemSelected = isSelected(doc.id)
       const labelId = `enhanced-table-checkbox-${index}`
       let formattedStatus = 'active'

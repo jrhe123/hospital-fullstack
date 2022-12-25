@@ -27,7 +27,6 @@ public class MedicalDeptSubServiceImpl implements MedicalDeptSubSevice {
 	public PageUtils searchByPage(Map param) {
 		ArrayList<HashMap> list = null;
 		long count = medicalDeptSubDao.searchCount(param);
-		
 		if (count > 0) {
 			list = medicalDeptSubDao.searchByPage(param);
 		} else {

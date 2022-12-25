@@ -21,6 +21,7 @@ import com.example.hospital.api.controller.form.InsertMedicalDeptForm;
 import com.example.hospital.api.controller.form.InsertMedicalDeptSubForm;
 import com.example.hospital.api.controller.form.SearchMedicalDeptByPageForm;
 import com.example.hospital.api.controller.form.SearchMedicalDeptSubByIdForm;
+import com.example.hospital.api.controller.form.SearchMedicalDeptSubByPageForm;
 import com.example.hospital.api.controller.form.UpdateMedicalDeptForm;
 import com.example.hospital.api.controller.form.UpdateMedicalDeptSubForm;
 import com.example.hospital.api.db.pojo.MedicalDeptEntity;
@@ -43,7 +44,7 @@ public class MedicalDeptSubController {
 	@PostMapping("/searchByPage")
 	@SaCheckLogin
 	@SaCheckPermission(value = {"ROOT", "MEDICAL_DEPT_SUB:SELECT"}, mode = SaMode.OR)
-	public R searchDeptByPage(@RequestBody @Valid SearchMedicalDeptByPageForm form) {
+	public R searchDeptByPage(@RequestBody @Valid SearchMedicalDeptSubByPageForm form) {
 		Map param = BeanUtil.beanToMap(form);
 		int page = form.getPage();
 		int length = form.getLength();

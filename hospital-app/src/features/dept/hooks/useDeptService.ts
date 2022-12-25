@@ -6,34 +6,40 @@ import {
   selectTotalCount,
   selectTotalPage,
   selectDepartmentList,
-  selectDeptSubList,
   selectDepartment,
+  //
+  selectDeptSubList,
 } from 'features/dept/store'
 import {
   Department,
-  DeptSub,
   SearchDeptFormInput,
   CreateDeptFormInput,
   FetchDeptFormInput,
   UpdateDeptFormInput,
   DeleteDeptFormInput,
+  //
+  DeptSub,
+  SearchDeptSubFormInput,
 } from 'features/dept/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
 export type DeptServiceOperators = {
   isLoading: boolean
   //
-  departmentList: Department[]
-  deptSubList: DeptSub[]
   totalCount: number
   totalPage: number
+  departmentList: Department[]
   department: Department | null
+  //
+  deptSubList: DeptSub[]
+  //
   fetchDepartments: (form: SearchDeptFormInput) => void
-  fetchDeptSubs: (form: SearchDeptFormInput) => void
   createDept: (form: CreateDeptFormInput) => void
   fetchDept: (form: FetchDeptFormInput) => void
   updateDept: (form: UpdateDeptFormInput) => void
   deleteDept: (form: DeleteDeptFormInput) => void
+  //
+  fetchDeptSubs: (form: SearchDeptFormInput) => void
 }
 
 /**
@@ -44,21 +50,17 @@ export const useDeptService = (): Readonly<DeptServiceOperators> => {
   const dispatch = useAppDispatch()
   return {
     isLoading: useAppSelector(selectIsLoading),
-    departmentList: useAppSelector(selectDepartmentList),
-    deptSubList: useAppSelector(selectDeptSubList),
     totalCount: useAppSelector(selectTotalCount),
     totalPage: useAppSelector(selectTotalPage),
+    //
+    departmentList: useAppSelector(selectDepartmentList),
     department: useAppSelector(selectDepartment),
+    //
+    deptSubList: useAppSelector(selectDeptSubList),
     //
     fetchDepartments: useCallback(
       (form: SearchDeptFormInput) => {
         dispatch(deptActions.fetchDepartmentRequest(form))
-      },
-      [dispatch],
-    ),
-    fetchDeptSubs: useCallback(
-      (form: SearchDeptFormInput) => {
-        dispatch(deptActions.fetchDeptSubRequest(form))
       },
       [dispatch],
     ),
@@ -83,6 +85,13 @@ export const useDeptService = (): Readonly<DeptServiceOperators> => {
     deleteDept: useCallback(
       (form: DeleteDeptFormInput) => {
         dispatch(deptActions.deleteDeptRequest(form))
+      },
+      [dispatch],
+    ),
+    //
+    fetchDeptSubs: useCallback(
+      (form: SearchDeptSubFormInput) => {
+        dispatch(deptActions.fetchDeptSubRequest(form))
       },
       [dispatch],
     ),

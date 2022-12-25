@@ -1,3 +1,5 @@
+type Order = 'asc' | 'desc'
+
 export type SearchDeptFormInput = {
   page: number
   length: number
@@ -30,6 +32,16 @@ export type DeleteDeptFormInput = {
   ids: number[]
 }
 
+export type SearchDeptSubFormInput = {
+  page: number
+  length: number
+  // search fields
+  name?: string
+  deptId?: number | string
+  // sort fields
+  order?: Order
+}
+
 export type Department = {
   name: string
   description: string
@@ -51,13 +63,14 @@ export type DepartmentPageUtil = {
 }
 
 export type DeptSub = {
-  subs: number
+  deptName?: string
+  generalDoctors: number
+  subName: string
   doctors: number
-  name: string
-  description: string
+  location: string
   id: number
-  outpatient: boolean
-  recommended: boolean
+  uuid: string
+  masterDoctors: number
   action?: string
 }
 

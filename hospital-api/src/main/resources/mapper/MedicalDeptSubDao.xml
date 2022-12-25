@@ -42,7 +42,7 @@
 	    ) t3 ON t3."id" = ds."id"
 	    WHERE 1 = 1
 	    <if test="name!=null">
-	        AND ds."name" LIKE '%${name}%'
+	        AND UPPER(ds."name") LIKE UPPER('%${name}%')
 	    </if>
 	    <if test="deptId!=null">
 	        AND d."id" = ${deptId}
@@ -50,7 +50,9 @@
 	    <if test="order!=null">
 	        ORDER BY d."id" ${order}
 	    </if>
-	    ORDER BY ds."id" DESC
+	    <if test="order==null">
+	        ORDER BY ds."id" DESC
+	    </if>
 	    LIMIT ${length} OFFSET ${start}
 	</select>
 	

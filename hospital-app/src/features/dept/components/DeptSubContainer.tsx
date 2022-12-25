@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  TableSortLabel,
   TableContainer,
   TablePagination,
   Typography,
@@ -20,12 +21,12 @@ import * as Yup from 'yup'
 
 import { BoxWrapper } from 'components/BoxWrapper'
 import { CustomModal } from 'components/Modal'
+import { useStaffService } from 'features/staff'
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
-import { truncate } from 'utils/common'
 
 import { useDeptService } from '../hooks'
-import { DeptSub, SearchDeptFormInput } from '../types'
+import { DeptSub, SearchDeptSubFormInput } from '../types'
 
 // import { DeptForm } from './DeptForm'
 
@@ -66,78 +67,62 @@ const selectFieldStyle = {
   },
 }
 
-type OutpatientType = {
-  id: number
-  name: string
-}
-const typeList: OutpatientType[] = [
-  {
-    id: 1,
-    name: 'Internal',
-  },
-  {
-    id: 2,
-    name: 'External',
-  },
-]
-
-type RecommendType = {
-  id: number
-  name: string
-}
-const recommendList: RecommendType[] = [
-  {
-    id: 1,
-    name: 'Recommended',
-  },
-  {
-    id: 2,
-    name: 'Regular',
-  },
-]
-
+type Order = 'asc' | 'desc'
 interface EnhancedTableProps {
   numSelected: number
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof DeptSub) => void
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
+  order?: Order
   rowCount: number
 }
 interface HeadCell {
   id: keyof DeptSub
   label: string
+  isSort: boolean
 }
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
-    label: 'Name',
+    id: 'subName',
+    label: 'Unit',
+    isSort: false,
   },
   {
-    id: 'description',
-    label: 'Description',
-  },
-  {
-    id: 'outpatient',
-    label: 'Type',
-  },
-  {
-    id: 'recommended',
-    label: 'Rate',
-  },
-  {
-    id: 'subs',
-    label: 'Section',
+    id: 'deptName',
+    label: 'Department',
+    isSort: true,
   },
   {
     id: 'doctors',
-    label: 'Doctor',
+    label: 'Doctors',
+    isSort: false,
+  },
+  {
+    id: 'masterDoctors',
+    label: 'Director',
+    isSort: false,
+  },
+  {
+    id: 'generalDoctors',
+    label: 'Specialist',
+    isSort: false,
+  },
+  {
+    id: 'location',
+    label: 'Location',
+    isSort: false,
   },
   {
     id: 'action',
     label: 'Actions',
+    isSort: false,
   },
 ]
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { onSelectAllClick, numSelected, rowCount } = props
+  const { onSelectAllClick, order, numSelected, rowCount, onRequestSort } = props
+  const createSortHandler = (property: keyof DeptSub) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property)
+  }
 
   return (
     <TableHead>
@@ -158,11 +143,23 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             key={headCell.id}
             align={'center'}
             padding={'none'}
+            sortDirection={order || 'asc'}
             sx={{
               fontSize: '10px',
             }}
           >
-            {headCell.label}
+            {headCell.isSort ? (
+              <TableSortLabel
+                active={true}
+                direction={order || 'asc'}
+                onClick={createSortHandler(headCell.id)}
+                sx={{ marginLeft: '10px' }}
+              >
+                {headCell.label}
+              </TableSortLabel>
+            ) : (
+              headCell.label
+            )}
           </TableCell>
         ))}
       </TableRow>
@@ -171,75 +168,57 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
 }
 
 export const DeptSubContainer = () => {
-  const [defaultValues, setDefauleValues] = useState<SearchDeptFormInput>({
+  const [defaultValues, setDefauleValues] = useState<SearchDeptSubFormInput>({
     page: 0,
     length: 10,
     // search
     name: '',
-    outpatientId: '',
-    outpatient: '',
-    recommendedId: '',
-    recommended: '',
+    deptId: '',
+    // sort
+    order: undefined,
   })
 
   const [selected, setSelected] = useState<readonly number[]>([])
-  const [deptId, setDeptId] = useState<number | null>(null)
+  const [deptSubId, setDeptSubId] = useState<number | null>(null)
   const [open, setOpen] = useState<boolean>(false)
   const [dOpen, setDOpen] = useState<boolean>(false)
 
   const { fetchDeptSubs, isLoading, deptSubList, totalCount } = useDeptService()
+  const { fetchDepartments, departmentList } = useStaffService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
     name: Yup.string().notRequired(),
-    outpatientId: Yup.string().notRequired(),
-    recommendedId: Yup.string().notRequired(),
+    deptId: Yup.string().notRequired(),
   })
-  const methods = useForm<SearchDeptFormInput, unknown>({
+  const methods = useForm<SearchDeptSubFormInput, unknown>({
     defaultValues,
     resolver: yupResolver(formValidationSchema),
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  const fetchDeptSubList = useCallback(() => {
+  const fetchDeptSubList: () => void = useCallback(() => {
     const values = getValues()
     const form = {
       page: values.page + 1,
       length: values.length,
       // search
       name: values.name,
-      outpatient: values.outpatient,
-      recommended: values.recommended,
+      deptId: values.deptId,
+      // sort
+      order: values.order,
     }
+    console.log('form: ', form)
     fetchDeptSubs(form)
   }, [fetchDeptSubs, getValues])
 
   // initial fetch
   useEffect(() => {
+    fetchDepartments()
     fetchDeptSubList()
-  }, [fetchDeptSubList])
+  }, [fetchDepartments, fetchDeptSubList])
 
-  const onSearchClick = (data: SearchDeptFormInput) => {
-    const type = typeList.find(i => i.id === Number(data.outpatientId))
-    const recommend = recommendList.find(i => i.id === Number(data.recommendedId))
-    let formattedOutpatient
-    let formattedRecommend
-    if (type) {
-      if (type.id === 1) {
-        formattedOutpatient = false
-      } else {
-        formattedOutpatient = true
-      }
-    }
-    if (recommend) {
-      if (recommend.id === 1) {
-        formattedRecommend = true
-      } else {
-        formattedRecommend = false
-      }
-    }
-    setValue('outpatient', formattedOutpatient)
-    setValue('recommended', formattedRecommend)
+  const onSearchClick = (data: SearchDeptSubFormInput) => {
     setValue('page', 0)
     fetchDeptSubList()
   }
@@ -250,24 +229,32 @@ export const DeptSubContainer = () => {
       length: 10,
       // search
       name: '',
-      outpatientId: '',
-      outpatient: '',
-      recommendedId: '',
-      recommended: '',
+      deptId: '',
+      order: undefined,
     })
     fetchDeptSubList()
   }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = deptSubList.map(dept => dept.id)
+      const newSelected = deptSubList.map(deptSub => deptSub.id)
       setSelected(newSelected)
       return
     }
     setSelected([])
   }
 
-  const handleClickDept = (event: React.MouseEvent<unknown>, id: number) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DeptSub) => {
+    const updated = defaultValues.order === 'asc' ? 'desc' : 'asc'
+    setDefauleValues({
+      ...defaultValues,
+      order: updated,
+    })
+    setValue('order', updated)
+    fetchDeptSubList()
+  }
+
+  const handleClickDeptSub = (event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id)
     let newSelected: readonly number[] = []
     if (selectedIndex === -1) {
@@ -321,36 +308,19 @@ export const DeptSubContainer = () => {
           variant={'outlined'}
         />
       </Box>
-      {/* type */}
+      {/* department */}
       <Box component="div" sx={{ width: '90px', marginRight: '6px' }}>
         <FormSelect
-          name="outpatientId"
-          label={'Type'}
+          name="deptId"
+          label={'Department'}
           control={control}
           sx={selectFieldStyle}
           lsx={inputLabelStyle}
-          errorMessage={'Invalid type'}
+          errorMessage={'Invalid department'}
         >
-          {typeList.map((t, index) => (
-            <MenuItem key={index} value={t.id} sx={{ fontSize: '11px' }}>
-              {t.name}
-            </MenuItem>
-          ))}
-        </FormSelect>
-      </Box>
-      {/* recommended */}
-      <Box component="div" sx={{ width: '90px', marginRight: '12px' }}>
-        <FormSelect
-          name="recommendedId"
-          label={'Rate'}
-          control={control}
-          sx={selectFieldStyle}
-          lsx={inputLabelStyle}
-          errorMessage={'Invalid rate'}
-        >
-          {recommendList.map((recom, index) => (
-            <MenuItem key={index} value={recom.id} sx={{ fontSize: '11px' }}>
-              {recom.name}
+          {departmentList.map((dept, index) => (
+            <MenuItem key={index} value={dept.id} sx={{ fontSize: '11px' }}>
+              {dept.name}
             </MenuItem>
           ))}
         </FormSelect>
@@ -423,7 +393,7 @@ export const DeptSubContainer = () => {
       <Box component="div" sx={{ marginRight: '6px' }}>
         <Button
           onClick={() => {
-            setDeptId(null)
+            setDeptSubId(null)
             setOpen(true)
           }}
           sx={{ padding: 0 }}
@@ -489,17 +459,17 @@ export const DeptSubContainer = () => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1
   const renderTable = () => {
     if (!deptSubList.length) return null
-    return deptSubList.map((dept, index) => {
-      const isItemSelected = isSelected(dept.id)
+    return deptSubList.map((deptSub: DeptSub, index: number) => {
+      const isItemSelected = isSelected(deptSub.id)
       const labelId = `enhanced-table-checkbox-${index}`
       return (
         <TableRow
           hover
-          onClick={event => handleClickDept(event, dept.id)}
+          onClick={event => handleClickDeptSub(event, deptSub.id)}
           role="checkbox"
           aria-checked={isItemSelected}
           tabIndex={-1}
-          key={dept.id}
+          key={deptSub.id}
           selected={isItemSelected}
         >
           <TableCell padding="checkbox">
@@ -511,28 +481,28 @@ export const DeptSubContainer = () => {
               }}
             />
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px', minWidth: '90px' }}>
+          <TableCell align="center" sx={{ fontSize: '10px', maxWidth: '150px' }}>
             <Link
-              to={`/management/dept/${dept.id}`}
+              to={`/management/deptSub/${deptSub.id}`}
               style={{ color: '#81B3AA', textDecoration: 'underline', fontWeight: 'bold' }}
             >
-              {dept.name}
+              {deptSub.subName}
             </Link>
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }} title={dept.description}>
-            {truncate(dept.description, 30)}
+          <TableCell align="center" sx={{ fontSize: '10px' }}>
+            {deptSub.deptName}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {dept.outpatient ? 'External' : 'Internal'}
+            {deptSub.doctors}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {dept.recommended ? 'Recommend' : 'Regular'}
+            {deptSub.masterDoctors}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {dept.subs}
+            {deptSub.generalDoctors}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
-            {dept.doctors}
+            {deptSub.location}
           </TableCell>
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             <Box component="div" sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -540,7 +510,7 @@ export const DeptSubContainer = () => {
                 sx={{ padding: 0, minWidth: 0, marginRight: '6px' }}
                 onClick={e => {
                   e.stopPropagation()
-                  setDeptId(dept.id)
+                  setDeptSubId(deptSub.id)
                   setOpen(true)
                 }}
               >
@@ -559,7 +529,7 @@ export const DeptSubContainer = () => {
                 sx={{ padding: 0, minWidth: 0 }}
                 onClick={e => {
                   e.stopPropagation()
-                  setSelected([dept.id])
+                  setSelected([deptSub.id])
                   setDOpen(true)
                 }}
               >
@@ -603,7 +573,7 @@ export const DeptSubContainer = () => {
         }}
       >
         {/* <DeptForm
-          id={deptId}
+          id={deptSubId}
           handleCloseModal={() => {
             setOpen(false)
           }}
@@ -772,7 +742,9 @@ export const DeptSubContainer = () => {
             <Table aria-labelledby="tableTitle" size={'small'}>
               <EnhancedTableHead
                 numSelected={selected.length}
+                order={defaultValues.order}
                 onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
                 rowCount={deptSubList.length}
               />
               <TableBody>{renderTable()}</TableBody>

@@ -5,11 +5,12 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 import {
   searchDepartments,
-  searchDeptSubs,
   createDept,
   fetchDept,
   updateDept,
   deleteDept,
+  //
+  searchDeptSubs,
 } from 'features/dept/api'
 import { deptActions } from 'features/dept/store/dept.slice'
 import {
@@ -18,6 +19,8 @@ import {
   FetchDeptFormInput,
   UpdateDeptFormInput,
   DeleteDeptFormInput,
+  //
+  SearchDeptSubFormInput,
 } from 'features/dept/types'
 
 // Worker Sagas
@@ -38,26 +41,6 @@ function* onFetchDepartmentList({
   } catch (error) {
     const errors = [new Error('Api error')]
     yield put(deptActions.fetchDepartmentFailed(errors))
-  }
-}
-
-function* onFetchDeptSubList({
-  payload,
-}: {
-  type: typeof deptActions.fetchDeptSubRequest
-  payload: SearchDeptFormInput
-}): SagaIterator {
-  try {
-    const response = yield call(searchDeptSubs, payload)
-    if (response.result) {
-      yield put(deptActions.fetchDeptSubSucceeded(response))
-    } else {
-      const errors = [new Error(response.message)]
-      yield put(deptActions.fetchDeptSubFailed(errors))
-    }
-  } catch (error) {
-    const errors = [new Error('Api error')]
-    yield put(deptActions.fetchDeptSubFailed(errors))
   }
 }
 
@@ -156,14 +139,36 @@ function* onDeleteDept({
   }
 }
 
+// Dept Sub
+function* onFetchDeptSubList({
+  payload,
+}: {
+  type: typeof deptActions.fetchDeptSubRequest
+  payload: SearchDeptSubFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(searchDeptSubs, payload)
+    if (response.result) {
+      yield put(deptActions.fetchDeptSubSucceeded(response))
+    } else {
+      const errors = [new Error(response.message)]
+      yield put(deptActions.fetchDeptSubFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Api error')]
+    yield put(deptActions.fetchDeptSubFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* deptWatcherSaga(): SagaIterator {
   yield takeLatest(deptActions.fetchDepartmentRequest.type, onFetchDepartmentList)
-  yield takeLatest(deptActions.fetchDeptSubRequest.type, onFetchDeptSubList)
   yield takeEvery(deptActions.createDeptRequest.type, onCreateDept)
   yield takeEvery(deptActions.fetchDeptRequest.type, onFetchDept)
   yield takeEvery(deptActions.updateDeptRequest.type, onUpdateDept)
   yield takeEvery(deptActions.deleteDeptRequest.type, onDeleteDept)
+  //
+  yield takeLatest(deptActions.fetchDeptSubRequest.type, onFetchDeptSubList)
 }
 
 export default deptWatcherSaga

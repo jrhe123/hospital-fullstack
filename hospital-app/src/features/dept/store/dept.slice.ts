@@ -4,14 +4,16 @@ import { createAction, createSlice, nanoid, PayloadAction } from '@reduxjs/toolk
 import {
   Department,
   DepartmentPageUtil,
-  DeptSub,
-  DeptSubPageUtil,
   CreateDeptResponse,
   SearchDeptFormInput,
   CreateDeptFormInput,
   FetchDeptFormInput,
   UpdateDeptFormInput,
   DeleteDeptFormInput,
+  //
+  DeptSub,
+  DeptSubPageUtil,
+  SearchDeptSubFormInput,
 } from 'features/dept/types'
 import type { RootState } from 'store/store'
 
@@ -21,6 +23,7 @@ export interface DeptState {
   totalPage: number
   departmentList: Department[]
   department: Department | null
+  //
   deptSubList: DeptSub[]
   errors?: Error[]
 }
@@ -53,21 +56,6 @@ export const deptSlice = createSlice({
       state.totalPage = action.payload.pageUtil.totalPage
     },
     fetchDepartmentFailed(state, action: PayloadAction<Error[]>) {
-      state.isLoading = false
-      state.errors = action.payload
-    },
-    // fetch deptSub list
-    fetchDeptSubRequest(state, action: PayloadAction<SearchDeptFormInput>) {
-      state.isLoading = true
-      state.errors = []
-    },
-    fetchDeptSubSucceeded(state, action: PayloadAction<DeptSubPageUtil>) {
-      state.isLoading = false
-      state.deptSubList = action.payload.pageUtil.list
-      state.totalCount = action.payload.pageUtil.totalCount
-      state.totalPage = action.payload.pageUtil.totalPage
-    },
-    fetchDeptSubFailed(state, action: PayloadAction<Error[]>) {
       state.isLoading = false
       state.errors = action.payload
     },
@@ -127,6 +115,22 @@ export const deptSlice = createSlice({
       state.totalCount -= Math.max(reducedCount, 0)
     },
     deleteDeptFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
+    // Dept Sub
+    // fetch deptSub list
+    fetchDeptSubRequest(state, action: PayloadAction<SearchDeptSubFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    fetchDeptSubSucceeded(state, action: PayloadAction<DeptSubPageUtil>) {
+      state.isLoading = false
+      state.deptSubList = action.payload.pageUtil.list
+      state.totalCount = action.payload.pageUtil.totalCount
+      state.totalPage = action.payload.pageUtil.totalPage
+    },
+    fetchDeptSubFailed(state, action: PayloadAction<Error[]>) {
       state.isLoading = false
       state.errors = action.payload
     },
