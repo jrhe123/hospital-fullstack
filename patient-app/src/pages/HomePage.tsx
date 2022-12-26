@@ -5,7 +5,7 @@ import { HomeContainer } from 'features/home'
 
 const HomePage = () => (
   <>
-    <SEO title={'Home | Hospital'} description={'hospital'} name={'Hospital'} type={'website'} />
+    <SEO title={'Home | Patient'} description={'patient app'} name={'Patient'} type={'website'} />
     <HomeContainer />
   </>
 )

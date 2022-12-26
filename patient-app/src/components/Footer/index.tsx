@@ -265,7 +265,7 @@ const Footer = () => {
             <Button
               sx={{ height: '100%', paddingLeft: '12px', paddingRight: '12px' }}
               onClick={() => {
-                navigate('/')
+                navigate('/me')
               }}
             >
               <Box

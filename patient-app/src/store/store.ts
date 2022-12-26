@@ -7,6 +7,7 @@ import logger from 'redux-logger'
 import { Env } from 'config/Env'
 // list of reducers
 import homeReducer from 'features/home/store/home.slice'
+import meReducer from 'features/me/store/me.slice'
 // saga
 import { rootSaga } from 'store/rootSaga'
 
@@ -25,6 +26,7 @@ const makeStore = () => {
   const store = configureStore({
     reducer: {
       home: homeReducer,
+      me: meReducer,
       router: routerReducer,
     },
     devTools: Env.isDev(),
