@@ -19,7 +19,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-    @ResponseBody
+	@ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public String exceptionHandler(Exception e) {
@@ -27,24 +27,22 @@ public class ExceptionAdvice {
         if (e instanceof HttpMessageNotReadableException) {
             HttpMessageNotReadableException exception = (HttpMessageNotReadableException) e;
             log.error("error", exception);
-            json.set("error", "请求未提交数据或者数据有误");
+            json.set("error", "HTTP MESSAGE NOT READABLE");
         } else if (e instanceof MissingServletRequestPartException) {
             MissingServletRequestPartException exception = (MissingServletRequestPartException) e;
             log.error("error", exception);
-            json.set("error", "请求提交数据错误");
+            json.set("error", "MISSING SERVLET REQUEST PART");
         } else if (e instanceof HttpRequestMethodNotSupportedException) {
             HttpRequestMethodNotSupportedException exception = (HttpRequestMethodNotSupportedException) e;
             log.error("error", exception);
-            json.set("error", "HTTP请求方法类型错误");
+            json.set("error", "HTTP METHOD NOT SUPPORTED");
         }
-        //处理后端验证失败产生的异常
         else if (e instanceof MethodArgumentNotValidException) {
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
             json.set("error", exception.getBindingResult().getFieldError().getDefaultMessage());
         }
-        //处理业务异常
         else if (e instanceof HospitalException) {
-            log.error("执行异常", e);
+            log.error("HospitalException", e);
             HospitalException exception = (HospitalException) e;
             json.set("error", exception.getMsg());
         } 
@@ -53,10 +51,9 @@ public class ExceptionAdvice {
 //            log.error("微信支付异常", exception);
 //            json.set("error", "微信支付异常");
 //        }
-        //处理其余的异常
         else {
-            log.error("执行异常", e);
-            json.set("error", "执行异常");
+            log.error("EXCEPTION", e);
+            json.set("error", "EXCEPTION");
         }
         return json.toString();
     }
@@ -66,7 +63,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(NotLoginException.class)
     public String unLoginHandler(Exception e) {
         JSONObject json = new JSONObject();
-        json.set("error", e.getMessage());
+        json.set("error", "NOT AUTHORIZED");
         return json.toString();
     }
 

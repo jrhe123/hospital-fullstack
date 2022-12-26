@@ -19,15 +19,16 @@ export HBASE_CONF_DIR=/opt/hbase/conf/
 
 !exit
 
-SELECT 
-ds."id" AS "id", 
-ds."name" AS "subName", 
-ds."uuid" AS "uuid", 
-d."name" AS "deptName", 
-ds."location" AS "location" 
-FROM HOSPITAL.MEDICAL_DEPT_SUB ds 
-LEFT JOIN HOSPITAL.MEDICAL_DEPT d ON ds."dept_id" = d."id" 
-WHERE ds."id"=106 LIMIT 1;
+
+eg:
+
+SELECT u."id" FROM HOSPITAL.PATIENT_USER u LEFT JOIN HOSPITAL.PATIENT_USER_INFO_CARD uic ON uic."user_id" = u."id" WHERE uic."tel" = '6479291623';
+
+select * from hospital.patient_user;
+select * from hospital.patient_user_info_card;
+
+DELETE FROM HOSPITAL.PATIENT_USER WHERE "id" IN (1);
+DELETE FROM HOSPITAL.PATIENT_USER_INFO_CARD WHERE "id" IN (1);
 
 #### tables
 - patient_user

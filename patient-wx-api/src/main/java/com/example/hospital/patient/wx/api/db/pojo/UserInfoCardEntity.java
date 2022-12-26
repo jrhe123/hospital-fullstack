@@ -1,5 +1,7 @@
 package com.example.hospital.patient.wx.api.db.pojo;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -11,7 +13,7 @@ public class UserInfoCardEntity {
     private String sex;
     private String pid;
     private String tel;
-    private String birthday;
+    private Date birthday;
     private String medicalHistory;
     private String insuranceType;
     private Boolean existFaceModel;

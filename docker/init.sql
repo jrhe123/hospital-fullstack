@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS hospital.patient_user;
 CREATE TABLE hospital.patient_user
 (
     "id"          INTEGER NOT NULL PRIMARY KEY,
-    "open_id"     VARCHAR(32),
+    "uuid"     VARCHAR(32),
     "nickname"    VARCHAR(255),
     "photo"       VARCHAR,
     "sex"         VARCHAR(10),
@@ -17,7 +17,7 @@ CREATE TABLE hospital.patient_user
 );
 DROP SEQUENCE IF EXISTS hospital.patient_user_sequence;
 CREATE SEQUENCE hospital.patient_user_sequence START WITH 1 increment BY 1;
-CREATE INDEX patient_user_idx_1 ON hospital.patient_user ("open_id");
+CREATE INDEX patient_user_idx_1 ON hospital.patient_user ("uuid");
 CREATE INDEX patient_user_idx_2 ON hospital.patient_user ("status");
 
 
@@ -30,8 +30,8 @@ CREATE TABLE hospital.patient_user_info_card
     "uuid"            VARCHAR(32),
     "name"            VARCHAR(255),
     "sex"             VARCHAR(10),
-    "pid"             CHAR(18),
-    "tel"             CHAR(11),
+    "pid"             VARCHAR(18),
+    "tel"             VARCHAR(11),
     "birthday"        DATE,
     -- 疾病史
     "medical_history" VARCHAR,

@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class VideoDiagnoseFileEntity {
     private Integer id;
+    private String uuid;
     private Integer videoDiagnoseId;
     private String filename;
     private String path;

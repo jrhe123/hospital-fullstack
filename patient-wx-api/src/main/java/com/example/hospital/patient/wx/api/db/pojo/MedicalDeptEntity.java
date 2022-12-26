@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Data
 public class MedicalDeptEntity implements Serializable {
     private Object id;
+    private String uuid;
     private String name;
     private Boolean outpatient;
     private String description;

@@ -7,7 +7,7 @@ server:
       max: 200
   port: 8091
   servlet:
-    context-path: /patient-wx-api
+    context-path: /patient-api
 
 spring:
   datasource:
@@ -71,7 +71,11 @@ sa-token:
   token-style: uuid
   isReadCookie: false
 
-
+twilio:
+  number: 123123
+  sid: 123123
+  token: 123123
+  
 wechat:
   app-id: 123456
   app-secret: 123456

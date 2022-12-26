@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class FaceAuthEntity {
     private Integer id;
+    private String uuid;
     private Integer patientCardId;
     private String date;
 }

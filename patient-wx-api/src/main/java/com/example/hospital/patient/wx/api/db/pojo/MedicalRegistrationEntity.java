@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class MedicalRegistrationEntity {
     private Integer id;
+    private String uuid;
     private Integer patientCardId;
     private Integer workPlanId;
     private Integer doctorScheduleId;
