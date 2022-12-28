@@ -12,7 +12,7 @@ const InfoBanner = () => (
     sx={{
       background: '#4373E6',
       padding: '12px',
-      paddingBottom: '90px',
+      paddingBottom: '60px',
       display: 'flex',
       flexDirection: 'row',
     }}
@@ -87,9 +87,50 @@ export const MeContainer = () => {
         alignItems: 'center',
       }}
     >
-      <Box component="div" sx={{ width: '100%', maxWidth: `${MAX_WIDTH}px` }}>
-        {/* info banner */}
-        <InfoBanner />
+      <Box
+        component="div"
+        sx={{ width: '100%', maxWidth: `${MAX_WIDTH}px`, background: '#F8F8F8' }}
+      >
+        <Box component="div" sx={{ position: 'relative', marginBottom: '42px' }}>
+          {/* info banner */}
+          <InfoBanner />
+          {/* navi banner */}
+          <Box
+            component="div"
+            sx={{
+              position: 'absolute',
+              top: '54px',
+              left: 0,
+              zIndex: 1,
+              width: '100%',
+              height: '120px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Box
+              component="div"
+              sx={{
+                width: 'calc(100% - 24px)',
+                height: '100px',
+                background: 'white',
+                borderRadius: '12px',
+                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+              }}
+            ></Box>
+          </Box>
+        </Box>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
       </Box>
     </Box>
   )
