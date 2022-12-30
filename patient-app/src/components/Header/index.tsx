@@ -83,6 +83,7 @@ const Header = () => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'flex-end',
+              alignItems: 'center',
               border: '1px solid #BEBEBF',
               borderRadius: '15px',
               paddingLeft: '6px',
@@ -116,6 +117,15 @@ const Header = () => {
                 </Box>
               </IconButton>
             </Box>
+            <div
+              style={{
+                width: '1px',
+                height: '15px',
+                marginRight: '3px',
+                marginTop: '2px',
+                background: '#e5e5e7',
+              }}
+            />
             <Box component="div">
               <IconButton
                 onClick={() => {}}
