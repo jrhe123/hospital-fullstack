@@ -9,6 +9,7 @@ import Layout from 'components/Layout'
 const HomePage = React.lazy(() => import('pages/HomePage'))
 const MePage = React.lazy(() => import('pages/MePage'))
 const RegisterPage = React.lazy(() => import('pages/RegisterPage'))
+const HealthcardPage = React.lazy(() => import('pages/HealthcardPage'))
 
 const AppRoutes = () => (
   <>
@@ -21,6 +22,7 @@ const AppRoutes = () => (
             <Route path="/me" element={<MePage />} />
           </Route>
           <Route path="/me/register" element={<RegisterPage />} />
+          <Route path="/me/healthcard" element={<HealthcardPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

@@ -1,3 +1,4 @@
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ModeStandbyIcon from '@mui/icons-material/ModeStandby'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { Box, IconButton, Typography } from '@mui/material'
@@ -10,14 +11,18 @@ const MEDIA_ICON_SIZE = 24
 const Header = () => {
   const { pathname } = useLocation()
 
+  let goBack = false
   let title = 'Covid Hospital'
-  if (pathname.includes('registration')) {
+  if (pathname.includes('/me/healthcard')) {
+    goBack = true
+    title = 'Health Card'
+  } else if (pathname.includes('/registration')) {
     title = 'Register'
-  } else if (pathname.includes('message')) {
+  } else if (pathname.includes('/message')) {
     title = 'Inbox'
-  } else if (pathname.includes('health')) {
+  } else if (pathname.includes('/health')) {
     title = 'Health'
-  } else if (pathname.includes('me')) {
+  } else if (pathname.includes('/me')) {
     title = 'Profile'
   }
 
@@ -59,6 +64,54 @@ const Header = () => {
           {title}
         </Typography>
       </Box>
+      {/* left side btn */}
+      {goBack ? (
+        <Box
+          component="div"
+          sx={{
+            position: 'absolute',
+            left: '12px',
+            top: 0,
+            height: '100%',
+          }}
+        >
+          <Box
+            component="div"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              height: '100%',
+            }}
+          >
+            <IconButton
+              onClick={() => {}}
+              sx={{
+                padding: 0,
+              }}
+            >
+              <Box
+                component="div"
+                sx={{
+                  width: `${MEDIA_ICON_SIZE}px`,
+                  height: `${MEDIA_ICON_SIZE}px`,
+                  borderRadius: `${MEDIA_ICON_SIZE}px`,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <ArrowBackIosIcon
+                  sx={{
+                    color: 'black',
+                  }}
+                  fontSize={'small'}
+                />
+              </Box>
+            </IconButton>
+          </Box>
+        </Box>
+      ) : null}
+
       {/* right side btn */}
       <Box
         component="div"
