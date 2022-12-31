@@ -11,58 +11,6 @@ import FormTimePicker from 'libs/ui/components/FormTimePicker'
 
 import { Sex, HealthcardFormInput } from '../types'
 
-const textFieldStyle = {
-  '& div': {
-    paddingLeft: 1,
-    paddingRight: 1,
-  },
-  '& p.Mui-error': {
-    fontSize: '6px',
-  },
-  '& label': {
-    fontSize: '10px',
-    lineHeight: 1.67,
-  },
-  '& .MuiInputBase-root input': {
-    padding: 0,
-    height: '32px',
-    fontSize: '11px',
-  },
-}
-const inputLabelStyle = {
-  fontSize: '9.5px',
-  lineHeight: '2px',
-  overflow: 'visible',
-  '&.Mui-focused': {
-    lineHeight: '17px',
-  },
-  '&.MuiFormLabel-filled': {
-    lineHeight: '17px',
-  },
-}
-const selectFieldStyle = {
-  height: '32px',
-  fontSize: '11px',
-  '& svg': {
-    right: 0,
-  },
-}
-const timePickerStyle = {
-  height: '32px',
-  width: '100%',
-  '& div input': {
-    height: '32px',
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: '9px',
-    paddingRight: '9px',
-    fontSize: '11px',
-  },
-  '& div div button svg': {
-    fontSize: '18px',
-  },
-}
-
 type SexType = {
   id: number
   name: string
@@ -82,7 +30,146 @@ const sexList: SexType[] = [
   },
 ]
 
-export const Step1Form = () => {
+type Insurance = {
+  id: number
+  title: string
+}
+const insuranceList: Insurance[] = [
+  {
+    id: 1,
+    title: 'social basic medical insurance',
+  },
+  {
+    id: 2,
+    title: 'commercial medical insurance',
+  },
+  {
+    id: 3,
+    title: 'rural cooperative medical care',
+  },
+  {
+    id: 4,
+    title: 'serious illness coordinating',
+  },
+  {
+    id: 5,
+    title: 'public health care',
+  },
+  {
+    id: 6,
+    title: 'urban Resident Medical Insurance',
+  },
+  {
+    id: 7,
+    title: 'other',
+  },
+  {
+    id: 8,
+    title: 'N/A',
+  },
+]
+
+type Disease = {
+  id: number
+  title: string
+}
+const diseaseList: Disease[] = [
+  {
+    id: 1,
+    title: 'hypertension',
+  },
+  {
+    id: 2,
+    title: 'diabetes',
+  },
+  {
+    id: 3,
+    title: 'heart disease',
+  },
+  {
+    id: 4,
+    title: 'cerebral infarction',
+  },
+  {
+    id: 5,
+    title: 'cerebral hemorrhage',
+  },
+  {
+    id: 6,
+    title: 'stroke',
+  },
+  {
+    id: 7,
+    title: 'leukemia',
+  },
+  {
+    id: 8,
+    title: 'epilepsy',
+  },
+  {
+    id: 9,
+    title: 'kidney disease',
+  },
+  {
+    id: 10,
+    title: 'other',
+  },
+  {
+    id: 11,
+    title: 'N/A',
+  },
+]
+
+interface TagDivProps {
+  title: string
+  active: boolean
+  inactiveColor: string
+  inactiveBgColor: string
+  activeColor: string
+  activeBgColor: string
+}
+const TagDiv: FC<TagDivProps> = ({
+  title,
+  active,
+  inactiveColor,
+  inactiveBgColor,
+  activeColor,
+  activeBgColor,
+}) => (
+  <Button
+    sx={{
+      marginRight: '6px',
+      marginBottom: '6px',
+      padding: 0,
+      minWidth: '0px',
+    }}
+  >
+    <Box
+      component="div"
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: active ? activeBgColor : inactiveBgColor,
+        padding: '3px 9px',
+        borderRadius: '3px',
+      }}
+    >
+      <Typography
+        component="div"
+        sx={{
+          fontSize: '10px',
+          fontWeight: 'bold',
+          color: active ? activeColor : inactiveColor,
+        }}
+      >
+        {title}
+      </Typography>
+    </Box>
+  </Button>
+)
+
+export const Step2Form = () => {
   const [defaultValues, setDefauleValues] = useState<HealthcardFormInput>({
     name: '',
     pid: '',
@@ -149,7 +236,7 @@ export const Step1Form = () => {
             marginBottom: '6px',
           }}
         >
-          Please fill up personal information
+          Please fill up your medical history & insurance info
         </Typography>
         <Typography
           component="div"
@@ -161,126 +248,57 @@ export const Step1Form = () => {
           Help doctors understand your basic physical conditions, and facilitate consultation and
           prescribing medicines
         </Typography>
-        {/* name */}
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-        >
+        {/* diease */}
+        <Box component="div" sx={{ marginBottom: '12px' }}>
           <Typography
             component="div"
             sx={{
               fontSize: '10px',
               fontWeight: 'bold',
-              marginRight: '12px',
-              width: '60px',
+              marginBottom: '12px',
             }}
           >
-            Name
+            Do you have or do you suffer from?
           </Typography>
-          <FormTextField
-            name="name"
-            control={control}
-            sx={textFieldStyle}
-            type={'text'}
-            variant={'outlined'}
-          />
-        </Box>
-        {/* pid */}
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-        >
-          <Typography
-            component="div"
-            sx={{
-              fontSize: '10px',
-              fontWeight: 'bold',
-              marginRight: '12px',
-              width: '60px',
-            }}
-          >
-            Healthcard
-          </Typography>
-          <FormTextField
-            name="pid"
-            control={control}
-            sx={textFieldStyle}
-            type={'text'}
-            variant={'outlined'}
-          />
-        </Box>
-        {/* sex */}
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-        >
-          <Typography
-            component="div"
-            sx={{
-              fontSize: '10px',
-              fontWeight: 'bold',
-              marginRight: '12px',
-              width: '60px',
-            }}
-          >
-            Gender
-          </Typography>
-          <FormSelect
-            name="sexId"
-            label={''}
-            control={control}
-            sx={selectFieldStyle}
-            lsx={inputLabelStyle}
-            errorMessage={'Invalid sex'}
-          >
-            {sexList.map((sex, index) => (
-              <MenuItem key={index} value={sex.id} sx={{ fontSize: '11px' }}>
-                {sex.name}
-              </MenuItem>
+          <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+            {diseaseList.map((di, index) => (
+              <TagDiv
+                key={index}
+                title={di.title}
+                active={false}
+                activeColor={'white'}
+                activeBgColor={'#E1BD63'}
+                inactiveColor={'#E1BD63'}
+                inactiveBgColor={'#FAF6E8'}
+              />
             ))}
-          </FormSelect>
+          </Box>
         </Box>
-        {/* tel */}
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-        >
+        {/* health card type */}
+        <Box component="div" sx={{ marginBottom: '12px' }}>
           <Typography
             component="div"
             sx={{
               fontSize: '10px',
               fontWeight: 'bold',
-              marginRight: '12px',
-              width: '60px',
+              marginBottom: '12px',
             }}
           >
-            Phone
+            Please select health card type:
           </Typography>
-          <FormTextField
-            name="tel"
-            control={control}
-            sx={textFieldStyle}
-            type={'text'}
-            variant={'outlined'}
-          />
-        </Box>
-        {/* birthday */}
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: '12px' }}
-        >
-          <Typography
-            component="div"
-            sx={{
-              fontSize: '10px',
-              fontWeight: 'bold',
-              marginRight: '12px',
-              width: '60px',
-            }}
-          >
-            DOB
-          </Typography>
-          <FormTimePicker name="birthday" label={''} control={control} sx={timePickerStyle} />
+          <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+            {insuranceList.map((insur, index) => (
+              <TagDiv
+                key={index}
+                title={insur.title}
+                active={false}
+                activeColor={'white'}
+                activeBgColor={'#7EC49E'}
+                inactiveColor={'#7EC49E'}
+                inactiveBgColor={'#E9F6F0'}
+              />
+            ))}
+          </Box>
         </Box>
         {/* btn */}
         <Box
@@ -313,7 +331,7 @@ export const Step1Form = () => {
                   color: 'white',
                 }}
               >
-                Next
+                Confirm
               </Typography>
             </Box>
           </Button>

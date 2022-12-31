@@ -5,6 +5,7 @@ import React, { FC, useCallback, useState } from 'react'
 import BannerImage11 from 'assets/images/banner/banner-11.png'
 
 import { Step1Form } from './Step1Form'
+import { Step2Form } from './Step2Form'
 import { StepBanner } from './StepBanner'
 
 const MAX_WIDTH = 390
@@ -16,7 +17,7 @@ const AdBanner = () => (
     sx={{
       width: 'calc(100% - 24px)',
       margin: '0 auto',
-      marginTop: '515px',
+      marginTop: '330px',
       marginBottom: '36px',
     }}
   >
@@ -38,16 +39,14 @@ const AdBanner = () => (
 )
 
 export const HealthcardContainer = () => {
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(2)
 
   const renderForm = () => {
     let form = null
     if (step === 1) {
       form = <Step1Form />
     } else if (step === 2) {
-      form = <Step1Form />
-    } else if (step === 3) {
-      form = <Step1Form />
+      form = <Step2Form />
     }
     return form
   }
