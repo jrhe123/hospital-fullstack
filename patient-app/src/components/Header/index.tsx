@@ -3,13 +3,14 @@ import ModeStandbyIcon from '@mui/icons-material/ModeStandby'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { Box, IconButton, Typography } from '@mui/material'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const HEADER_HEIGHT = 42
 const MEDIA_ICON_SIZE = 24
 
 const Header = () => {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   let goBack = false
   let title = 'Covid Hospital'
@@ -84,7 +85,9 @@ const Header = () => {
             }}
           >
             <IconButton
-              onClick={() => {}}
+              onClick={() => {
+                navigate(-1)
+              }}
               sx={{
                 padding: 0,
               }}

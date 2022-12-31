@@ -38,11 +38,10 @@ export const NaviBanner = () => {
       component="div"
       sx={{
         position: 'absolute',
-        top: '54px',
+        top: '64px',
         left: 0,
         zIndex: 1,
         width: '100%',
-        height: '120px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

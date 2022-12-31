@@ -1,52 +1,56 @@
 import { Icon } from '@iconify/react'
 import { Box, Button, IconButton, Typography } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
+
+import BannerImage11 from 'assets/images/banner/banner-11.png'
+
+import { Step1Form } from './Step1Form'
+import { StepBanner } from './StepBanner'
 
 const MAX_WIDTH = 390
 const HEADER_HEIGHT = 42
 
-export const StepBanner = () => (
+const AdBanner = () => (
   <Box
     component="div"
     sx={{
-      background:
-        'linear-gradient(5deg, rgba(102,182,204,1) 0%, rgba(83,148,188,1) 35%, rgba(63,115,172,1) 100%)',
-      padding: '12px',
-      paddingBottom: '180px',
-      display: 'flex',
-      flexDirection: 'row',
+      width: 'calc(100% - 24px)',
+      margin: '0 auto',
+      marginTop: '515px',
+      marginBottom: '36px',
     }}
   >
-    {/* steps */}
     <Box
-      component="div"
+      component="img"
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
+        cursor: 'pointer',
+        display: 'block',
+        objectFit: 'cover',
+        width: '100%',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
       }}
-    >
-      <Box component="div" sx={{}}>
-        1
-      </Box>
-      <Box component="div" sx={{}}>
-        2
-      </Box>
-      <Box component="div" sx={{}}>
-        3
-      </Box>
-      <Box component="div" sx={{}}>
-        4
-      </Box>
-      <Box component="div" sx={{}}>
-        5
-      </Box>
-    </Box>
+      alt={'ad banner image'}
+      src={BannerImage11}
+    />
   </Box>
 )
 
 export const HealthcardContainer = () => {
-  console.log('!23')
+  const [step, setStep] = useState<number>(1)
+
+  const renderForm = () => {
+    let form = null
+    if (step === 1) {
+      form = <Step1Form />
+    } else if (step === 2) {
+      form = <Step1Form />
+    } else if (step === 3) {
+      form = <Step1Form />
+    }
+    return form
+  }
 
   return (
     <Box
@@ -67,9 +71,12 @@ export const HealthcardContainer = () => {
           background: '#F8F8F8',
         }}
       >
-        <Box component="div" sx={{ position: 'relative', marginBottom: '54px' }}>
+        <Box component="div" sx={{ position: 'relative' }}>
           <StepBanner />
+          {renderForm()}
         </Box>
+        {/* ad banner */}
+        <AdBanner />
       </Box>
     </Box>
   )

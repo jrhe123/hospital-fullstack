@@ -86,7 +86,7 @@ export const MeContainer = () => {
           background: '#F8F8F8',
         }}
       >
-        <Box component="div" sx={{ position: 'relative', marginBottom: '54px' }}>
+        <Box component="div" sx={{ position: 'relative' }}>
           {/* info banner */}
           <InfoBanner />
           {/* navi banner */}
