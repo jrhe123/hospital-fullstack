@@ -14,9 +14,8 @@ const imageNavigatorList: ImageNavigator[] = [
         sx={{
           color: '#3073AC',
           padding: 0,
-          marginBottom: '3px',
+          fontSize: '24px',
         }}
-        fontSize={'large'}
       />
     ),
     title: 'Consultation',
@@ -28,9 +27,8 @@ const imageNavigatorList: ImageNavigator[] = [
         sx={{
           color: '#3073AC',
           padding: 0,
-          marginBottom: '3px',
+          fontSize: '24px',
         }}
-        fontSize={'large'}
       />
     ),
     title: 'Find a doctor',
@@ -42,9 +40,8 @@ const imageNavigatorList: ImageNavigator[] = [
         sx={{
           color: '#3073AC',
           padding: 0,
-          marginBottom: '3px',
+          fontSize: '24px',
         }}
-        fontSize={'large'}
       />
     ),
     title: 'Register online',
@@ -56,9 +53,8 @@ const imageNavigatorList: ImageNavigator[] = [
         sx={{
           color: '#3073AC',
           padding: 0,
-          marginBottom: '3px',
+          fontSize: '24px',
         }}
-        fontSize={'large'}
       />
     ),
     title: 'Prescription',

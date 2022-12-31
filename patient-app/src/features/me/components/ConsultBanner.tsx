@@ -38,8 +38,8 @@ export const ConsultBanner = () => (
   <Box
     component="div"
     sx={{
-      marginLeft: '12px',
-      marginRight: '12px',
+      width: 'calc(100% - 24px)',
+      margin: '0 auto',
     }}
   >
     <Box

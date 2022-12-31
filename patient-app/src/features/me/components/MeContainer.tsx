@@ -15,8 +15,8 @@ const AdBanner = () => (
   <Box
     component="div"
     sx={{
-      paddingLeft: '12px',
-      paddingRight: '12px',
+      width: 'calc(100% - 24px)',
+      margin: '0 auto',
       marginTop: '72px',
       marginBottom: '18px',
     }}
@@ -42,8 +42,8 @@ const AdBanner2 = () => (
   <Box
     component="div"
     sx={{
-      paddingLeft: '12px',
-      paddingRight: '12px',
+      width: 'calc(100% - 24px)',
+      margin: '0 auto',
       marginTop: '18px',
       marginBottom: '72px',
     }}

@@ -39,10 +39,11 @@ export const DepartmentBanner = () => (
     <Box
       component="div"
       sx={{
-        width: '90%',
+        width: 'calc(100% - 24px)',
         background: 'white',
-        borderRadius: '6px',
+        borderRadius: '12px',
         marginBottom: '36px',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
       }}
     >
       {/* 10 categories */}
@@ -118,6 +119,7 @@ export const DepartmentBanner = () => (
             display: 'block',
             objectFit: 'cover',
             width: '100%',
+            borderRadius: '12px',
           }}
           alt={'ad banner image'}
           src={BannerImage1}
