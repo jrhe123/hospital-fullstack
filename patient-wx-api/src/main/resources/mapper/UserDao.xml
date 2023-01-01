@@ -23,6 +23,15 @@
 	    )
 	</insert>
 	
+	<update id="update" parameterType="com.example.hospital.patient.wx.api.db.pojo.UserEntity">
+	    UPSERT INTO HOSPITAL.PATIENT_USER(
+	        "id", "nickname", "photo", "sex"
+	    )
+	    VALUES (
+	        ${id}, #{nickname}, #{photo}, #{sex}
+	    )
+	</update>
+	
 	<select id="searchAlreadyRegistered" parameterType="String" resultType="HashMap">
 	    SELECT u.*
 	    FROM HOSPITAL.PATIENT_USER u

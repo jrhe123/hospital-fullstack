@@ -18,6 +18,9 @@ import com.example.hospital.patient.wx.api.controller.form.LoginOrRegisterForm;
 import com.example.hospital.patient.wx.api.controller.form.SendCodeForm;
 import com.example.hospital.patient.wx.api.service.UserService;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
@@ -62,6 +65,18 @@ public class UserController {
 		return R.ok()
 				.put("result", true)
 				.put("token", token);
+	}
+	
+	
+	@PostMapping("/update")
+	@SaCheckLogin
+	public R update() {
+		
+		int userId = StpUtil.getLoginIdAsInt();
+		
+		System.out.println("userId: " + userId);
+		
+		return R.ok();
 	}
 
 }
