@@ -39,10 +39,18 @@
 	</insert>
 	
 	<select id="searchUserInfoCard" parameterType="int" resultType="HashMap">
-	    SELECT "id", "uuid", "name", "sex", "pid", "tel", "birthday",
-	           "medical_history" AS "medicalHistory",
-	           "insurance_type"  AS "insuranceType"
-	    FROM HOSPITAL.PATIENT_USER_INFO_CARD
+	    SELECT uic."id" AS "id",
+	    	   uic."uuid" AS "uuid",
+	    	   uic."name" AS "name",
+	    	   uic."sex" AS "sex",
+	    	   uic."pid" AS "pid",
+	    	   uic."tel" AS "tel",
+	    	   uic."birthday" AS "birthday",
+	           uic."medical_history" AS "medicalHistory",
+	           uic."insurance_type"  AS "insuranceType",
+	           u."photo" AS "photo"
+	    FROM HOSPITAL.PATIENT_USER_INFO_CARD uic
+	    LEFT JOIN HOSPITAL.PATIENT_USER u ON uic."user_id" = u."id"
 	    WHERE "user_id" = ${userId}
 	</select>
 	

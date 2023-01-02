@@ -32,6 +32,11 @@
 	    )
 	</update>
 	
+	<update id="updatePhoto" parameterType="Map">
+    	UPSERT INTO HOSPITAL.PATIENT_USER("id", "photo")
+    	VALUES(${id}, #{photo})
+    </update>
+	
 	<select id="searchAlreadyRegistered" parameterType="String" resultType="HashMap">
 	    SELECT u.*
 	    FROM HOSPITAL.PATIENT_USER u

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.patient.wx.api.common.R;
 import com.example.hospital.patient.wx.api.controller.form.LoginOrRegisterForm;
@@ -32,6 +33,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
+import io.lettuce.core.dynamic.annotation.Param;
 
 @RestController
 @RequestMapping("/user")
@@ -124,6 +126,19 @@ public class UserController {
 		
 		return R.ok()
 				.put("result", true);
+	}
+	
+	@PostMapping("/updatePhoto")
+	@SaCheckLogin
+	public R updatePhoto(
+			@Param("file") MultipartFile file
+			) {
+		
+		int userId = StpUtil.getLoginIdAsInt();
+		String photo = userService.updatePhoto(file, userId);
+		return R.ok()
+				.put("result", true)
+				.put("photo", photo);
 	}
 
 }

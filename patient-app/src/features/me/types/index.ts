@@ -16,6 +16,10 @@ export type HealthcardFormInput = {
   tel: string
 }
 
+export type UploadPatientPhotoFormInput = {
+  file: File
+}
+
 export type IconNavigator = {
   icon: React.ReactNode
   title: string
@@ -38,4 +42,5 @@ export type UserInfo = {
   insuranceType: string
   uuid: string
   medicalHistory: string[]
+  photo?: string
 }

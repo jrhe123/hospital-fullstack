@@ -1,7 +1,12 @@
 // DUCKS pattern
 import { createAction, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 
-import { SendCodeFormInput, LoginOrRegisterFormInput, UserInfo } from 'features/me/types'
+import {
+  SendCodeFormInput,
+  LoginOrRegisterFormInput,
+  UploadPatientPhotoFormInput,
+  UserInfo,
+} from 'features/me/types'
 import type { RootState } from 'store/store'
 
 export interface MeState {
@@ -53,6 +58,21 @@ export const meSlice = createSlice({
       state.user = null
       state.errors = action.payload
     },
+    // upload patient photo
+    uploadPatientPhotoRequest(state, action: PayloadAction<UploadPatientPhotoFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    uploadPatientPhotoSucceeded(state, action: PayloadAction<string>) {
+      state.isLoading = false
+      if (state.user) {
+        state.user.photo = action.payload
+      }
+    },
+    uploadPatientPhotoFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
     // validate
     validateRequest(state) {
       state.isLoading = true
@@ -84,6 +104,10 @@ export const meActions = {
   loginOrRegisterRequest: meSlice.actions.loginOrRegisterRequest,
   loginOrRegisterSucceeded: meSlice.actions.loginOrRegisterSucceeded,
   loginOrRegisterFailed: meSlice.actions.loginOrRegisterFailed,
+  // upload patient photo
+  uploadPatientPhotoRequest: meSlice.actions.uploadPatientPhotoRequest,
+  uploadPatientPhotoSucceeded: meSlice.actions.uploadPatientPhotoSucceeded,
+  uploadPatientPhotoFailed: meSlice.actions.uploadPatientPhotoFailed,
   // validate
   validateRequest: meSlice.actions.validateRequest,
   validateSucceeded: meSlice.actions.validateSucceeded,

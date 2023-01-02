@@ -2,9 +2,13 @@ import { SagaIterator } from '@redux-saga/core'
 import { toast } from 'react-toastify'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { sendCode, loginOrRegister, validate } from 'features/me/api'
+import { sendCode, loginOrRegister, uploadPatientPhoto, validate } from 'features/me/api'
 import { meActions } from 'features/me/store/me.slice'
-import { SendCodeFormInput, LoginOrRegisterFormInput } from 'features/me/types'
+import {
+  SendCodeFormInput,
+  LoginOrRegisterFormInput,
+  UploadPatientPhotoFormInput,
+} from 'features/me/types'
 
 // Worker Sagas
 function* onSendCode({
@@ -59,6 +63,31 @@ function* onLoginOrRegister({
   }
 }
 
+function* onUploadPatientPhoto({
+  payload,
+}: {
+  type: typeof meActions.uploadPatientPhotoRequest
+  payload: UploadPatientPhotoFormInput
+}): SagaIterator {
+  try {
+    const formData = new FormData()
+    formData.append('file', payload.file)
+    const response = yield call(uploadPatientPhoto, formData)
+    if (response.result) {
+      toast.success('Success, image uploaded')
+      yield put(meActions.uploadPatientPhotoSucceeded(response.photo))
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error(response.message)]
+      yield put(meActions.uploadPatientPhotoFailed(errors))
+    }
+  } catch (error) {
+    toast.error('Oops, something goes wrong')
+    const errors = [new Error('Api error')]
+    yield put(meActions.uploadPatientPhotoFailed(errors))
+  }
+}
+
 function* onValidate(): SagaIterator {
   try {
     const response = yield call(validate)
@@ -80,6 +109,7 @@ function* onValidate(): SagaIterator {
 export function* meWatcherSaga(): SagaIterator {
   yield takeLatest(meActions.sendCodeRequest.type, onSendCode)
   yield takeLatest(meActions.loginOrRegisterRequest.type, onLoginOrRegister)
+  yield takeEvery(meActions.uploadPatientPhotoRequest.type, onUploadPatientPhoto)
   yield takeLatest(meActions.validateRequest.type, onValidate)
 }
 

@@ -7,7 +7,12 @@ import {
   selectIsLogin,
   selectUser,
 } from 'features/me/store'
-import { SendCodeFormInput, LoginOrRegisterFormInput, UserInfo } from 'features/me/types'
+import {
+  SendCodeFormInput,
+  LoginOrRegisterFormInput,
+  UserInfo,
+  UploadPatientPhotoFormInput,
+} from 'features/me/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
 export type MeServiceOperators = {
@@ -17,6 +22,7 @@ export type MeServiceOperators = {
   user: UserInfo | null
   sendCode: (data: SendCodeFormInput) => void
   loginOrRegister: (data: LoginOrRegisterFormInput) => void
+  uploadPatientPhoto: (form: UploadPatientPhotoFormInput) => void
   validate: () => void
 }
 
@@ -40,6 +46,12 @@ export const useMeService = (): Readonly<MeServiceOperators> => {
     loginOrRegister: useCallback(
       (form: LoginOrRegisterFormInput) => {
         dispatch(meActions.loginOrRegisterRequest(form))
+      },
+      [dispatch],
+    ),
+    uploadPatientPhoto: useCallback(
+      (form: UploadPatientPhotoFormInput) => {
+        dispatch(meActions.uploadPatientPhotoRequest(form))
       },
       [dispatch],
     ),

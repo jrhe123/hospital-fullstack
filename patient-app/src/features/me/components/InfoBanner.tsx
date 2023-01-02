@@ -1,8 +1,10 @@
 import PersonIcon from '@mui/icons-material/Person'
 import { Box, Button, IconButton, Typography } from '@mui/material'
 import React, { useCallback, useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 import { CustomModal } from 'components/Modal'
+import { Env } from 'config/Env'
 
 import { useMeService } from '../hooks'
 
@@ -12,13 +14,26 @@ const AVATAR_ICON_SIZE = 36
 
 export const InfoBanner = () => {
   const [open, setOpen] = useState<boolean>(false)
-  const { isLogin, user } = useMeService()
+  const { isLogin, user, uploadPatientPhoto } = useMeService()
 
   useEffect(() => {
     if (isLogin) {
       setOpen(false)
     }
   }, [isLogin])
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.currentTarget
+    if (!files || !files?.length) return
+    if (files.length !== 1) {
+      toast.warn('Please select your image')
+      return
+    }
+    const file = files[0]
+    uploadPatientPhoto({
+      file,
+    })
+  }
 
   return (
     <>
@@ -71,14 +86,38 @@ export const InfoBanner = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                overflow: 'hidden',
               }}
             >
-              <PersonIcon
-                sx={{
-                  color: 'white',
-                  fontSize: '36px',
-                }}
-              />
+              {isLogin && user?.photo ? (
+                <Button sx={{ padding: 0 }} component="label">
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    hidden
+                    onChange={handleImageChange}
+                  />
+                  <Box
+                    component="img"
+                    sx={{
+                      width: `${AVATAR_ICON_SIZE}px`,
+                      height: `${AVATAR_ICON_SIZE}px`,
+                      cursor: 'pointer',
+                      display: 'block',
+                      objectFit: 'cover',
+                    }}
+                    alt={'patient image'}
+                    src={`${Env.MINIO_BASE_URL}${user.photo}`}
+                  />
+                </Button>
+              ) : (
+                <PersonIcon
+                  sx={{
+                    color: 'white',
+                    fontSize: '36px',
+                  }}
+                />
+              )}
             </Box>
           </IconButton>
         </Box>

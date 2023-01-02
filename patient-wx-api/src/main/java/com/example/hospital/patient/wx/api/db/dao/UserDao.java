@@ -18,4 +18,6 @@ public interface UserDao {
 	public HashMap searchById(Integer id);
 	
 	public void update(UserEntity entity);
+	
+	public void updatePhoto(Map param);
 }
