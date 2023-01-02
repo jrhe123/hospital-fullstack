@@ -1,8 +1,10 @@
 import PersonIcon from '@mui/icons-material/Person'
 import { Box, Button, IconButton, Typography } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 
 import { CustomModal } from 'components/Modal'
+
+import { useMeService } from '../hooks'
 
 import { LoginForm } from './LoginForm'
 
@@ -10,6 +12,14 @@ const AVATAR_ICON_SIZE = 36
 
 export const InfoBanner = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const { isLogin, user } = useMeService()
+
+  useEffect(() => {
+    if (isLogin) {
+      setOpen(false)
+    }
+  }, [isLogin])
+
   return (
     <>
       <CustomModal
@@ -74,36 +84,65 @@ export const InfoBanner = () => {
         </Box>
         {/* info */}
         <Box component="div" sx={{ marginLeft: '12px' }}>
-          <Button
-            sx={{ padding: 0 }}
-            onClick={() => {
-              setOpen(true)
-            }}
-          >
-            <Typography
-              component="div"
-              sx={{
-                fontSize: '12px',
-                color: 'white',
-                fontFamily: 'Playfair',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                marginBottom: '3px',
-              }}
-            >
-              Register / Login
-            </Typography>
-          </Button>
-          <Typography
-            component="div"
-            sx={{
-              fontSize: '10px',
-              color: 'white',
-              fontFamily: 'Playfair',
-            }}
-          >
-            Please login for consultation
-          </Typography>
+          {isLogin ? (
+            <>
+              <Typography
+                component="div"
+                sx={{
+                  fontSize: '12px',
+                  color: 'white',
+                  fontFamily: 'Playfair',
+                  fontWeight: 'bold',
+                  marginBottom: '3px',
+                }}
+              >
+                {user?.name}
+              </Typography>
+              <Typography
+                component="div"
+                sx={{
+                  fontSize: '10px',
+                  color: 'white',
+                  fontFamily: 'Playfair',
+                }}
+              >
+                {user?.tel}
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Button
+                sx={{ padding: 0 }}
+                onClick={() => {
+                  setOpen(true)
+                }}
+              >
+                <Typography
+                  component="div"
+                  sx={{
+                    fontSize: '12px',
+                    color: 'white',
+                    fontFamily: 'Playfair',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    marginBottom: '3px',
+                  }}
+                >
+                  Register / Login
+                </Typography>
+              </Button>
+              <Typography
+                component="div"
+                sx={{
+                  fontSize: '10px',
+                  color: 'white',
+                  fontFamily: 'Playfair',
+                }}
+              >
+                Please login for consultation
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
     </>

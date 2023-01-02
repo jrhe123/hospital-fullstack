@@ -12,3 +12,5 @@ export const sendCode = (form: SendCodeFormInput): Promise<any> =>
 
 export const loginOrRegister = (form: LoginOrRegisterFormInput): Promise<any> =>
   api.post(`${USER_BASE_URL}/loginOrRegister`, form)
+
+export const validate = (): Promise<any> => api.get(`${USER_BASE_URL}/validate`)

@@ -63,6 +63,7 @@ public class UserController {
 		Enumeration<String> attributeNames = session.getAttributeNames();
 		Object cacheCode = session.getAttribute("code");
 		String code = form.getCode();
+		
 		if (cacheCode == null || !cacheCode.toString().equals(code)){
             return R.ok()
             		.put("result", false);

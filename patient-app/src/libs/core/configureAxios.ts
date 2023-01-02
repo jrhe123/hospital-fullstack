@@ -20,6 +20,8 @@ export const makeApi = (baseURL: string) => {
           token,
         }
       }
+      // Jsession login needs to enable this
+      config.withCredentials = true
       return config
     },
     error => Promise.reject(error),

@@ -27,3 +27,15 @@ export enum Sex {
   FEMALE = 'female',
   UNISEX = 'unisex',
 }
+
+export type UserInfo = {
+  birthday: Date
+  sex: Sex
+  name: string
+  pid: string
+  tel: string
+  id: number
+  insuranceType: string
+  uuid: string
+  medicalHistory: string[]
+}
