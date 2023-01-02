@@ -25,10 +25,10 @@
 	
 	<update id="update" parameterType="com.example.hospital.patient.wx.api.db.pojo.UserEntity">
 	    UPSERT INTO HOSPITAL.PATIENT_USER(
-	        "id", "nickname", "photo", "sex"
+	        "id", "nickname", "sex"
 	    )
 	    VALUES (
-	        ${id}, #{nickname}, #{photo}, #{sex}
+	        ${id}, #{nickname}, #{sex}
 	    )
 	</update>
 	

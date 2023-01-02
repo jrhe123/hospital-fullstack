@@ -16,4 +16,6 @@ public interface UserDao {
 	public Integer searchIdByUuid(String uuid);
 	
 	public HashMap searchById(Integer id);
+	
+	public void update(UserEntity entity);
 }

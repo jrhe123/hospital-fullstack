@@ -26,6 +26,7 @@ SELECT u."id" FROM HOSPITAL.PATIENT_USER u LEFT JOIN HOSPITAL.PATIENT_USER_INFO_
 
 select * from hospital.patient_user;
 select * from hospital.patient_user_info_card;
+select "id","pid","medical_history","insurance_type","exist_face_model","birthday" from hospital.patient_user_info_card;
 
 DELETE FROM HOSPITAL.PATIENT_USER WHERE "id" IN (1);
 DELETE FROM HOSPITAL.PATIENT_USER_INFO_CARD WHERE "id" IN (1);

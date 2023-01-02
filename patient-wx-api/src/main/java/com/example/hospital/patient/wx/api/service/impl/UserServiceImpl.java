@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hospital.patient.wx.api.db.dao.UserDao;
 import com.example.hospital.patient.wx.api.db.dao.UserInfoCardDao;
@@ -88,6 +89,12 @@ public class UserServiceImpl implements UserService {
 	    // SMSUtils.sendSMS(tel, code);
 	    
 		return code;
+	}
+
+	@Override
+	@Transactional
+	public void update(UserEntity entity) {
+		userDao.update(entity);
 	}
 
 }

@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.hospital.patient.wx.api.common.R;
 import com.example.hospital.patient.wx.api.controller.form.LoginOrRegisterForm;
 import com.example.hospital.patient.wx.api.controller.form.SendCodeForm;
+import com.example.hospital.patient.wx.api.controller.form.UpdateUserInfoCardForm;
+import com.example.hospital.patient.wx.api.db.pojo.UserEntity;
+import com.example.hospital.patient.wx.api.db.pojo.UserInfoCardEntity;
+import com.example.hospital.patient.wx.api.service.UserInfoCardService;
 import com.example.hospital.patient.wx.api.service.UserService;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
@@ -24,6 +28,7 @@ import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -31,6 +36,9 @@ public class UserController {
 	
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private UserInfoCardService userInfoCardService;
 	
 	@PostMapping("/sendCode")
 	public R sendCode(
@@ -70,13 +78,29 @@ public class UserController {
 	
 	@PostMapping("/update")
 	@SaCheckLogin
-	public R update() {
-		
+	public R update(
+			@RequestBody @Valid UpdateUserInfoCardForm form
+			) {
 		int userId = StpUtil.getLoginIdAsInt();
+				
+		// get user info card
+		HashMap userInfoCard = userInfoCardService.searchUserInfoCard(userId);
+		int userCardId = (int) userInfoCard.get("id");		
 		
-		System.out.println("userId: " + userId);
+		// update user info card
+		UserInfoCardEntity userInfoCardEntity = BeanUtil.toBean(form, UserInfoCardEntity.class);
+		userInfoCardEntity.setId(userCardId);
+		userInfoCardService.update(userInfoCardEntity);
 		
-		return R.ok();
+		// update user
+		UserEntity userEntity = new UserEntity();
+		userEntity.setId(userId);
+		userEntity.setNickname(userInfoCardEntity.getName());
+		userEntity.setSex(userInfoCardEntity.getSex());
+		userService.update(userEntity);
+		
+		return R.ok()
+				.put("result", true);
 	}
 
 }
