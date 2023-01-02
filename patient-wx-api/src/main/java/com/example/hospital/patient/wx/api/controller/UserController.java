@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -75,6 +78,23 @@ public class UserController {
 				.put("token", token);
 	}
 	
+	@GetMapping("/validate")
+	@SaCheckLogin
+	public R validate() {
+		int userId = StpUtil.getLoginIdAsInt();
+		// get user info card
+		HashMap userInfoCard = userInfoCardService.searchUserInfoCard(userId);
+		
+		// convert history str -> array json
+		String history = MapUtil.getStr(userInfoCard, "medicalHistory");
+		JSONArray historyArr = JSONUtil.parseArray(history);
+		userInfoCard.replace("medicalHistory", historyArr);
+				
+		return R.ok()
+				.put("result", true)
+				.put("user", userInfoCard);
+	}
+	
 	
 	@PostMapping("/update")
 	@SaCheckLogin
@@ -90,6 +110,8 @@ public class UserController {
 		// update user info card
 		UserInfoCardEntity userInfoCardEntity = BeanUtil.toBean(form, UserInfoCardEntity.class);
 		userInfoCardEntity.setId(userCardId);
+		String json = JSONUtil.parseArray(userInfoCardEntity.getMedicalHistory()).toString();
+		userInfoCardEntity.setMedicalHistory(json);
 		userInfoCardService.update(userInfoCardEntity);
 		
 		// update user
