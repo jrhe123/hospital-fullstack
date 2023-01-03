@@ -12,6 +12,7 @@ import {
   LoginOrRegisterFormInput,
   UserInfo,
   UploadPatientPhotoFormInput,
+  HealthcardFormInput,
 } from 'features/me/types'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 
@@ -24,6 +25,7 @@ export type MeServiceOperators = {
   loginOrRegister: (data: LoginOrRegisterFormInput) => void
   uploadPatientPhoto: (form: UploadPatientPhotoFormInput) => void
   validate: () => void
+  updatePatient: (form: HealthcardFormInput) => void
 }
 
 /**
@@ -58,6 +60,12 @@ export const useMeService = (): Readonly<MeServiceOperators> => {
     validate: useCallback(() => {
       dispatch(meActions.validateRequest())
     }, [dispatch]),
+    updatePatient: useCallback(
+      (form: HealthcardFormInput) => {
+        dispatch(meActions.updatePatientRequest(form))
+      },
+      [dispatch],
+    ),
   }
 }
 

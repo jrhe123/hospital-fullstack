@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { Icon } from '@iconify/react'
 import { Box, Button, IconButton, MenuItem, Typography } from '@mui/material'
-import React, { FC, useCallback, useState } from 'react'
+import dayjs from 'dayjs'
+import React, { FC, useCallback, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as Yup from 'yup'
 
@@ -9,7 +10,8 @@ import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
 import FormTimePicker from 'libs/ui/components/FormTimePicker'
 
-import { Sex, HealthcardFormInput } from '../types'
+import { useMeService } from '../hooks'
+import { Sex, HealthcardFormV1Input } from '../types'
 
 const textFieldStyle = {
   '& div': {
@@ -82,8 +84,11 @@ const sexList: SexType[] = [
   },
 ]
 
-export const Step1Form = () => {
-  const [defaultValues, setDefauleValues] = useState<HealthcardFormInput>({
+interface Step1FormProps {
+  handleConfirm: (data: HealthcardFormV1Input) => void
+}
+export const Step1Form: FC<Step1FormProps> = ({ handleConfirm }) => {
+  const [defaultValues, setDefauleValues] = useState<HealthcardFormV1Input>({
     name: '',
     pid: '',
     sex: Sex.MALE,
@@ -91,6 +96,8 @@ export const Step1Form = () => {
     birthday: new Date(),
     tel: '',
   })
+
+  const { user } = useMeService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
@@ -103,15 +110,36 @@ export const Step1Form = () => {
       'Tel is invalid',
     ),
   })
-  const methods = useForm<HealthcardFormInput, unknown>({
+  const methods = useForm<HealthcardFormV1Input, unknown>({
     defaultValues,
     resolver: yupResolver(formValidationSchema),
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  const onSubmitClick = (data: HealthcardFormInput) => {
+  useEffect(() => {
+    if (user) {
+      const dob = dayjs(user.birthday).add(1, 'day').format('YYYY-MM-DD')
+      setValue('name', user.name)
+      setValue('pid', user.pid)
+      setValue('birthday', new Date(dob))
+      setValue('tel', user.tel)
+
+      // re-format the enum
+      const sex = Object.keys(Sex)[
+        Object.values(Sex).indexOf(user.sex as unknown as Sex)
+      ] as keyof typeof Sex
+      const sexId = sexList.find(item => item.name === Sex[sex || 'MALE'])?.id
+      setValue('sex', Sex[sex || 'MALE'])
+      setValue('sexId', String(sexId || 1))
+    }
+  }, [user, setValue])
+
+  const onSubmitClick = (data: HealthcardFormV1Input) => {
+    const sex = sexList.find(i => i.id === Number(data.sexId))
+    setValue('sex', sex?.name as Sex)
+
     const values = getValues()
-    console.log('submit: ', values)
+    handleConfirm(values)
   }
 
   return (
@@ -292,6 +320,7 @@ export const Step1Form = () => {
             zIndex: 1,
             width: 'calc(100% - 24px)',
           }}
+          onClick={handleSubmit(onSubmitClick)}
         >
           <Button sx={{ width: '100%', padding: 0 }}>
             <Box

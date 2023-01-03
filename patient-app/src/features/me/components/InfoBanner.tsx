@@ -72,7 +72,6 @@ export const InfoBanner = () => {
         {/* avatar */}
         <Box component="div">
           <IconButton
-            onClick={() => {}}
             sx={{
               padding: 0,
             }}
@@ -115,6 +114,9 @@ export const InfoBanner = () => {
                   sx={{
                     color: 'white',
                     fontSize: '36px',
+                  }}
+                  onClick={() => {
+                    setOpen(true)
                   }}
                 />
               )}

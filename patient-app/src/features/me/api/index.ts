@@ -2,7 +2,7 @@
 import { Env } from 'config/Env'
 import { makeApi, makeApiForm } from 'libs/core/configureAxios'
 
-import { SendCodeFormInput, LoginOrRegisterFormInput } from '../types'
+import { SendCodeFormInput, LoginOrRegisterFormInput, HealthcardFormInput } from '../types'
 
 const api = makeApi(`${Env.API_BASE_URL}`)
 const apiForm = makeApiForm(`${Env.API_BASE_URL}`)
@@ -18,3 +18,6 @@ export const uploadPatientPhoto = (form: FormData): Promise<string> =>
   apiForm.post(`${USER_BASE_URL}/updatePhoto`, form)
 
 export const validate = (): Promise<any> => api.get(`${USER_BASE_URL}/validate`)
+
+export const updatePatient = (form: HealthcardFormInput): Promise<any> =>
+  api.patch(`${USER_BASE_URL}/update`, form)

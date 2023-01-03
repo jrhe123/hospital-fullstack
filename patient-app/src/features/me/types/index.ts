@@ -7,14 +7,19 @@ export type LoginOrRegisterFormInput = {
   code: string
 }
 
-export type HealthcardFormInput = {
+export type HealthcardFormV1Input = {
   name: string
   pid: string
-  sex: Sex.MALE
-  sexId: '1'
+  sex: Sex | string
+  sexId?: number | string
   birthday: Date | string
   tel: string
 }
+export type HealthcardFormV2Input = {
+  medicalHistory: string[]
+  insuranceType: string
+}
+export type HealthcardFormInput = HealthcardFormV1Input & HealthcardFormV2Input
 
 export type UploadPatientPhotoFormInput = {
   file: File

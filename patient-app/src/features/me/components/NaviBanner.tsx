@@ -3,6 +3,7 @@ import { Box, Button, IconButton, Typography } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useMeService } from '../hooks'
 import { IconNavigator } from '../types'
 
 const iconNavigatorList: IconNavigator[] = [
@@ -32,6 +33,7 @@ const iconNavigatorList: IconNavigator[] = [
 
 export const NaviBanner = () => {
   const navigate = useNavigate()
+  const { isLogin } = useMeService()
 
   return (
     <Box
@@ -89,8 +91,9 @@ export const NaviBanner = () => {
               <Box
                 component="div"
                 sx={{
-                  background:
-                    'linear-gradient(5deg, rgba(102,182,204,1) 0%, rgba(83,148,188,1) 35%, rgba(63,115,172,1) 100%)',
+                  background: isLogin
+                    ? 'linear-gradient(5deg, rgba(102,182,204,1) 0%, rgba(83,148,188,1) 35%, rgba(63,115,172,1) 100%)'
+                    : '#bebebf',
                   borderRadius: '6px',
                   height: '48px',
                   width: '100%',
@@ -104,6 +107,7 @@ export const NaviBanner = () => {
                 }}
               >
                 <IconButton
+                  disabled={!isLogin}
                   sx={{}}
                   onClick={() => {
                     navigate(`/me/${nav.link}`)
@@ -122,6 +126,7 @@ export const NaviBanner = () => {
                 fontWeight: 'bold',
                 cursor: 'pointer',
                 textAlign: 'center',
+                color: isLogin ? '#000' : '#bebebf',
               }}
             >
               {nav.title}

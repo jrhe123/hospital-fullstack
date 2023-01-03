@@ -1,13 +1,21 @@
 import { SagaIterator } from '@redux-saga/core'
 import { toast } from 'react-toastify'
+import { push } from 'redux-first-history'
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { sendCode, loginOrRegister, uploadPatientPhoto, validate } from 'features/me/api'
+import {
+  sendCode,
+  loginOrRegister,
+  uploadPatientPhoto,
+  validate,
+  updatePatient,
+} from 'features/me/api'
 import { meActions } from 'features/me/store/me.slice'
 import {
   SendCodeFormInput,
   LoginOrRegisterFormInput,
   UploadPatientPhotoFormInput,
+  HealthcardFormInput,
 } from 'features/me/types'
 
 // Worker Sagas
@@ -105,12 +113,44 @@ function* onValidate(): SagaIterator {
   }
 }
 
+function* onUpdatePatient({
+  payload,
+}: {
+  type: typeof meActions.updatePatientRequest
+  payload: HealthcardFormInput
+}): SagaIterator {
+  try {
+    const response = yield call(updatePatient, payload)
+    if (response.result) {
+      const validateResponse = yield call(validate)
+      if (validateResponse.result) {
+        toast.success('Success, information has been updated')
+        yield put(meActions.updatePatientSucceeded(validateResponse.user))
+        // redirect back to me page
+        yield put(push('/me'))
+      } else {
+        toast.error('Oops, something goes wrong')
+        const errors = [new Error('invalid token')]
+        yield put(meActions.updatePatientFailed(errors))
+      }
+    } else {
+      toast.error('Oops, something goes wrong')
+      const errors = [new Error('invalid token')]
+      yield put(meActions.updatePatientFailed(errors))
+    }
+  } catch (error) {
+    const errors = [new Error('Api error')]
+    yield put(meActions.updatePatientFailed(errors))
+  }
+}
+
 // Watcher Saga
 export function* meWatcherSaga(): SagaIterator {
   yield takeLatest(meActions.sendCodeRequest.type, onSendCode)
   yield takeLatest(meActions.loginOrRegisterRequest.type, onLoginOrRegister)
   yield takeEvery(meActions.uploadPatientPhotoRequest.type, onUploadPatientPhoto)
   yield takeLatest(meActions.validateRequest.type, onValidate)
+  yield takeLatest(meActions.updatePatientRequest.type, onUpdatePatient)
 }
 
 export default meWatcherSaga

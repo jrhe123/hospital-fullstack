@@ -1,15 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 import { Icon } from '@iconify/react'
 import { Box, Button, IconButton, MenuItem, Typography } from '@mui/material'
-import React, { FC, useCallback, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { FC, useCallback, useState, useEffect } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import * as Yup from 'yup'
 
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
 import FormTimePicker from 'libs/ui/components/FormTimePicker'
 
-import { Sex, HealthcardFormInput } from '../types'
+import { useMeService } from '../hooks'
+import { Sex, HealthcardFormV2Input, HealthcardFormV1Input } from '../types'
 
 type SexType = {
   id: number
@@ -127,6 +128,7 @@ interface TagDivProps {
   inactiveBgColor: string
   activeColor: string
   activeBgColor: string
+  handleClick: () => void
 }
 const TagDiv: FC<TagDivProps> = ({
   title,
@@ -135,6 +137,7 @@ const TagDiv: FC<TagDivProps> = ({
   inactiveBgColor,
   activeColor,
   activeBgColor,
+  handleClick,
 }) => (
   <Button
     sx={{
@@ -143,6 +146,7 @@ const TagDiv: FC<TagDivProps> = ({
       padding: 0,
       minWidth: '0px',
     }}
+    onClick={handleClick}
   >
     <Box
       component="div"
@@ -169,36 +173,70 @@ const TagDiv: FC<TagDivProps> = ({
   </Button>
 )
 
-export const Step2Form = () => {
-  const [defaultValues, setDefauleValues] = useState<HealthcardFormInput>({
-    name: '',
-    pid: '',
-    sex: Sex.MALE,
-    sexId: '1',
-    birthday: new Date(),
-    tel: '',
+interface Step2FormProps {
+  prevData: HealthcardFormV1Input
+}
+export const Step2Form: FC<Step2FormProps> = ({ prevData }) => {
+  const [defaultValues, setDefauleValues] = useState<HealthcardFormV2Input>({
+    medicalHistory: [],
+    insuranceType: '',
   })
+
+  const { user, updatePatient } = useMeService()
 
   // form check
   const formValidationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    pid: Yup.string().required('PID is required'),
-    sex: Yup.mixed<Sex>().oneOf(Object.values(Sex)),
-    birthday: Yup.date().max(new Date()),
-    tel: Yup.string().matches(
-      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-      'Tel is invalid',
-    ),
+    medicalHistory: Yup.array().of(Yup.string()),
+    insuranceType: Yup.string().required('Insurance type is required'),
   })
-  const methods = useForm<HealthcardFormInput, unknown>({
+  const methods = useForm<HealthcardFormV2Input, unknown>({
     defaultValues,
     resolver: yupResolver(formValidationSchema),
   })
   const { control, handleSubmit, reset, watch, setValue, getValues } = methods
 
-  const onSubmitClick = (data: HealthcardFormInput) => {
+  // watch
+  const medicalHistory = useWatch({
+    control,
+    name: 'medicalHistory',
+  })
+  const insuranceType = useWatch({
+    control,
+    name: 'insuranceType',
+  })
+
+  useEffect(() => {
+    if (user) {
+      setValue('medicalHistory', user.medicalHistory || [])
+      setValue('insuranceType', user.insuranceType || '')
+    }
+  }, [user, setValue])
+
+  // multi type
+  const handleSelectDisease = (disease: Disease) => {
+    const tempMedicalHistory = medicalHistory
+    const index = tempMedicalHistory.indexOf(disease.title)
+    if (index !== -1) {
+      tempMedicalHistory.splice(index, 1)
+    } else {
+      tempMedicalHistory.push(disease.title)
+    }
+    setValue('medicalHistory', tempMedicalHistory)
+  }
+
+  // only one type
+  const handleSelectInsuranceType = (insurance: Insurance) => {
+    if (insuranceType !== insurance.title) {
+      setValue('insuranceType', insurance.title)
+    }
+  }
+
+  const onSubmitClick = (data: HealthcardFormV2Input) => {
     const values = getValues()
-    console.log('submit: ', values)
+    updatePatient({
+      ...prevData,
+      ...values,
+    })
   }
 
   return (
@@ -261,17 +299,24 @@ export const Step2Form = () => {
             Do you have or do you suffer from?
           </Typography>
           <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            {diseaseList.map((di, index) => (
-              <TagDiv
-                key={index}
-                title={di.title}
-                active={false}
-                activeColor={'white'}
-                activeBgColor={'#E1BD63'}
-                inactiveColor={'#E1BD63'}
-                inactiveBgColor={'#FAF6E8'}
-              />
-            ))}
+            {diseaseList.map((di, index) => {
+              let isSelect = false
+              if (medicalHistory.indexOf(di.title) !== -1) {
+                isSelect = true
+              }
+              return (
+                <TagDiv
+                  key={index}
+                  title={di.title}
+                  active={isSelect}
+                  activeColor={'white'}
+                  activeBgColor={'#E1BD63'}
+                  inactiveColor={'#E1BD63'}
+                  inactiveBgColor={'#FAF6E8'}
+                  handleClick={() => handleSelectDisease(di)}
+                />
+              )
+            })}
           </Box>
         </Box>
         {/* health card type */}
@@ -287,17 +332,24 @@ export const Step2Form = () => {
             Please select health card type:
           </Typography>
           <Box component="div" sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            {insuranceList.map((insur, index) => (
-              <TagDiv
-                key={index}
-                title={insur.title}
-                active={false}
-                activeColor={'white'}
-                activeBgColor={'#7EC49E'}
-                inactiveColor={'#7EC49E'}
-                inactiveBgColor={'#E9F6F0'}
-              />
-            ))}
+            {insuranceList.map((insur, index) => {
+              let isSelect = false
+              if (insur.title === insuranceType) {
+                isSelect = true
+              }
+              return (
+                <TagDiv
+                  key={index}
+                  title={insur.title}
+                  active={isSelect}
+                  activeColor={'white'}
+                  activeBgColor={'#7EC49E'}
+                  inactiveColor={'#7EC49E'}
+                  inactiveBgColor={'#E9F6F0'}
+                  handleClick={() => handleSelectInsuranceType(insur)}
+                />
+              )
+            })}
           </Box>
         </Box>
         {/* btn */}
@@ -311,7 +363,7 @@ export const Step2Form = () => {
             width: 'calc(100% - 24px)',
           }}
         >
-          <Button sx={{ width: '100%', padding: 0 }}>
+          <Button sx={{ width: '100%', padding: 0 }} onClick={handleSubmit(onSubmitClick)}>
             <Box
               component="div"
               sx={{

@@ -6,6 +6,7 @@ import {
   LoginOrRegisterFormInput,
   UploadPatientPhotoFormInput,
   UserInfo,
+  HealthcardFormInput,
 } from 'features/me/types'
 import type { RootState } from 'store/store'
 
@@ -91,6 +92,19 @@ export const meSlice = createSlice({
       state.user = null
       state.errors = action.payload
     },
+    // update patient
+    updatePatientRequest(state, action: PayloadAction<HealthcardFormInput>) {
+      state.isLoading = true
+      state.errors = []
+    },
+    updatePatientSucceeded(state, action: PayloadAction<UserInfo>) {
+      state.isLoading = false
+      state.user = action.payload
+    },
+    updatePatientFailed(state, action: PayloadAction<Error[]>) {
+      state.isLoading = false
+      state.errors = action.payload
+    },
   },
 })
 
@@ -112,6 +126,10 @@ export const meActions = {
   validateRequest: meSlice.actions.validateRequest,
   validateSucceeded: meSlice.actions.validateSucceeded,
   validateFailed: meSlice.actions.validateFailed,
+  // update patient
+  updatePatientRequest: meSlice.actions.updatePatientRequest,
+  updatePatientSucceeded: meSlice.actions.updatePatientSucceeded,
+  updatePatientFailed: meSlice.actions.updatePatientFailed,
 }
 
 // Selectors
