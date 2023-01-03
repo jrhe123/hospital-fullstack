@@ -10,6 +10,10 @@ server:
     context-path: /patient-api
 
 spring:
+  cloud:
+    gcp:
+      credentials:
+        encoded-key: "YOUR_GCP_SERVICE_ACCOUNT_JSON"      
   datasource:
     driver-class-name: org.apache.phoenix.queryserver.client.Driver
     url: jdbc:phoenix:thin:url=http://localhost:8765;serialization=PROTOBUF

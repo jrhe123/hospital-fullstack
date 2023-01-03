@@ -8,6 +8,8 @@ import java.util.Random;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,8 @@ import com.example.hospital.patient.wx.api.db.pojo.UserInfoCardEntity;
 import com.example.hospital.patient.wx.api.exception.HospitalException;
 import com.example.hospital.patient.wx.api.service.UserService;
 import com.example.hospital.patient.wx.api.utils.SMSUtils;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.Feature;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.map.MapUtil;
@@ -46,6 +50,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Resource
 	private SMSUtils SMSUtils;
+	
+	@Resource
+	private CloudVisionTemplate cloudVisionTemplate;
+	
+	@Resource
+	private ResourceLoader resourceLoader;
 
 	@Override
 	public int loginOrRegister(String tel) {
@@ -140,6 +150,14 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new HospitalException(e);
 		}
+	}
+
+	@Override
+	public String scanPhoto(String uri) {
+		String data = this.cloudVisionTemplate.extractTextFromImage(
+				this.resourceLoader.getResource(uri)
+			);		
+		return data;
 	}
 
 }

@@ -143,8 +143,27 @@
 		    <artifactId>twilio</artifactId>
 		    <version>9.2.0</version>
 		</dependency>
+		
+		<!-- google vision -> ocr -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-vision</artifactId>
+		</dependency>
         
     </dependencies>
+    
+    <!-- google cloud -> ocr -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-gcp-dependencies</artifactId>
+				<version>1.2.7.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
     <build>
         <plugins>

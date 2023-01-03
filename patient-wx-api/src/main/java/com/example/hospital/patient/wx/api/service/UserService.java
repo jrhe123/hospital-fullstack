@@ -16,4 +16,6 @@ public interface UserService {
 	public void update(UserEntity entity);
 	
 	public String updatePhoto(MultipartFile file, Integer userId);
+	
+	public String scanPhoto(String uri);
 }

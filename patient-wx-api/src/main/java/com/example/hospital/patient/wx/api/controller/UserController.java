@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.hospital.patient.wx.api.common.R;
 import com.example.hospital.patient.wx.api.controller.form.LoginOrRegisterForm;
+import com.example.hospital.patient.wx.api.controller.form.OcrImageForm;
 import com.example.hospital.patient.wx.api.controller.form.SendCodeForm;
 import com.example.hospital.patient.wx.api.controller.form.UpdateUserInfoCardForm;
 import com.example.hospital.patient.wx.api.db.pojo.UserEntity;
@@ -140,6 +141,17 @@ public class UserController {
 		return R.ok()
 				.put("result", true)
 				.put("photo", photo);
+	}
+	
+	@PostMapping("/ocr")
+	@SaCheckLogin
+	public R ocr() {
+		String data = userService.scanPhoto(
+				"https://cloud.google.com/vision/docs/images/sign_text.png"
+		);
+		return R.ok()
+				.put("result", true)
+				.put("data", data);
 	}
 
 }

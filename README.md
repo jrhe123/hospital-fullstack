@@ -82,6 +82,10 @@ http://localhost:3000/
 
 https://www.getpostman.com/collections/7615ba7ec50e844d55d0
 
+### Steps to implement OCR
+
+https://hamdi-bouallague.medium.com/integrate-google-cloud-vision-with-spring-boot-8e93db4dc110
+
 ## License
 
 Hospital is [MIT licensed](LICENSE).
