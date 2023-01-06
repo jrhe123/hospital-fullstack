@@ -7,6 +7,7 @@ import logger from 'redux-logger'
 import { Env } from 'config/Env'
 // list of reducers
 import deptReducer from 'features/dept/store/dept.slice'
+import diagnosisReducer from 'features/diagnosis/store/diagnosis.slice'
 import homeReducer from 'features/home/store/home.slice'
 import loginReducer from 'features/login/store/login.slice'
 import staffReducer from 'features/staff/store/staff.slice'
@@ -30,6 +31,7 @@ const makeStore = () => {
       // global
       main: mainReducer,
       // features
+      diagnosis: diagnosisReducer,
       home: homeReducer,
       login: loginReducer,
       staff: staffReducer,

@@ -16,6 +16,7 @@ const DeptPage = React.lazy(() => import('pages/DeptPage'))
 const DeptDetailPage = React.lazy(() => import('pages/DeptDetailPage'))
 const DeptSubPage = React.lazy(() => import('pages/DeptSubPage'))
 const DeptSubDetailPage = React.lazy(() => import('pages/DeptSubDetailPage'))
+const DiagnosisDeptPage = React.lazy(() => import('pages/DiagnosisDeptPage'))
 
 type ProtectedRouteProps = {
   isAuthenticated: boolean
@@ -137,20 +138,20 @@ const AppRoutes = () => {
                   }
                 />
                 <Route
-                  path="/diagose/sub123"
+                  path="/diagnosis/dept"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>diagose page sub123</div>}
+                      outlet={<DiagnosisDeptPage />}
                     />
                   }
                 />
                 <Route
-                  path="/diagose/sub321"
+                  path="/diagnosis/doctor"
                   element={
                     <ProtectedRoute
                       {...defaultProtectedRouteProps}
-                      outlet={<div>diagose page sub321</div>}
+                      outlet={<div>diagnosis page sub321</div>}
                     />
                   }
                 />

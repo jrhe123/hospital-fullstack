@@ -19,7 +19,7 @@ enum TAB {
   HOME = 'HOME',
   MANAGEMENT = 'MANAGEMENT',
   STAFF = 'STAFF',
-  DIAGOSE = 'DIAGOSE',
+  DIAGNOSIS = 'DIAGNOSIS',
   SYSTEM = 'SYSTEM',
 }
 type Narbar = {
@@ -97,7 +97,7 @@ const navbars: Narbar[] = [
     ],
   },
   {
-    name: 'Diagose',
+    name: 'Diagnosis',
     icon: (
       <BallotIcon
         sx={{
@@ -106,15 +106,15 @@ const navbars: Narbar[] = [
         fontSize={'small'}
       />
     ),
-    activeTab: TAB.DIAGOSE,
+    activeTab: TAB.DIAGNOSIS,
     subNavbar: [
       {
-        name: 'Diagose sub 1',
-        link: '/diagose/sub123',
+        name: 'Department diagnosis',
+        link: '/diagnosis/dept',
       },
       {
-        name: 'Diagose sub 2',
-        link: '/diagose/sub321',
+        name: 'Doctor diagnosis',
+        link: '/diagnosis/doctor',
       },
     ],
   },
@@ -165,8 +165,8 @@ const Sidebar = () => {
       setTab(TAB.MANAGEMENT)
     } else if (pathname.includes('staff')) {
       setTab(TAB.STAFF)
-    } else if (pathname.includes('diagose')) {
-      setTab(TAB.DIAGOSE)
+    } else if (pathname.includes('diagnosis')) {
+      setTab(TAB.DIAGNOSIS)
     } else if (pathname.includes('system')) {
       setTab(TAB.SYSTEM)
     } else {

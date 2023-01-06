@@ -1,6 +1,7 @@
 import { all, fork } from 'redux-saga/effects'
 
 import { deptWatcherSaga } from 'features/dept/store/dept.sagas'
+import { diagnosisWatcherSaga } from 'features/diagnosis/store/diagnosis.sagas'
 import { homeWatcherSaga } from 'features/home/store/home.sagas'
 import { loginWatcherSaga } from 'features/login/store/login.sagas'
 import { staffWatcherSaga } from 'features/staff/store/staff.sagas'
@@ -16,6 +17,7 @@ export function* rootSaga() {
     fork(loginWatcherSaga),
     fork(staffWatcherSaga),
     fork(deptWatcherSaga),
+    fork(diagnosisWatcherSaga),
   ])
 }
 

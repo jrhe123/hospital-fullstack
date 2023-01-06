@@ -55,7 +55,7 @@ public class MedicalDeptSubWorkPlanController {
 		
 		return R.ok()
 				.put("result", true)
-				.put("data", array);
+				.put("list", array);
 		
 	}
 
