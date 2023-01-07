@@ -1,5 +1,6 @@
 package com.example.hospital.api.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,4 +23,6 @@ public interface DoctorService {
 	public void update(Map param);
 	
 	public void deleteByIds(Integer[] ids);
+	
+	public ArrayList<HashMap> searchByDeptSubId(int deptSubId);
 }

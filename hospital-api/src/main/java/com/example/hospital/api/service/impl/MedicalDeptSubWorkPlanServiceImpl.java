@@ -14,10 +14,16 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.example.hospital.api.db.dao.DoctorWorkPlanDao;
+import com.example.hospital.api.db.dao.DoctorWorkPlanScheduleDao;
+import com.example.hospital.api.db.pojo.DoctorWorkPlanEntity;
+import com.example.hospital.api.db.pojo.DoctorWorkPlanScheduleEntity;
+import com.example.hospital.api.service.DoctorWorkPlanScheduleService;
 import com.example.hospital.api.service.MedicalDeptSubWorkPlanService;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 
@@ -26,6 +32,9 @@ public class MedicalDeptSubWorkPlanServiceImpl implements MedicalDeptSubWorkPlan
 
 	@Resource
 	private DoctorWorkPlanDao doctorWorkPlanDao;
+	
+	@Resource
+	private DoctorWorkPlanScheduleService doctorWorkPlanScheduleService;
 	
 	@Override
 	public JSONArray searchWorkPlanInRange(Map param, ArrayList dateList) {
@@ -236,6 +245,41 @@ public class MedicalDeptSubWorkPlanServiceImpl implements MedicalDeptSubWorkPlan
 		});
 		
 		return JSONUtil.parseArray(values);
+	}
+
+	@Override
+	public boolean insert(Map param) {
+		// search work plan, if already created
+		Integer id = doctorWorkPlanDao.searchId(param);
+		if (id != null) {
+			// already exists
+			return false;
+		}
+		
+		// insert
+		DoctorWorkPlanEntity entity = BeanUtil.toBean(param, DoctorWorkPlanEntity.class);
+		int totalMaximum = MapUtil.getInt(param, "totalMaximum");
+		entity.setMaximum(totalMaximum);
+		entity.setUuid(IdUtil.simpleUUID().toUpperCase());
+		doctorWorkPlanDao.insert(entity);
+		
+		// get id after insert
+		id = doctorWorkPlanDao.searchId(param);
+		Integer[] slots = (Integer[]) param.get("slots");
+		ArrayList<DoctorWorkPlanScheduleEntity> list = new ArrayList<>();
+		int slotMaximum = MapUtil.getInt(param, "slotMaximum");
+		
+		for (Integer slot: slots) {
+			DoctorWorkPlanScheduleEntity sEntity = BeanUtil.toBean(param, DoctorWorkPlanScheduleEntity.class);
+			sEntity.setWorkPlanId(id);
+			sEntity.setSlot(slot);
+			sEntity.setMaximum(slotMaximum);
+			sEntity.setUuid(IdUtil.simpleUUID().toUpperCase());
+			list.add(sEntity);
+		}
+		doctorWorkPlanScheduleService.insert(list);
+		
+		return true;
 	}
 
 }

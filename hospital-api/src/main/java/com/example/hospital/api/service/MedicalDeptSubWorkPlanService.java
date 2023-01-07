@@ -8,4 +8,6 @@ import cn.hutool.json.JSONArray;
 public interface MedicalDeptSubWorkPlanService {
 
 	public JSONArray searchWorkPlanInRange(Map param, ArrayList dateList);
+	
+	public boolean insert(Map param);
 }
