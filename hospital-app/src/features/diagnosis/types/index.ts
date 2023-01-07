@@ -15,7 +15,7 @@ export type DiagnosisDept = {
 }
 
 export type Plan = {
-  date: Date
+  date: string
   doctor: string[]
 }
 

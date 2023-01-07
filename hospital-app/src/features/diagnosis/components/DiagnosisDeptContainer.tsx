@@ -25,6 +25,7 @@ import { CustomModal } from 'components/Modal'
 import { useStaffService } from 'features/staff'
 import FormSelect from 'libs/ui/components/FormSelect'
 import FormTextField from 'libs/ui/components/FormTextField'
+import FormTimePicker from 'libs/ui/components/FormTimePicker'
 
 import { useDiagnosisService } from '../hooks'
 import { SearchWorkPlanFormInput, DiagnosisDept } from '../types'
@@ -65,10 +66,25 @@ const selectFieldStyle = {
     right: 0,
   },
 }
-
+const timePickerStyle = {
+  height: '32px',
+  width: '100%',
+  '& div input': {
+    height: '32px',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: '9px',
+    paddingRight: '9px',
+    fontSize: '11px',
+  },
+  '& div div button svg': {
+    fontSize: '18px',
+  },
+}
 interface EnhancedTableProps {
   numSelected: number
   rowCount: number
+  data: DiagnosisDept[]
 }
 interface HeadCell {
   id: keyof DiagnosisDept
@@ -83,18 +99,11 @@ const headCells: readonly HeadCell[] = [
     id: 'deptSubName',
     label: 'Unit',
   },
-  {
-    id: 'plan',
-    label: 'Plan',
-  },
-  {
-    id: 'action',
-    label: 'Actions',
-  },
 ]
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { numSelected, rowCount } = props
+  const { numSelected, rowCount, data } = props
+  const count = data.length
 
   return (
     <TableHead>
@@ -111,6 +120,29 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             {headCell.label}
           </TableCell>
         ))}
+        {count > 0 &&
+          data[0].plan.map((p, index) => (
+            <TableCell
+              key={index}
+              align={'center'}
+              padding={'normal'}
+              sx={{
+                fontSize: '10px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {dayjs(p.date).format('MMM DD')}
+            </TableCell>
+          ))}
+        <TableCell
+          align={'center'}
+          padding={'normal'}
+          sx={{
+            fontSize: '10px',
+          }}
+        >
+          Actions
+        </TableCell>
       </TableRow>
     </TableHead>
   )
@@ -228,6 +260,14 @@ export const DiagnosisDeptContainer = () => {
           variant={'outlined'}
         />
       </Box>
+      {/* startDate */}
+      <Box component="div" sx={{ width: '120px', marginRight: '6px' }}>
+        <FormTimePicker name="startDate" label={''} control={control} sx={timePickerStyle} />
+      </Box>
+      {/* endDate */}
+      <Box component="div" sx={{ width: '120px', marginRight: '6px' }}>
+        <FormTimePicker name="endDate" label={''} control={control} sx={timePickerStyle} />
+      </Box>
     </Box>
   )
 
@@ -330,7 +370,6 @@ export const DiagnosisDeptContainer = () => {
     if (!workPlanDeptList.length) return null
     return workPlanDeptList.map((dia: DiagnosisDept, index: number) => {
       const isItemSelected = isSelected(dia.deptSubId)
-      const labelId = `enhanced-table-checkbox-${index}`
       return (
         <TableRow
           hover
@@ -341,10 +380,23 @@ export const DiagnosisDeptContainer = () => {
           key={dia.deptSubId}
           selected={isItemSelected}
         >
-          <TableCell align="left" sx={{ fontSize: '10px' }}>
+          <TableCell
+            align="left"
+            sx={{
+              fontSize: '10px',
+            }}
+          >
             <Link
               to={`/diagnosis/dept/${dia.deptSubId}`}
-              style={{ color: '#81B3AA', textDecoration: 'underline', fontWeight: 'bold' }}
+              style={{
+                color: '#81B3AA',
+                textDecoration: 'underline',
+                fontWeight: 'bold',
+                width: '120px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
             >
               {dia.deptSubName}
             </Link>
@@ -352,9 +404,22 @@ export const DiagnosisDeptContainer = () => {
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             {dia.deptName}
           </TableCell>
-          <TableCell align="center" sx={{ fontSize: '10px' }}>
-            plan
-          </TableCell>
+          {dia.plan.map((p, ii) => (
+            <TableCell
+              align="center"
+              sx={{
+                fontSize: '10px',
+                maxWidth: '120px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              key={ii}
+              title={p.doctor.length ? p.doctor.join(', ') : ''}
+            >
+              {p.doctor.length ? p.doctor.join(', ') : 'N/A'}
+            </TableCell>
+          ))}
           <TableCell align="center" sx={{ fontSize: '10px' }}>
             <Box component="div" sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
@@ -451,7 +516,11 @@ export const DiagnosisDeptContainer = () => {
         >
           <TableContainer>
             <Table aria-labelledby="tableTitle" size={'small'}>
-              <EnhancedTableHead numSelected={selected.length} rowCount={workPlanDeptList.length} />
+              <EnhancedTableHead
+                numSelected={selected.length}
+                rowCount={workPlanDeptList.length}
+                data={workPlanDeptList}
+              />
               <TableBody>{renderTable()}</TableBody>
             </Table>
           </TableContainer>
