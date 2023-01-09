@@ -1,5 +1,6 @@
 package com.example.hospital.api.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.example.hospital.api.common.R;
 import com.example.hospital.api.controller.form.DeleteDoctorByIdsForm;
 import com.example.hospital.api.controller.form.GetDoctorDetailForm;
 import com.example.hospital.api.controller.form.InsertDoctorForm;
+import com.example.hospital.api.controller.form.SearchDoctorByDeptSubIdForm;
 import com.example.hospital.api.controller.form.SearchDoctorByPageForm;
 import com.example.hospital.api.controller.form.SearchDoctorContentForm;
 import com.example.hospital.api.controller.form.UpdateDoctorForm;
@@ -130,5 +132,15 @@ public class DoctorController {
 		doctorService.deleteByIds(form.getIds());
 		return R.ok()	
 				.put("result", true);
+	}
+	
+	@PostMapping("/searchByDeptSubId")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "DOCTOR:SELECT"}, mode = SaMode.OR)
+	public R searchByDeptSubId(@RequestBody @Valid SearchDoctorByDeptSubIdForm form) {
+		ArrayList<HashMap> doctors = doctorService.searchByDeptSubId(form.getDeptSubId());
+		return R.ok()	
+				.put("result", true)
+				.put("list", doctors);
 	}
 }

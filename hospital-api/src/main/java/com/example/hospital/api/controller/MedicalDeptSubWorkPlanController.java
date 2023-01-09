@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.hospital.api.common.R;
+import com.example.hospital.api.controller.form.InsertWorkPlanForm;
 import com.example.hospital.api.controller.form.SearchWorkPlanInRangeForm;
 import com.example.hospital.api.service.MedicalDeptSubWorkPlanService;
 
@@ -57,6 +58,18 @@ public class MedicalDeptSubWorkPlanController {
 				.put("result", true)
 				.put("list", array);
 		
+	}
+	
+	@PostMapping("/insert")
+	@SaCheckLogin
+	@SaCheckPermission(value = {"ROOT", "SCHEDULE:INSERT"}, mode = SaMode.OR)
+	public R insert(@RequestBody @Valid InsertWorkPlanForm form) {
+		Map param = BeanUtil.beanToMap(form);
+		boolean res = medicalDeptSubWorkPlanService.insert(param);
+		
+		return R.ok()
+				.put("result", true)
+				.put("data", res);
 	}
 
 }
